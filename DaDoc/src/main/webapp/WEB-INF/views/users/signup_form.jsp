@@ -5,14 +5,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/user/signup_form.jsp</title>
+<title>/users/signup_form.jsp</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css" >
 </head>
 <body>
 	<div class="container">
 		<h1>회원가입 페이지</h1>
 		<p>* 이 포함된 사항은 필수 입력사항입니다. 반드시 입력해주세요.</p>
-		<form action="${pageContext.request.contextPath}/user/signup.do" method="post" id="signup_form">
+		<form action="${pageContext.request.contextPath}/users/signup.do" method="post" id="signup_form">
 			<div>
 				<%-- small : 작은 글씨 --%>
 				<label for="id" class="form-label">*아이디</label>
