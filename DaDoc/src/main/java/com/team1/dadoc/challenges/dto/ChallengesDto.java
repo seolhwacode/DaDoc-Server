@@ -12,6 +12,7 @@ public class ChallengesDto {
 	private int period;
 	private String startDate;
 	private String endDate;
+	private String regdate;
 	private int startRowNum;
 	private int endRowNum;
 	private int prevNum;
@@ -20,11 +21,9 @@ public class ChallengesDto {
 	//디폴트 생성자
 	public ChallengesDto() {}
 
-	
-	
 	public ChallengesDto(int num, String type, String writer, String title, String category, String imagePath,
-			String description, int period, String startDate, String endDate, int startRowNum, int endRowNum,
-			int prevNum, int nextNum) {
+			String description, int period, String startDate, String endDate, String regdate, int startRowNum,
+			int endRowNum, int prevNum, int nextNum) {
 		super();
 		this.num = num;
 		this.type = type;
@@ -36,13 +35,12 @@ public class ChallengesDto {
 		this.period = period;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.regdate = regdate;
 		this.startRowNum = startRowNum;
 		this.endRowNum = endRowNum;
 		this.prevNum = prevNum;
 		this.nextNum = nextNum;
 	}
-
-
 
 	public int getNum() {
 		return num;
@@ -124,6 +122,14 @@ public class ChallengesDto {
 		this.endDate = endDate;
 	}
 
+	public String getRegdate() {
+		return regdate;
+	}
+
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
+	}
+
 	public int getStartRowNum() {
 		return startRowNum;
 	}
@@ -155,6 +161,8 @@ public class ChallengesDto {
 	public void setNextNum(int nextNum) {
 		this.nextNum = nextNum;
 	}
+
+	
 	
 	
 	

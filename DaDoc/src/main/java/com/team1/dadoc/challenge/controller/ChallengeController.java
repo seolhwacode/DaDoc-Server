@@ -17,9 +17,10 @@ public class ChallengeController {
 	@Autowired
 	private ChallengeService service;
 	
-	@RequestMapping("/challenge/main")
+	@RequestMapping(value="/challenge/main")
 	public String getList(HttpServletRequest request) {
 		
+		service.getList(request);
 		return "challenge/main";
 	}
 	
@@ -36,4 +37,5 @@ public class ChallengeController {
 		service.register(dto);
 		return new ModelAndView("challenge/main");
 	}
+	
 }
