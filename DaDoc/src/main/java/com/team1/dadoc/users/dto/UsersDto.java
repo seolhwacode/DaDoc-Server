@@ -1,6 +1,6 @@
-package com.team1.dadoc.user.dto;
+package com.team1.dadoc.users.dto;
 
-public class UserDto {
+public class UsersDto {
 	private String id;	//아이디
 	private String pwd;	//비밀번호
 	private String name;	//이름(실명)
@@ -16,9 +16,9 @@ public class UserDto {
 	private int point;	//책의 중고거래를 위한 포인트 (그런데 이거 없어도 될 것 같은데)
 	private int tos;	//광고 수신 동의 : 0(동의X), 1(동의O)
 	
-	public UserDto() {}
+	public UsersDto() {}
 
-	public UserDto(String id, String pwd, String name, String nickname, String tel, String email, int sex, String birth,
+	public UsersDto(String id, String pwd, String name, String nickname, String tel, String email, int sex, String birth,
 			String profile, String regdate, String pwd_question, String pwd_answer, int point, int tos) {
 		super();
 		this.id = id;
