@@ -20,6 +20,7 @@
 		<ul>
 			<li><a href="${pageContext.request.contextPath}/login_form.do">로그인 form 으로 이동</a></li>
 			<li><a href="${pageContext.request.contextPath}/signup_form.do">회원가입 form 으로 이동</a></li>
+			<li><a href="${pageContext.request.contextPath}/challenge/main.do">챌린지 게시판으로 이동</a></li>
 		</ul>
 		
 		<!-- 캐로세일 실험 -->
