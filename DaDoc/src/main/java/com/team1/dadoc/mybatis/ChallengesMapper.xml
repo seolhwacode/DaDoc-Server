@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="challenges">
+
+	<insert id="insert" parameterType="challengesDto">
+		INSERT INTO challenges
+		(num, writer, type, title, category, description, period, startdate, enddate, regdate)
+		VALUES(challenges_seq.NEXTVAL, #{writer}, #{type}, #{title}, #{category}, #{description}, #{period}, #{startDate}, #{endDate}, SYSDATE)
+	</insert>
+	
+</mapper>

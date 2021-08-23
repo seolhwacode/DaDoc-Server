@@ -9,6 +9,7 @@
 </head>
 <body>
 <div class="container">
+<a href="${pageContext.request.contextPath}/challenge/register_form.do">챌린지 신청하기</a>
 </div>
 </body>
 </html>
