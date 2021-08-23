@@ -5,8 +5,10 @@
 <configuration>
 	<typeAliases>
 		<typeAlias type="com.team1.dadoc.challenges.dto.ChallengesDto" alias="challengesDto"/>
+		<typeAlias type="com.team1.dadoc.users.dto.UsersPwdQuestionDto" alias="usersPwdQuestionDto"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/team1/dadoc/mybatis/ChallengesMapper.xml"/>
+		<mapper resource="com/team1/dadoc/mybatis/UsersMapper.xml"/>
 	</mappers>
 </configuration>

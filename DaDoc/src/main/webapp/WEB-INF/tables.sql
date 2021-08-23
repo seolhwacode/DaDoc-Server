@@ -15,3 +15,9 @@ CREATE TABLE dadoc_users(
 	point NUMBER DEFAULT(50000),	-- 책의 중고거래를 위한 포인트
 	tos NUMBER	-- 광고 수신 동의 : 0(동의X), 1(동의O)
 );
+
+-- 사용자(회원) 비밀번호 찾기 질문 테이블
+CREATE TABLE users_pwd_question(
+	num NUMBER PRIMARY KEY,	-- PK
+	question VARCHAR2(200) NOT NULL	-- 질문 내용
+);
