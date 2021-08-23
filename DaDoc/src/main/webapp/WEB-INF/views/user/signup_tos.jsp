@@ -87,10 +87,10 @@
 			//3 번째 선태 체크박스는 선택이다. -> 이 사항을 get 방식으로 페이지에 전달할 것
 			if(three.checked){
 				//체크박스 선택 -> query string 추가
-				location.href = "${pageContext.request.contextPath}/user/signup_form.do?adChecked=true";
+				location.href = "${pageContext.request.contextPath}/user/signup_form.do?isAdChecked=true";
 			}else{
 				//체크박스 선택 X -> query string X
-				location.href = "${pageContext.request.contextPath}/user/signup_form.do";
+				location.href = "${pageContext.request.contextPath}/user/signup_form.do?isAdChecked=false";
 			}
 		});
 		
