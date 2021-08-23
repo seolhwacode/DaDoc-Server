@@ -31,71 +31,71 @@
 						<div class="owl-stage" style="transform: translate3d(-1560px, 0px, 0px); transition: all 0s ease 0s; width: 7280px;">
 						<div class="owl-item" style="width: 510px; margin-right: 10px;">
 							<div>
-								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/images/1.jpg">
+								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
 							</div>
 						</div>
 						<div class="owl-item" style="width: 510px; margin-right: 10px;">
 							<div>
-								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/images/1.jpg">
+								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
 							</div>
 						</div>
 						<div class="owl-item" style="width: 510px; margin-right: 10px;">
 							<div>
-								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/images/1.jpg">
+								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
 						</div>
 						</div><div class="owl-item active" style="width: 510px; margin-right: 10px;">
 							<div>	
-								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/images/1.jpg">
+								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
 							</div>
 						</div>
 						<div class="owl-item" style="width: 510px; margin-right: 10px;">
 							<div>
-								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/images/1.jpg">
+								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
 							</div>
 						</div>
 						<div class="owl-item" style="width: 510px; margin-right: 10px;">
 							<div>
-								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/images/1.jpg">
+								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
 							</div>
 						</div>
 						<div class="owl-item" style="width: 510px; margin-right: 10px;">
 							<div>
-								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/images/1.jpg">
+								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
 							</div>
 						</div>
 						<div class="owl-item" style="width: 510px; margin-right: 10px;">
 							<div>
-								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/images/1.jpg">
+								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
 							</div>
 						</div>
 						<div class="owl-item" style="width: 510px; margin-right: 10px;">
 							<div>
-								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/images/1.jpg">
+								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
 							</div>
 						</div>
 						<div class="owl-item" style="width: 510px; margin-right: 10px;">
 							<div>
-								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/images/1.jpg">
+								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
 							</div>
 						</div>
 						<div class="owl-item" style="width: 510px; margin-right: 10px;">
 							<div>
-								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/images/1.jpg">
+								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
 							</div>
 						</div>
 						<div class="owl-item" style="width: 510px; margin-right: 10px;">
 							<div>
-								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/images/1.jpg">
+								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
 							</div>
 						</div>
 						<div class="owl-item" style="width: 510px; margin-right: 10px;">
 							<div>
-								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/images/1.jpg">
+								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
 							</div>
 						</div>
 						<div class="owl-item" style="width: 510px; margin-right: 10px;">
 							<div>
-								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/images/1.jpg">
+								<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
 							</div>
 						</div>
 					</div>
