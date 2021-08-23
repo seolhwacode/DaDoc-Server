@@ -5,14 +5,16 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/user/signup_form.jsp</title>
+<title>/users/signup_form.jsp</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css" >
 </head>
 <body>
-	<div class="container">
+	<div id="signup_form_container" class="container">
 		<h1>회원가입 페이지</h1>
 		<p>* 이 포함된 사항은 필수 입력사항입니다. 반드시 입력해주세요.</p>
-		<form action="${pageContext.request.contextPath}/user/signup.do" method="post" id="signup_form">
+		<form action="${pageContext.request.contextPath}/users/signup.do" method="post" id="signup_form">
+			<!-- parameter 로 넘어온 isAdChecked 추가 : 0(동의X), 1(동의O) -->
+			<input type="hidden" name="tos" value="${isAdChecked ? 1 : 0}" />
 			<div>
 				<%-- small : 작은 글씨 --%>
 				<label for="id" class="form-label">*아이디</label>
@@ -38,7 +40,7 @@
 				
 			</div>
 			<div>
-				<label for="pwd" class="form-label">*비밀번호 확인</label>
+				<label for="pwd2" class="form-label">*비밀번호 확인</label>
 				<input type="password" name="pwd2" id="pwd2" class="form-control" />
 				
 				<%-- 비밀번호 확인 : 위의 비밀번호와 동일하게 입력하였는지 확인하기 --%>
@@ -63,7 +65,7 @@
 			<div>
 				<label for="sex" class="form-label">*성별</label>
 				<%-- selected 안붙이고 select 에 value 로 붙여서 사용 안됨 -> javascript 로는 바꾸면 가능! --%>
-				<select name="sex" id="sex">
+				<select name="sex" id="sex" class="form-select">
 					<option value="not-selected" selected>성별</option>
 					<option value="man" >남성</option>
 					<option value="woman">여성</option>
@@ -79,8 +81,6 @@
 				<!-- 빈칸일 때 -> 필수 정보임을 알림 -->
 				<div class="invalid-feedback" id="name-invalid-feedback">필수 정보입니다.</div>
 			</div>
-			
-			
 			<div>
 				<label for="tel" class="form-label">휴대전화번호</label>
 				<input type="text" name="tel" id="tel" class="form-control" />
@@ -92,9 +92,52 @@
 				<div class="invalid-feedback" id="email-invalid-feedback">사용할 수 없는 이메일입니다.</div>
 				<div class="valid-feedback" id="email-valid-feedback">ok</div>
 			</div>
+			<div>
+				<p>비밀번호 분실 시에 작성할 질문을 선택해주세요.</p>
+				<label for="pwd_question">*질문 선택</label>
+				<select name="pwd_question" id="pwd_question" class="form-select">
+					<option v-for="(item, index) in pwd_question_list" 
+							v-bind:key="index" 
+							v-bind:value="item.num">{{item.question}}</option>
+				</select>
+			</div>
+			<div>
+				<p>질문에 대한 답변을 작성해주세요. 단답형을 권장드립니다.</p>
+				<input type="text" name="pwd_answer" id="pwd_answer" class="form-control" />
+			</div>
 			<br />
 			<button type="submit" class="btn btn-primary">가입</button>
 		</form>
 	</div>
+	
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/gura_util.js"></script>
+	<script>
+		// webcontent 위치
+		const base_url = "http://localhost:8888/dadoc";
+		
+		//화면 전체 container 감싸는 view(app)
+		let app = new Vue({
+			el: "#signup_form_container",
+			data : {
+				pwd_question_list: [],	//비밀번호 분실 시에 사용할 질문 list
+				base_url
+			},
+			created(){//처음 vue 생성될 때(화면 처음 구성할 때)
+				//vue 객체
+				let self = this;
+				//ajax 로 DB 에서 비밀번호 질문 리스트 읽어오기
+				ajaxPromise(base_url + "/ajax/users/pwd_question_list.do", "post")
+				.then(function(response){
+					return response.json();
+				})
+				.then(function(data){
+					//data : pwd_question_list 가 들어있음
+					self.pwd_question_list = data;
+				});
+			}
+		});
+	</script>
+	
 </body>
 </html>
