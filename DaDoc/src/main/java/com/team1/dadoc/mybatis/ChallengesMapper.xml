@@ -8,4 +8,19 @@
 		VALUES(challenges_seq.NEXTVAL, #{writer}, #{type}, #{title}, #{category}, #{description}, #{period}, #{startDate}, #{endDate}, SYSDATE)
 	</insert>
 	
+	<select id="getList" parameterType="challengesDto" resultType="challengesDto">
+		SELECT *
+		FROM	
+			(SELECT result1.*, ROWNUM as rnum
+			FROM
+				(SELECT num, writer, type, title, category, description, period, startdate, enddate, regdate
+				FROM challenges
+				ORDER BY num DESC) result1)
+		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	
+	<select id="getCount" resultType="int">
+		SELECT NVL(MAX(ROWNUM),0)
+		FROM challenges
+	</select>
 </mapper>
