@@ -66,6 +66,13 @@
 				<option value="7">7</option>
 			</select>
 		</div>
+		<!-- 이미지 업로드 -->
+		<div>
+			<label for="image">
+				<input type="file" name="image" id="image" 
+				accept=".jpg, .jpeg, .png, .JPG, .JPEG"/>
+			</label>
+		</div>
 		<!-- 시작일, 종료일 선택 -->
 		<p>-----시작일, 종료일-----</p>
 		<div>
@@ -79,5 +86,12 @@
 		<button class="btn btn-success" type="submit">등록</button>
 	</form>
 </div>
+<script>
+	document.querySelector("#myForm").addEventListener("submit", function(e){
+		e.preventDefault();
+		let img = document.querySelector("#image").value;
+		console.log(img);
+	});
+</script>
 </body>
 </html>

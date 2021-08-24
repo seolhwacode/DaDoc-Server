@@ -4,8 +4,8 @@
 
 	<insert id="insert" parameterType="challengesDto">
 		INSERT INTO challenges
-		(num, writer, type, title, category, description, period, startdate, enddate, regdate)
-		VALUES(challenges_seq.NEXTVAL, #{writer}, #{type}, #{title}, #{category}, #{description}, #{period}, #{startDate}, #{endDate}, SYSDATE)
+		(num, writer, type, title, category, description, period, startdate, enddate, regdate, imagePath)
+		VALUES(challenges_seq.NEXTVAL, #{writer}, #{type}, #{title}, #{category}, #{description}, #{period}, #{startDate}, #{endDate}, SYSDATE, #{imagePath})
 	</insert>
 	
 	<select id="getList" parameterType="challengesDto" resultType="challengesDto">

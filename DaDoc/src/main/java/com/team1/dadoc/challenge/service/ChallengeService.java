@@ -9,9 +9,12 @@ import com.team1.dadoc.challenges.dto.ChallengesDto;
 public interface ChallengeService {
 	
 	// 새로운 챌린지 등록하기
-	public void register(ChallengesDto dto);
+	public void register(ChallengesDto dto, HttpServletRequest request);
+	// 이미지 추가 - 이미지 업로드 & db 저장
+	public void saveImage(ChallengesDto dto, HttpServletRequest request);
 	// 챌린지 목록을 리턴하기
 	public void getList(HttpServletRequest request);
+	
 	
 
 }
