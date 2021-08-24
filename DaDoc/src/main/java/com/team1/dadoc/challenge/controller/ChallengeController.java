@@ -32,8 +32,11 @@ public class ChallengeController {
 	}
 	
 	// 챌린지 DB에 집어넣기 
-	@RequestMapping(value="/challenge/register" , method=RequestMethod.POST)
+	@RequestMapping(value="/challenge/register")
 	public ModelAndView register(ChallengesDto dto, HttpServletRequest request) {
+		
+		System.out.println("챌린지 넣고싶어");
+		
 		// form에서 dto로 데이터 받아오고
 		// dto: challenge 정보와 MultipartFile image 정보를 가지고 있다.
 		// request : imagePath 만드는데 사용, session 영역의 id 가져오기
