@@ -77,7 +77,9 @@
 			<div>
 				<label for="sex" class="form-label">*성별</label>
 				<%-- selected 안붙이고 select 에 value 로 붙여서 사용 안됨 -> javascript 로는 바꾸면 가능! --%>
-				<select name="sex" id="sex" class="form-select">
+				<select v-model:value="inputSex" v-on:change="sexCheck" 
+						v-bind:class="{ 'is-valid': isSexValid, 'is-invalid': !isSexValid && isSexInputed }"
+						name="sex" id="sex" class="form-select">
 					<option value="not-selected" selected>성별</option>
 					<option value="man" >남성</option>
 					<option value="woman">여성</option>
@@ -160,6 +162,11 @@
 				isNameValid: false,
 				inputName: '',		//작성한 name 을 model 로 관리
 				isNameInputed: false,	//name 이 입력된 적 있는지 -> 한 번이라도 입력되면 true
+				
+				//sex 유효성 검사
+				isSexValid: false,
+				inputSex: 'not-selected',	//sex 의 선택 값을 model 로 관리
+				isSexInputed: false,	// sex 가 입력된 적이 있는지 -> 한 번이라도 된 적 있다면 true
 			},
 			created(){//처음 vue 생성될 때(화면 처음 구성할 때)
 				//vue 객체
@@ -175,6 +182,18 @@
 				});
 			},
 			methods: {
+				//성별 선택 여부 검사
+				sexCheck(){
+					//선택 했음
+					this.isSexInputed = true;
+					
+					//선택 값이 'not-selected' -> 선택 X 와 같음
+					if(this.inputSex == 'not-selected'){
+						this.isSexValid = false;
+					}else{
+						this.isSexValid = true;
+					}
+				},			
 				//입력한 이름의 빈칸 여부 검사
 				nameCheck(){
 					//입력 했음
