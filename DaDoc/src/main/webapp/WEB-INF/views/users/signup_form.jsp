@@ -68,7 +68,9 @@
 			</div>
 			<div>
 				<label for="name" class="form-label">*이름(실명)</label>
-				<input type="text" name="name" id="name" class="form-control" />
+				<input v-model="inputName" v-on:input="nameCheck"
+						v-bind:class="{ 'is-valid': isNameValid, 'is-invalid': !isNameValid && isNameInputed }" 
+						type="text" name="name" id="name" class="form-control" />
 				<!-- 빈칸일 때 -> 필수 정보임을 알림 -->
 				<div class="invalid-feedback" id="name-invalid-feedback">필수 정보입니다.</div>
 			</div>
@@ -136,21 +138,28 @@
 				inputId: '',	//작성한 id를 model 로 관리
 				idInvalidFeedbackMsg: '',	//id 가 가용하지 X 메시지 (null / 가용X 둘 중 하나)
 				isIdInputed: false,	//id 가 입력된 적이 있는지 -> 한 번이라도 입력되면 true
+				
 				//pwd 유효성 검사
 				isPwdValid: false,
 				inputPwd: '',	//작성한 pwd 를 model 로 관리
 				isPwdInputed: false,	//pwd 가 입력된 적이 있는지 -> 한 번이라도 입력되면 true
 				pwdInvalidFeedbackMsg: '',	//pwd 가 가용하지 X 메시지 (null / 가용X 둘 중 하나)
+				
 				//pwd 재입력의 유효성 검사
 				isPwd2Valid: false,	
 				inputPwd2: '',	//작성한 pwd2 를 model 로 관리
 				isPwd2Inputed: false,	//pwd2 가 입력된 적이 있는지 -> 한 번이라도 입력되면 true
+				
 				//nickName 유효성 검사
 				isNickValid: false,
 				inputNick: '',	//작성한 nickName 를 model 로 관리
 				isNickInputed: false,	//nickName 가 입력된 적이 있는지 -> 한 번이라도 입력되면 true
-				nickInvalidFeedbackMsg: ''	//nickName 가 가용하지 X 메시지 (null / 가용X 둘 중 하나)
+				nickInvalidFeedbackMsg: '',	//nickName 가 가용하지 X 메시지 (null / 가용X 둘 중 하나)
 				
+				//name 유효성 검사
+				isNameValid: false,
+				inputName: '',		//작성한 name 을 model 로 관리
+				isNameInputed: false,	//name 이 입력된 적 있는지 -> 한 번이라도 입력되면 true
 			},
 			created(){//처음 vue 생성될 때(화면 처음 구성할 때)
 				//vue 객체
@@ -166,6 +175,23 @@
 				});
 			},
 			methods: {
+				//입력한 이름의 빈칸 여부 검사
+				nameCheck(){
+					//입력 했음
+					this.isNameInputed = true;
+					
+					//입력이 공백 -> isNameValid 는 false
+					if(this.inputName == ''){
+						//유효하지 X : isNameValid -> false
+						this.isNameValid = false;
+						//종료
+						return;
+					}else{
+						//유효함 : isNameValid -> true
+						this.isNameValid = true;
+					}
+				},
+				//입력한 닉네임의 유효성 검사 함수
 				nickCheck(){
 					//입력했기 때문에 호출되는 함수 -> isPwdInputed
 					this.isNickInputed = true;
@@ -175,7 +201,7 @@
 						//유효하지 X : isNickValid -> false
 						this.isNickNameValid = false;
 						//nickInvalidFeedbackMsg -> 빈칸임을 알림
-						this.nickInvalidFeedbackMsg = '필수 사항입니다.';
+						this.nickInvalidFeedbackMsg = '필수 정보입니다.';
 						//종료
 						return;
 					}
@@ -255,7 +281,7 @@
 						//유효하지 x : isPwdValid -> false
 						this.isPwdValid = false;
 						//pwdInvalidFeedbackMsg -> 빈칸임을 알림
-						this.pwdInvalidFeedbackMsg = '필수 사항입니다.';
+						this.pwdInvalidFeedbackMsg = '필수 정보입니다.';
 						//종료
 						return;
 					}
@@ -288,7 +314,7 @@
 						//유효하지 X : isIdValid -> false
 						this.isIdValid = false;
 						//idInvalidFeedbackMsg -> 빈칸임을 알림
-						this.idInvalidFeedbackMsg = '필수 사항입니다.';
+						this.idInvalidFeedbackMsg = '필수 정보입니다.';
 						//종료
 						return;
 					}
