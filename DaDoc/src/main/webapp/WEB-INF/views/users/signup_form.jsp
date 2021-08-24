@@ -33,17 +33,21 @@
 			<div>
 				<label for="pwd" class="form-label">*비밀번호</label>
 				<small class="form-text text-muted"> : 5 ~ 10 글자 이내로 입력하세요.</small>
-				<input type="password" name="pwd" id="pwd" class="form-control" />
+				<input v-model="inputPwd" v-on:input="pwdCheck"
+						v-bind:class="{ 'is-valid': isPwdValid, 'is-invalid': !isPwdValid && isPwdInputed }" 
+						type="password" name="pwd" id="pwd" class="form-control" />
 				
 				<%-- 가용하지 않을 때 feedback--%>
-				<div class="invalid-feedback" id="pwd-invalid-feedback">비밀번호 형식에 맞지 않습니다.</div>
+				<div class="invalid-feedback" id="pwd-invalid-feedback">{{pwdInvalidFeedbackMsg}}</div>
 				<%-- 가용할 때 띄우는 feedback --%>
-				<div class="valid-feedback" id="pwd-valid-feedback">사용할 수 있는 비밀번호 입니다.</div>				
-				
+				<div class="valid-feedback" id="pwd-valid-feedback">사용할 수 있는 비밀번호 입니다.</div>
 			</div>
 			<div>
 				<label for="pwd2" class="form-label">*비밀번호 확인</label>
-				<input type="password" name="pwd2" id="pwd2" class="form-control" />
+				<!-- pwd 가 가용 X -> pwd2 는 뭘 입력해도 가용하지 않음 -->
+				<input v-model="inputPwd2" v-on:input="pwd2Check"
+						v-bind:class="{ 'is-valid': isPwd2Valid, 'is-invalid': !isPwd2Valid && isPwd2Inputed }" 
+						type="password" name="pwd2" id="pwd2" class="form-control" />
 				
 				<%-- 비밀번호 확인 : 위의 비밀번호와 동일하게 입력하였는지 확인하기 --%>
 				<%-- 가용하지 않을 때 feedback--%>
@@ -124,10 +128,20 @@
 			data : {
 				pwd_question_list: [],	//비밀번호 분실 시에 사용할 질문 list
 				base_url,
+				//id 유효성 검사
 				isIdValid: false,	//아이디의 유효성 검사
 				inputId: '',	//작성한 id를 model 로 관리
 				idInvalidFeedbackMsg: '',	//id 가 가용하지 X 메시지 (null / 가용X 둘 중 하나)
 				isIdInputed: false,	//id 가 입력된 적이 있는지 -> 한 번이라도 입력되면 true
+				//pwd 유효성 검사
+				isPwdValid: false,
+				inputPwd: '',	//작성한 pwd 를 model 로 관리
+				isPwdInputed: false,	//pwd 가 입력된 적이 있는지 -> 한 번이라도 입력되면 true
+				pwdInvalidFeedbackMsg: '',	//pwd 가 가용하지 X 메시지 (null / 가용X 둘 중 하나)
+				//pwd 재입력의 유효성 검사
+				isPwd2Valid: false,	
+				inputPwd2: '',	//작성한 pwd2 를 model 로 관리
+				isPwd2Inputed: false	//pwd2 가 입력된 적이 있는지 -> 한 번이라도 입력되면 true
 				
 			},
 			created(){//처음 vue 생성될 때(화면 처음 구성할 때)
@@ -144,6 +158,68 @@
 				});
 			},
 			methods: {
+				//입력한 pwd 와 이를 재입력하는 pwd2 의 검사
+				pwd2Check(){
+					//입력했기 때문에 호출되는 함수 -> isPwd2Inputed 는 true
+					this.isPwd2Inputed = true;
+					
+					//pwd 가 가용 X -> pwd2 는 뭘 입력해도 가용하지 않음
+					if(!this.isPwdValid && this.isPwdInputed){
+						//가용X
+						this.isPwd2Valid = false;
+						//종료
+						return;
+					}
+					
+					//입력이 공백 -> isPwd2Valid 는 false
+					if(this.pwd2Input == ''){
+						//유효하지 x : isPwd2Valid -> false
+						this.isPwd2Valid = false;
+						//종료
+						return;
+					}
+					
+					//inputPwd 와 inputPwd2 가 일치 -> pwd2 는 유효함
+					if(this.inputPwd == this.inputPwd2){
+						//유효 o : isPwd2Valid -> true
+						this.isPwd2Valid = true;
+					}else{
+						//일치 x -> 유효하지 x
+						this.isPwd2Valid = false;
+					}
+				},
+				//입력한 pwd 유효성 검사하는 메소드
+				pwdCheck(){
+					//입력했기 때문에 호출되는 함수 -> isPwdInputed 는 true
+					this.isPwdInputed = true;
+					
+					//입력이 공백 -> isPwdValid 는 false
+					if(this.inputPwd == ''){
+						//유효하지 x : isPwdValid -> false
+						this.isPwdValid = false;
+						//pwdInvalidFeedbackMsg -> 빈칸임을 알림
+						this.pwdInvalidFeedbackMsg = '필수 사항입니다.';
+						//종료
+						return;
+					}
+					
+					// 비밀번호 정규식 : 5~10 글자 -> 아무 글자 5 ~ 10 글자
+					const reg_pwd = /^.{5,10}$/;
+					
+					//만일 입력한 비밀번호(pwd)가 정규표현식과 매칭됨 -> 사용 가능
+					if(reg_pwd.test(this.inputPwd)){
+						this.isPwdValid = true;
+					}else{
+						//만일 입력한 비밀번호(pwd)가 정규표현식과 매칭되지 않는다면 -> 올바른 형식이 아님
+						this.isPwdValid = false;
+						this.pwdInvalidFeedbackMsg = '유효하지 않은 비밀번호입니다. 다시 입력해주세요.';
+					}
+					
+					//pwd2 에도 입력된 적 있음 -> pwd 입력란이 변하면 -> pwd2 확인란에도 변화
+					if(this.isPwd2Inputed){
+						this.pwd2Check();
+					}
+				},
 				//id 유효성 검사하는 메소드
 				idCheck(){
 					//console.log("id입력");
@@ -155,7 +231,7 @@
 						//유효하지 X : isIdValid -> false
 						this.isIdValid = false;
 						//idInvalidFeedbackMsg -> 빈칸임을 알림
-						this.idInvalidFeedbackMsg = '필수 사항입니다. 입력해주세요.';
+						this.idInvalidFeedbackMsg = '필수 사항입니다.';
 						//종료
 						return;
 					}
