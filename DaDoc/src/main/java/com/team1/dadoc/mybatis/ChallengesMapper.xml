@@ -21,6 +21,6 @@
 	
 	<select id="getCount" resultType="int">
 		SELECT NVL(MAX(ROWNUM),0)
-		FROM challenges
+		FROM dadoc_challenges
 	</select>
 </mapper>
