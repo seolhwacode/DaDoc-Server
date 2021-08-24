@@ -54,4 +54,12 @@ public class UsersController {
 		return service.isIdExist(inputId);
 	}
 	
+	//ajax 로 nickname 이 존재하는지 알려준다.
+	@RequestMapping(value = "/ajax/users/check_nickname")
+	@ResponseBody
+	public Map<String, Object> checkNickname(@RequestParam String inputNick){
+		//UsersService 가 리턴해주는 Map 을 리턴해서 json 문자열을 응답한다.
+		return service.isNickExist(inputNick);
+	}
+	
 }

@@ -43,7 +43,26 @@ public class UsersDaoImpl implements UsersDao {
 		//id 없읍
 		if(id == null) {
 			return false;
-		}else {//id 있음
+		}else {
+			return true;
+		}
+	}
+
+	/*
+	 * Mapper's namespace : users
+	 * sql's id : isNickExist
+	 * parameterType : String
+	 * resultType : String (존재하는 id 값 리턴)
+	 */
+	@Override
+	public boolean isNickExist(String inputNick) {
+		//전달받은 nickname 이 존재하는지 검사
+		String nickname = session.selectOne("users.isNickExist", inputNick);
+		
+		//id 없읍
+		if(nickname == null) {
+			return false;
+		}else {//아이디 있음
 			return true;
 		}
 	}

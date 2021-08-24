@@ -24,5 +24,16 @@ public class UsersServiceImpl implements UsersService {
 		return map;
 	}
 	
+	//inputNick 과 같은 nickname 이 DB 에 존재하는지 여부 Map 으로 return
+	@Override
+	public Map<String, Object> isNickExist(String inputNick) {
+		//Map
+		Map<String, Object> map = new HashMap<String, Object>();
+		//isExist 라는 키앖으로 닉네임이 존재하는지 여부를 담는다.
+		map.put("isExist", dao.isNickExist(inputNick));
+		//Map 객체 리턴
+		return map;
+	}
+	
 	
 }

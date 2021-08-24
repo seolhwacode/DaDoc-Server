@@ -12,4 +12,10 @@
 		FROM dadoc_users
 		WHERE id = #{inputId}
 	</select>
+	<!-- nickname 이 존재하는지 검사 -->
+	<select id="isNickExist" parameterType="string" resultType="string">
+		SELECT nickname
+		FROM dadoc_users
+		WHERE nickname = #{inputNick}
+	</select>
 </mapper>

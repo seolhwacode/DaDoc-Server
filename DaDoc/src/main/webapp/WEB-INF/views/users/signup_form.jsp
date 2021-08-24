@@ -57,10 +57,14 @@
 			</div>
 			<div>
 				<label for="nickname" class="form-label">*닉네임(활동명)</label>
-				<input type="text" name="nickname" id="nickname" class="form-control" />
-				<!-- 빈칸일 때 -> 필수 정보임을 알림 -->
+				<small class="form-text text-muted"> : 2 ~ 10글자 이내로 입력하세요.</small>
+				<input v-model="inputNick" v-on:input="nickCheck"
+						v-bind:class="{ 'is-valid': isNickValid, 'is-invalid': !isNickValid && isNickInputed }" 
+						type="text" name="nickname" id="nickname" class="form-control" />
 				<!-- 존재하는 닉네임일 때 -> 사용 불가능한 닉네임을 알림 -->
-				<div class="invalid-feedback" id="nickname-invalid-feedback"></div>
+				<div class="invalid-feedback" id="nickname-invalid-feedback">{{nickInvalidFeedbackMsg}}</div>
+				<%-- 가용할 때 띄우는 feedback --%>
+				<div class="valid-feedback" id="nickname-valid-feedback">사용할 수 있는 닉네임입니다.</div>
 			</div>
 			<div>
 				<label for="name" class="form-label">*이름(실명)</label>
@@ -80,7 +84,6 @@
 				<!-- not-selected 일 때 -> 필수 정보임을 알림 -->
 				<div class="invalid-feedback" id="sex-invalid-feedback">필수 정보입니다.</div>
 			</div>
-			
 			<div>
 				<label for="birth" class="form-label">*생년월일</label>
 				<input type="date" name="birth" id="birth" class="form-control" />
@@ -141,7 +144,12 @@
 				//pwd 재입력의 유효성 검사
 				isPwd2Valid: false,	
 				inputPwd2: '',	//작성한 pwd2 를 model 로 관리
-				isPwd2Inputed: false	//pwd2 가 입력된 적이 있는지 -> 한 번이라도 입력되면 true
+				isPwd2Inputed: false,	//pwd2 가 입력된 적이 있는지 -> 한 번이라도 입력되면 true
+				//nickName 유효성 검사
+				isNickValid: false,
+				inputNick: '',	//작성한 nickName 를 model 로 관리
+				isNickInputed: false,	//nickName 가 입력된 적이 있는지 -> 한 번이라도 입력되면 true
+				nickInvalidFeedbackMsg: ''	//nickName 가 가용하지 X 메시지 (null / 가용X 둘 중 하나)
 				
 			},
 			created(){//처음 vue 생성될 때(화면 처음 구성할 때)
@@ -158,6 +166,55 @@
 				});
 			},
 			methods: {
+				nickCheck(){
+					//입력했기 때문에 호출되는 함수 -> isPwdInputed
+					this.isNickInputed = true;
+					
+					//입력이 공백 -> isNickValid 는 false / nickInvalidFeedbackMsg : "필수 사항입니다. 입력해주세요."
+					if(this.inputNick == ''){
+						//유효하지 X : isNickValid -> false
+						this.isNickNameValid = false;
+						//nickInvalidFeedbackMsg -> 빈칸임을 알림
+						this.nickInvalidFeedbackMsg = '필수 사항입니다.';
+						//종료
+						return;
+					}
+					
+					//닉네임 정규식
+					//두 글자 이상, 10글자 이하
+					const reg_nick = /^.{2,10}$/;
+					
+					//만일 입력한 닉네임이 정규표현식과 매칭되지 않는다면 -> 올바른 형식이 아님 -> DB 체크 안해도 됨
+					if(!reg_nick.test(this.inputNick)){
+						//유효하지 X : isNickNameValid -> false
+						this.isNickValid = false;
+						//idInvalidFeedbackMsg -> 유효하지 않음
+						this.nickInvalidFeedbackMsg = '유효하지 않은 닉네임입니다. 다시 입력해주세요.';
+						//종료
+						return;
+					}
+					
+					//Promise 객체 내부에서 사용할 vue 객체 this
+					const self = this;
+					
+					fetch(this.base_url + "/ajax/users/check_nickname.do?inputNick=" + this.inputNick)
+					.then(function(response){
+						return response.json();
+					})
+					.then(function(data){
+						// data : {"isExist" : true/false} 형태의 json
+						//console.log(data);
+						if(data.isExist){
+							//동일한 닉네임 존재 -> 사용 X
+							self.isNickValid = false;
+							self.nickInvalidFeedbackMsg = '사용할 수 없는 닉네임입니다.';
+						}else{
+							//동일한 닉네임 존재 X -> 사용 O
+							self.isNickValid = true;
+						}
+					});
+					
+				},
 				//입력한 pwd 와 이를 재입력하는 pwd2 의 검사
 				pwd2Check(){
 					//입력했기 때문에 호출되는 함수 -> isPwd2Inputed 는 true
@@ -255,7 +312,7 @@
 					const self = this;
 					
 					//ajax 로 db 에 해당 id 가 존재하는지 check
-					fetch(base_url + "/ajax/users/check_id.do?inputId="+self.inputId)
+					fetch(this.base_url + "/ajax/users/check_id.do?inputId="+self.inputId)
 					.then(function(response){
 						return response.json();
 					})
