@@ -1,5 +1,7 @@
 package com.team1.dadoc.challenges.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class ChallengesDto {
 
 	private int num;
@@ -17,13 +19,14 @@ public class ChallengesDto {
 	private int endRowNum;
 	private int prevNum;
 	private int nextNum;
+	private MultipartFile image; // 이미지 파일 업로드 처리를 위한 필드
 	
 	//디폴트 생성자
 	public ChallengesDto() {}
 
 	public ChallengesDto(int num, String type, String writer, String title, String category, String imagePath,
 			String description, int period, String startDate, String endDate, String regdate, int startRowNum,
-			int endRowNum, int prevNum, int nextNum) {
+			int endRowNum, int prevNum, int nextNum, MultipartFile image) {
 		super();
 		this.num = num;
 		this.type = type;
@@ -40,6 +43,7 @@ public class ChallengesDto {
 		this.endRowNum = endRowNum;
 		this.prevNum = prevNum;
 		this.nextNum = nextNum;
+		this.image = image;
 	}
 
 	public int getNum() {
@@ -161,6 +165,16 @@ public class ChallengesDto {
 	public void setNextNum(int nextNum) {
 		this.nextNum = nextNum;
 	}
+
+	public MultipartFile getImage() {
+		return image;
+	}
+
+	public void setImage(MultipartFile image) {
+		this.image = image;
+	}
+
+	
 
 	
 	
