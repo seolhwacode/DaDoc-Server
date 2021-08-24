@@ -11,8 +11,12 @@
 </head>
 <body>
 <div class="container">
+	
+	<a href="${pageContext.request.contextPath}/challenge/register.do">테스트</a>
+
+
 	<h1>챌린지 신청 폼입니다.</h1>
-	<form action="${pageContext.request.contextPath}/challenge/register.do" method="post" id="myForm" >
+	<form action="${pageContext.request.contextPath}/challenge/register.do" method="post" enctype="multipart/form-data" id="myForm" >
 		<!-- type radio -->
 		<p>-----타입 정하기-----</p>
 		<div>
@@ -68,10 +72,10 @@
 		</div>
 		<!-- 이미지 업로드 -->
 		<div>
-			<label for="image">
-				<input type="file" name="image" id="image" 
+			<label for="image">이미지</label>
+			<input type="file" name="image" id="image" 
 				accept=".jpg, .jpeg, .png, .JPG, .JPEG"/>
-			</label>
+			
 		</div>
 		<!-- 시작일, 종료일 선택 -->
 		<p>-----시작일, 종료일-----</p>
@@ -87,11 +91,11 @@
 	</form>
 </div>
 <script>
-	document.querySelector("#myForm").addEventListener("submit", function(e){
+/* 	document.querySelector("#myForm").addEventListener("submit", function(e){
 		e.preventDefault();
 		let img = document.querySelector("#image").value;
 		console.log(img);
-	});
+	}); */
 </script>
 </body>
 </html>
