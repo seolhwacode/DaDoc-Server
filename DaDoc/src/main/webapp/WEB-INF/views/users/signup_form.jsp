@@ -19,12 +19,14 @@
 				<%-- small : 작은 글씨 --%>
 				<label for="id" class="form-label">*아이디</label>
 				<small class="form-text text-muted"> : 영문자 소문자로 시작하고, 5 ~ 10글자 이내로 입력하세요.</small>
-				<input type="text" name="id" id="id" class="form-control" />
+				<input v-model="inputId" v-on:input="idCheck" 
+						v-bind:class="{ 'is-valid': isIdValid, 'is-invalid': !isIdValid && isIdInputed }" 
+						type="text" name="id" id="id" class="form-control" />
 				<%-- 내용이 없다가, id 사용 가능 / 불가능 메시지 띄워줌 --%>
 				<%-- <div class="invalid-feedback invalid-id-feedback"></div> --%>
 				
 				<%-- 가용하지 않을 때 feedback--%>
-				<div class="invalid-feedback" id="id-invalid-feedback"></div>
+				<div class="invalid-feedback" id="id-invalid-feedback">{{idInvalidFeedbackMsg}}</div>
 				<%-- 가용할 때 띄우는 feedback --%>
 				<div class="valid-feedback" id="id-valid-feedback">사용할 수 있는 아이디입니다.</div>
 			</div>
@@ -121,7 +123,12 @@
 			el: "#signup_form_container",
 			data : {
 				pwd_question_list: [],	//비밀번호 분실 시에 사용할 질문 list
-				base_url
+				base_url,
+				isIdValid: false,	//아이디의 유효성 검사
+				inputId: '',	//작성한 id를 model 로 관리
+				idInvalidFeedbackMsg: '',	//id 가 가용하지 X 메시지 (null / 가용X 둘 중 하나)
+				isIdInputed: false,	//id 가 입력된 적이 있는지 -> 한 번이라도 입력되면 true
+				
 			},
 			created(){//처음 vue 생성될 때(화면 처음 구성할 때)
 				//vue 객체
@@ -135,6 +142,62 @@
 					//data : pwd_question_list 가 들어있음
 					self.pwd_question_list = data;
 				});
+			},
+			methods: {
+				//id 유효성 검사하는 메소드
+				idCheck(){
+					//console.log("id입력");
+					//입력했기 때문에 호출되는 함수 -> isIdInputed 는 true
+					this.isIdInputed = true;
+					
+					//입력이 공백 -> isIdValid 는 false / idInvalidFeedbackMsg : "필수 사항입니다. 입력해주세요."
+					if(this.inputId == ''){
+						//유효하지 X : isIdValid -> false
+						this.isIdValid = false;
+						//idInvalidFeedbackMsg -> 빈칸임을 알림
+						this.idInvalidFeedbackMsg = '필수 사항입니다. 입력해주세요.';
+						//종료
+						return;
+					}
+					
+					//입력한 아이디를 검증할 정규 표현식
+					//첫 글자는 영문자 소문자로 시작, 총 5~10 글자
+					//정규식 내부에 {} 등의 내부에 빈칸을 띄우면 오류가 난다.
+					const reg_id = /^[a-z].{4,9}$/;
+					
+					//만일 입력한 아이디가 정규표현식과 매칭되지 않는다면 -> 올바른 형식이 아님 -> DB 체크 안해도 됨
+					if(!reg_id.test(this.inputId)){
+						//유효하지 X : isValid -> false
+						this.isIdValid = false;
+						//idInvalidFeedbackMsg -> 유효하지 않음
+						this.idInvalidFeedbackMsg = '유효하지 않은 아이디입니다. 다시 입력해주세요.';
+						//종료
+						return;
+					}
+					
+					//Promise 객체 내부에서 사용할 vue 객체 this
+					const self = this;
+					
+					//ajax 로 db 에 해당 id 가 존재하는지 check
+					fetch(base_url + "/ajax/users/check_id.do?inputId="+self.inputId)
+					.then(function(response){
+						return response.json();
+					})
+					.then(function(data){
+						// data : {"isExist" : true/false} 형태의 json
+						//console.log(data);
+						// 같은 id 가 존재 -> 사용 X -> 유효하지 X
+						if(data.isExist){
+							//유효하지 X : isValid -> false
+							self.isIdValid = false;
+							//idInvalidFeedbackMsg -> 사용할 수 없는 id
+							self.idInvalidFeedbackMsg = '사용할 수 없는 id 입니다.';
+						}else{
+							//사용 가능! : isIdValid -> true
+							self.isIdValid = true;
+						}
+					});
+				}
 			}
 		});
 	</script>

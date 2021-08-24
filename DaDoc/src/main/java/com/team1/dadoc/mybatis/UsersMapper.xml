@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="users">
+	<!-- 비밀번호 분실시 선택할 질문 list return -->
 	<select id="getPwdQuestions" resultType="usersPwdQuestionDto">
 		SELECT num, question
 		FROM users_pwd_question
+	</select>
+	<!-- id 가 존재하는지 검사 -->
+	<select id="isIdExist" parameterType="string" resultType="string">
+		SELECT id
+		FROM dadoc_users
+		WHERE id = #{inputId}
 	</select>
 </mapper>

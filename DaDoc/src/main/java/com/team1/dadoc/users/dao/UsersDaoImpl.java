@@ -27,6 +27,26 @@ public class UsersDaoImpl implements UsersDao {
 	public List<UsersPwdQuestionDto> getPwdQuestions() {
 		return session.selectList("users.getPwdQuestions");
 	}
+
+	/*
+	 * Mapper's namespace : users
+	 * sql's id : isIdExist
+	 * parameterType : String
+	 * resultType : String (존재하는 id 값 리턴)
+	 */
+	//인자로 전달된 아이디가 존재하는지 여부를 검사하여 리턴하는 메소드
+	@Override
+	public boolean isIdExist(String inputId) {
+		//전달 받은 id 가 존재하는지 검사한다.
+		String id = session.selectOne("users.isIdExist", inputId);
+		
+		//id 없읍
+		if(id == null) {
+			return false;
+		}else {//id 있음
+			return true;
+		}
+	}
 	
 	
 	
