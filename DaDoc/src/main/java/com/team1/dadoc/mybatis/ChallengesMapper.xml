@@ -13,7 +13,7 @@
 		FROM	
 			(SELECT result1.*, ROWNUM as rnum
 			FROM
-				(SELECT num, writer, type, title, category, description, period, startdate, enddate, regdate
+				(SELECT num, writer, type, title, category, imagePath, description, period, startdate, enddate, regdate
 				FROM dadoc_challenges
 				ORDER BY num DESC) result1)
 		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
