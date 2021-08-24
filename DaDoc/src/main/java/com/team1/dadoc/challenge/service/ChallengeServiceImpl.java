@@ -1,6 +1,7 @@
 package com.team1.dadoc.challenge.service;
 
 import java.io.File;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,12 +49,43 @@ public class ChallengeServiceImpl implements ChallengeService {
 		int startRowNum = 1 + (pageNum-1) * PAGE_ROW_COUNT;
 		//보여줄 페이지의 끝 ROWNUM
 		int endRowNum = pageNum * PAGE_ROW_COUNT;
-			   
-		//startRowNum 과 endRowNum  을 ChallengesDto 객체에 담고
-		ChallengesDto dto = new ChallengesDto();
+		
+		/*
+		[ 검색 키워드에 관련된 처리 ]
+		-검색 키워드가 파라미터로 넘어올수도 있고 안넘어 올수도 있다.		
+		*/
+		String keyword=request.getParameter("keyword");
+		String condition=request.getParameter("condition");
+		//만일 키워드가 넘어오지 않는다면 
+		if(keyword==null){
+			//키워드와 검색 조건에 빈 문자열을 넣어준다. 
+			//클라이언트 웹브라우저에 출력할때 "null" 을 출력되지 않게 하기 위해서  
+			keyword="";
+			condition=""; 
+		}
+	
+		//특수기호를 인코딩한 키워드를 미리 준비한다. 
+		String encodedK=URLEncoder.encode(keyword);
+			
+		//CafeDto 객체에 startRowNum 과 endRowNum 을 담는다.
+		ChallengesDto dto=new ChallengesDto();
 		dto.setStartRowNum(startRowNum);
 		dto.setEndRowNum(endRowNum);
-			   
+	
+		//만일 검색 키워드가 넘어온다면 
+		if(!keyword.equals("")){
+			//검색 조건이 무엇이냐에 따라 분기 하기
+			if(condition.equals("title_content")){//제목 + 내용 검색인 경우
+				//검색 키워드를 CafeDto 에 담아서 전달한다.
+				dto.setTitle(keyword);
+				dto.setDescription(keyword);
+			}else if(condition.equals("title")){ //제목 검색인 경우
+				dto.setTitle(keyword);
+			}else if(condition.equals("writer")){ //작성자 검색인 경우
+				dto.setWriter(keyword);
+			} // 다른 검색 조건을 추가 하고 싶다면 아래에 else if() 를 계속 추가 하면 된다.
+		}
+		
 		//ChallengesDto 객체를 이용해서 회원 목록을 얻어온다.
 		List<ChallengesDto> list = dao.getList(dto);
 			   
@@ -71,12 +103,16 @@ public class ChallengeServiceImpl implements ChallengeService {
 			endPageNum = totalPageCount; //보정해 준다. 
 		}
 		
-		//request 영역에 담아주기
-		request.setAttribute("list", list);	//challenges list
-		request.setAttribute("startPageNum", startPageNum);	//시작 페이지 번호
-		request.setAttribute("endPageNum", endPageNum);	//끝 페이지 번호
-		request.setAttribute("pageNum", pageNum);	//현재 페이지 번호
-		request.setAttribute("totalPageCount", totalPageCount);	//모든 페이지 count
+		//view page 에서 필요한 값을 request 에 담아준다. 
+		request.setAttribute("pageNum", pageNum);
+		request.setAttribute("startPageNum", startPageNum);
+		request.setAttribute("endPageNum", endPageNum);
+		request.setAttribute("condition", condition);
+		request.setAttribute("keyword", keyword);
+		request.setAttribute("encodedK", encodedK);
+		request.setAttribute("totalPageCount", totalPageCount);
+		request.setAttribute("list", list);
+		request.setAttribute("totalRow", totalRow);
 	}
 	
 	@Override
