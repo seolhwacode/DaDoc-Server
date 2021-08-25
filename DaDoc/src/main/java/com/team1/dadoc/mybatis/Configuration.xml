@@ -6,6 +6,7 @@
 	<typeAliases>
 		<typeAlias type="com.team1.dadoc.challenges.dto.ChallengesDto" alias="challengesDto"/>
 		<typeAlias type="com.team1.dadoc.users.dto.UsersPwdQuestionDto" alias="usersPwdQuestionDto"/>
+		<typeAlias type="com.team1.dadoc.users.dto.UsersDto" alias="usersDto"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/team1/dadoc/mybatis/ChallengesMapper.xml"/>

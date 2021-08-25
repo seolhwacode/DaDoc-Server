@@ -11,15 +11,14 @@ public class UsersDto {
 	private String birth;	//생년월일
 	private String profile;	//프로필 이미지 경로
 	private String regdate;	//가입일
-	private String pwd_question;	//users_pwd_question 테이블의 pk
+	private int pwd_question;	//users_pwd_question 테이블의 pk
 	private String pwd_answer;	//사용자의 대답. 단답형
-	private int point;	//책의 중고거래를 위한 포인트 (그런데 이거 없어도 될 것 같은데)
 	private int tos;	//광고 수신 동의 : 0(동의X), 1(동의O)
 	
 	public UsersDto() {}
 
 	public UsersDto(String id, String pwd, String name, String nickname, String tel, String email, int sex, String birth,
-			String profile, String regdate, String pwd_question, String pwd_answer, int point, int tos) {
+			String profile, String regdate, int pwd_question, String pwd_answer, int point, int tos) {
 		super();
 		this.id = id;
 		this.pwd = pwd;
@@ -33,7 +32,6 @@ public class UsersDto {
 		this.regdate = regdate;
 		this.pwd_question = pwd_question;
 		this.pwd_answer = pwd_answer;
-		this.point = point;
 		this.tos = tos;
 	}
 
@@ -117,11 +115,11 @@ public class UsersDto {
 		this.regdate = regdate;
 	}
 
-	public String getPwd_question() {
+	public int getPwd_question() {
 		return pwd_question;
 	}
 
-	public void setPwd_question(String pwd_question) {
+	public void setPwd_question(int pwd_question) {
 		this.pwd_question = pwd_question;
 	}
 
@@ -131,14 +129,6 @@ public class UsersDto {
 
 	public void setPwd_answer(String pwd_answer) {
 		this.pwd_answer = pwd_answer;
-	}
-
-	public int getPoint() {
-		return point;
-	}
-
-	public void setPoint(int point) {
-		this.point = point;
 	}
 
 	public int getTos() {
