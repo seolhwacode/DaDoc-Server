@@ -56,6 +56,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 		*/
 		String keyword=request.getParameter("keyword");
 		String condition=request.getParameter("condition");
+		//카테고리 키워드가 파라미터로 넘어올 수도 있으니 변수에 담기
+		String category_name=request.getParameter("category_name");
 		//만일 키워드가 넘어오지 않는다면 
 		if(keyword==null){
 			//키워드와 검색 조건에 빈 문자열을 넣어준다. 
@@ -63,7 +65,9 @@ public class ChallengeServiceImpl implements ChallengeService {
 			keyword="";
 			condition=""; 
 		}
-	
+		if(category_name==null) {
+			category_name="";
+		}
 		//특수기호를 인코딩한 키워드를 미리 준비한다. 
 		String encodedK=URLEncoder.encode(keyword);
 			
@@ -86,6 +90,10 @@ public class ChallengeServiceImpl implements ChallengeService {
 			} // 다른 검색 조건을 추가 하고 싶다면 아래에 else if() 를 계속 추가 하면 된다.
 		}
 		
+		//만약 카테고리 선택이 되었다면
+		if(!category_name.equals("")) {
+			dto.setCategory(category_name);
+		}
 		//ChallengesDto 객체를 이용해서 회원 목록을 얻어온다.
 		List<ChallengesDto> list = dao.getList(dto);
 			   

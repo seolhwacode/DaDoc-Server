@@ -27,7 +27,6 @@ public class ChallengesDaoImpl implements ChallengesDao {
 	//challenge main에 challenge 리스트 가져오기
 	@Override
 	public List<ChallengesDto> getList(ChallengesDto dto) {
-		
 		return session.selectList("challenges.getList", dto);
 	}
 
