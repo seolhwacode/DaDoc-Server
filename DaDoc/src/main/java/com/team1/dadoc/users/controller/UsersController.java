@@ -65,10 +65,13 @@ public class UsersController {
 	
 	//회원가입 정보를 insert
 	@RequestMapping(value = "/users/signup", method = RequestMethod.POST)
-	public ModelAndView signup(UsersDto dto) {
-		System.out.println("여기는 컨트롤러");
-		
-		//System.out.println(id);
+	public ModelAndView signup(ModelAndView mView ,UsersDto dto) {
+		//UsersDto 를 DB 에 추가 (insert) : 성공 여부를 boolean 값으로 받아온다.
+		boolean isSuccess = service.addUser(dto);
+		//성공 여부 추가
+		mView.addObject("isSuccess", isSuccess);
+		//이동할 페이지 설정
+		mView.setViewName("users/signup");
 		
 		System.out.println("id : " + dto.getId());
 		System.out.println("pwd : " + dto.getPwd());
@@ -81,7 +84,7 @@ public class UsersController {
 		System.out.println("pwd_question : " + dto.getPwd_question());
 		System.out.println("pwd_answer : " + dto.getPwd_answer());
 		
-		return null;
+		return mView;
 	}
 	
 }
