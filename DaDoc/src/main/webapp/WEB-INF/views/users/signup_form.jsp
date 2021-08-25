@@ -90,13 +90,18 @@
 			</div>
 			<div>
 				<label for="birth" class="form-label">*생년월일</label>
-				<input type="date" name="birth" id="birth" class="form-control" />
+				<input v-model:value="inputBirth" v-on:input="birthCheck" 
+						v-bind:class="{ 'is-valid': isBirthValid, 'is-invalid': !isBirthValid && isBirthInputed }"
+						type="date" name="birth" id="birth" class="form-control" />
 				<!-- 빈칸일 때 -> 필수 정보임을 알림 -->
-				<div class="invalid-feedback" id="name-invalid-feedback">필수 정보입니다.</div>
+				<div class="invalid-feedback" id="birth-invalid-feedback">필수 정보입니다.</div>
 			</div>
 			<div>
 				<label for="tel" class="form-label">휴대전화번호</label>
-				<input type="text" name="tel" id="tel" class="form-control" />
+				<small class="form-text text-muted"> : '-'를 제외하고 숫자만 입력해주세요.</small>
+				<input v-model="inputTel" maxlength="11"
+						type="text" name="tel" id="tel" 
+						class="form-control" placeholder="01012341234" />
 			</div>
 			<div>
 				<label for="email" class="form-label">이메일</label>
@@ -166,7 +171,16 @@
 				//sex 유효성 검사
 				isSexValid: false,
 				inputSex: 'not-selected',	//sex 의 선택 값을 model 로 관리
-				isSexInputed: false,	// sex 가 입력된 적이 있는지 -> 한 번이라도 된 적 있다면 true
+				isSexInputed: false,	//sex 가 입력된 적이 있는지 -> 한 번이라도 된 적 있다면 true
+				
+				//birth 생년월일 빈칸 검사
+				isBirthValid: false,
+				inputBirth: '',		//birth 의 선택 값을 model 로 관리
+				isBirthInputed: false,	//birth 가 선택된 적이 있는지 -> 한 번이라도 입력된 적 있다면 true
+				
+				//tel 전화번호 유효성 검사(빈칸은 ok -> 필수사항 아님)
+				inputTel: '',	//-> check 가 아닌, 입력자체를 막는 방식으로 진행
+				
 			},
 			created(){//처음 vue 생성될 때(화면 처음 구성할 때)
 				//vue 객체
@@ -181,7 +195,24 @@
 					self.pwd_question_list = data;
 				});
 			},
+			watch: {
+				//inputTel 을 계속 감시하면서, 숫자가 아닌 값이 입력되면 자동으로 공백으로 대체한다.
+				inputTel: function(){
+					//그 외의 다른 문자들 제외시키고 -> return
+					return this.inputTel = this.inputTel.replace(/[^0-9]/g, '');
+				}
+			},
 			methods: {
+				//생년월일 선택 여부 검사
+				birthCheck(){
+					console.log(this.inputBirth)
+					
+					//선택 했음
+					this.isBirthInputed = true;
+					
+					//bith 값의 유효성 검사
+					this.isBirthValid = Date.parse(this.inputBirth);
+				},
 				//성별 선택 여부 검사
 				sexCheck(){
 					//선택 했음
