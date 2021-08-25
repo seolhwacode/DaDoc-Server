@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.team1.dadoc.challenge.service.ChallengeService;
@@ -45,4 +46,14 @@ public class ChallengeController {
 		return new ModelAndView("challenge/main");
 	}
 	
+	// 챌린지 상세보기 (detail 페이지)
+	// 게시글의 num이 parameter get 방식으로 넘어온다.
+	@RequestMapping(value="/challenge/detail", method= RequestMethod.GET)
+	public ModelAndView detail(ModelAndView mView, @RequestParam int num) {
+		//detail 페이지에 필요한 data를 num을 통해 가져와서 ModelAndView에 저장
+		service.getDetail(mView,num);
+		mView.setViewName("challenge/detail");
+		
+		return mView;
+	}
 }

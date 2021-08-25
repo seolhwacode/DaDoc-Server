@@ -11,5 +11,6 @@ public interface ChallengesDao {
 	public void register(ChallengesDto dto);
 	//모든 ROW의 개수
 	public int getCount();
-	
+	//챌린지 상세 정보 가져오기
+	public ChallengesDto getData(int num);
 }

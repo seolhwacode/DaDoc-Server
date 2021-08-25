@@ -47,6 +47,8 @@
 <div class="container">
    	<h1>챌린지 목록 입니다.</h1>
    	<a href="${pageContext.request.contextPath}/challenge/register_form.do">챌린지 신청</a>
+     <a href="${pageContext.request.contextPath}/challenge/detail.do">디테일 페이지</a>
+  
    	<div class="row">
 		<c:forEach var="tmp" items="${list }">
 			<div class="col-6 col-md-4 col-lg-3">

@@ -44,4 +44,13 @@
 		FROM dadoc_challenges
 		<include refid="searchCondition"/>
 	</select>
+	
+	<select id="getData" resultType="challengesDto">
+	SELECT *
+		FROM
+			(SELECT num, writer, type, title, category, imagePath, description, period, startdate, enddate, regdate
+			FROM dadoc_challenges
+			ORDER BY num DESC)
+		WHERE num = #{num}
+	</select>
 </mapper>
