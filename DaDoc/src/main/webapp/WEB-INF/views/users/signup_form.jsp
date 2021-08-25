@@ -123,7 +123,12 @@
 			</div>
 			<div>
 				<p>질문에 대한 답변을 작성해주세요. 단답형을 권장드립니다.</p>
-				<input type="text" name="pwd_answer" id="pwd_answer" class="form-control" />
+				<!-- blur = focus out : 일 때 검사함 -->
+				<input v-model="inputPwdAnswer" v-on:blur="answerCheck" 
+						v-bind:class="{ 'is-valid' : isPwdAnswerValid, 'is-invalid': !isPwdAnswerValid && isFocused }"
+						type="text" name="pwd_answer" id="pwd_answer" class="form-control" />
+				<%-- 가용하지 않을 때 feedback--%>
+				<div class="invalid-feedback" id="pwd-answer-invalid-feedback">필수 정보입니다.</div>
 			</div>
 			<br />
 			<button type="submit" class="btn btn-primary">가입</button>
@@ -189,6 +194,11 @@
 				isEmailInputed: false,	//email 입력된 적 있는지 check
 				isEmailNull: true,	//email 이 입력값 x -> invalid, valid 둘 다 X(제출 ok)
 				
+				//비밀번호 분실시 답변 검사
+				isPwdAnswerValid: false,
+				inputPwdAnswer: '',
+				isFocused: false	//focus 된 적이 있으면 -> true
+				
 			},
 			created(){//처음 vue 생성될 때(화면 처음 구성할 때)
 				//vue 객체
@@ -211,13 +221,25 @@
 				}
 			},
 			methods: {
+				answerCheck(){
+					//focus 된 적 있음
+					this.isFocused = true;
+					
+					//입력된 값이 존재하는지 검사
+					if(this.inputPwdAnswer == ''){
+						//입력값 X -> isPwdAnswerValid -> false
+						this.isPwdAnswerValid = false;
+					}else{
+						//입력값 O -> isPwdAnswerValid -> true
+						this.isPwdAnswerValid = true;
+					}
+				},
 				emailCheck(){
 					//이메일 입력된 적 있음
 					this.isEmailInputed = true;
 					
 					//입력이 빈칸 -> 제출 ok
 					if(this.inputEmail == ''){
-						console.log("비엇음");
 						//제출 ok
 						this.isEmailValid = true;
 						//입력 x -> valid, invalid 속성 제거하기
