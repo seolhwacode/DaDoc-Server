@@ -105,7 +105,9 @@
 			</div>
 			<div>
 				<label for="email" class="form-label">이메일</label>
-				<input type="text" name="email" id="email" class="form-control" />
+				<input v-model="inputEmail" v-on:input="emailCheck" 
+						v-bind:class="{ 'is-valid': isEmailValid && !isEmailNull, 'is-invalid': !isEmailValid && isEmailInputed && !isEmailNull }"
+						type="email" name="email" id="email" class="form-control" />
 				<%-- email 형식 확인 : 가용한 이메일 형식인지 확인한다. --%>
 				<div class="invalid-feedback" id="email-invalid-feedback">사용할 수 없는 이메일입니다.</div>
 				<div class="valid-feedback" id="email-valid-feedback">ok</div>
@@ -181,6 +183,12 @@
 				//tel 전화번호 유효성 검사(빈칸은 ok -> 필수사항 아님)
 				inputTel: '',	//-> check 가 아닌, 입력자체를 막는 방식으로 진행
 				
+				//email 유효성 검사
+				isEmailValid: false,
+				inputEmail: '',		//email 입력값
+				isEmailInputed: false,	//email 입력된 적 있는지 check
+				isEmailNull: true,	//email 이 입력값 x -> invalid, valid 둘 다 X(제출 ok)
+				
 			},
 			created(){//처음 vue 생성될 때(화면 처음 구성할 때)
 				//vue 객체
@@ -203,6 +211,36 @@
 				}
 			},
 			methods: {
+				emailCheck(){
+					//이메일 입력된 적 있음
+					this.isEmailInputed = true;
+					
+					//입력이 빈칸 -> 제출 ok
+					if(this.inputEmail == ''){
+						console.log("비엇음");
+						//제출 ok
+						this.isEmailValid = true;
+						//입력 x -> valid, invalid 속성 제거하기
+						this.isEmailNull = true;
+						//종료
+						return;
+					}
+					
+					//입력이 있으면 false 하고 시작
+					this.isEmailNull = false;
+					
+					//이메일 입력 정규식
+					const email_reg = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+					
+					//정규식에 맞는지 checks
+					if(email_reg.test(this.inputEmail)){
+						//정규식에 부합함
+						this.isEmailValid = true;
+					}else{
+						//정규식에 부합 X
+						this.isEmailValid = false;
+					}
+				},
 				//생년월일 선택 여부 검사
 				birthCheck(){
 					console.log(this.inputBirth)
