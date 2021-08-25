@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.team1.dadoc.challenges.dao.ChallengesDao;
 import com.team1.dadoc.challenges.dto.ChallengesDto;
@@ -156,6 +157,15 @@ public class ChallengeServiceImpl implements ChallengeService {
 		
 		//ChallengesDao를 이용해서 DB에 저장하기
 		dao.register(dto);
+	}
+
+	// 챌린지 detail 페이지에 필요한 data를 ModelAndView에 저장
+	@Override
+	public void getDetail(ModelAndView mView, int num) {
+		//dao로 해당 게시글 num에 해당하는 데이터를 가져온다.
+		ChallengesDto dto = dao.getData(num);
+		//ModelAndView에 가져온 Dto를 담는다.
+		mView.addObject("dto", dto);
 	}
 
 	
