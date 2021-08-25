@@ -45,8 +45,8 @@
 </head>
 <body>
 <div class="container">
-   	<h1>겔러리 목록 입니다.</h1>
-   	<button></button>
+   	<h1>챌린지 목록 입니다.</h1>
+   	<a href="${pageContext.request.contextPath}/challenge/register_form.do">챌린지 신청</a>
    	<div class="row">
 		<c:forEach var="tmp" items="${list }">
 			<div class="col-6 col-md-4 col-lg-3">
@@ -107,8 +107,15 @@
 		</c:choose>
       </ul>
    </nav> 
-   	<div style="clear:both;"></div>
-	<form action="main.do" method="get"> 
+ 	<div style="clear:both;"></div>
+	<form action="main.do" method="get">
+	<label for="category">카테고리 검색</label> 
+		<select name="category_name" id="category_name">
+			<option selected>카테고리 검색</option>
+			<option value="writing" ${category_name eq 'writing' ? 'selected' : '' }>writing</option>
+			<option value="reading" ${category_name eq 'reading' ? 'selected' : '' }>reading</option>
+			<option value="speaking" ${category_name eq 'speaking' ? 'selected' : '' }>speaking</option>
+		</select>
 		<label for="condition">검색조건</label>
 		<select name="condition" id="condition">
 			<option value="title_content" ${condition eq 'title_description' ? 'selected' : '' }>제목+내용</option>
@@ -123,7 +130,7 @@
 			<strong>${totalRow }</strong> 개의 글이 검색 되었습니다.
 		</p>
 	</c:if>
-     
+        
 </div>
 </body>
 </html>

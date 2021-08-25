@@ -23,14 +23,19 @@
 	</insert>
 	
 	<select id="getList" parameterType="challengesDto" resultType="challengesDto">
-		SELECT *
+		SELECT result2.*
 		FROM	
-			(SELECT result1.*, ROWNUM as rnum
-			FROM
+			(SELECT result1.* , ROWNUM as rnum
+				FROM
 				(SELECT num, writer, type, title, category, imagePath, description, period, startdate, enddate, regdate
 				FROM dadoc_challenges
+				<choose>
+					<when test="category != null">
+						WHERE category LIKE '%'||#{category}||'%'
+					</when>
+				</choose>) result1
 				<include refid="searchCondition"/>
-				ORDER BY num DESC) result1)
+				ORDER BY num DESC) result2
 		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
 	
