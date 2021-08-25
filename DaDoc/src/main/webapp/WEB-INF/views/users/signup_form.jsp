@@ -223,9 +223,34 @@
 				}
 			},
 			methods: {
-				//form 제출
+				//form 제출 -> 모든 유효성 검사 통과해야 제출 가능
 				onSubmit(e){
-					//e.preventDefault();
+					//모든 유효성 검사 다시 하기
+					this.idCheck();
+					this.pwdCheck();
+					this.pwd2Check();
+					this.nickCheck();
+					this.nameCheck();
+					this.sexCheck();
+					this.birthCheck();
+					this.emailCheck();
+					this.answerCheck();
+
+					//모든 유효성 검사 통과해야함
+					// id / pwd / pwd2 / nickname / name / sex / birth / eamil / pwd_answer
+					let isFormValid = this.isIdValid && this.isPwdValid && 
+							this.isPwd2Valid && this.isNickValid && this.isNameValid 
+							&& this.isSexValid && this.isBirthValid && 
+							(this.isEmailValid || this.isEmailNull) && this.isPwdAnswerValid;
+					//유효하지 X -> form 전송 막기
+					if(!isFormValid){
+						alert("큰일임");
+						//form 전송 막기
+						e.preventDefault();
+						//사용자 알림
+						alert("입력값을 확인해주세요.");
+						return;
+					}
 				},
 				answerCheck(){
 					//focus 된 적 있음
