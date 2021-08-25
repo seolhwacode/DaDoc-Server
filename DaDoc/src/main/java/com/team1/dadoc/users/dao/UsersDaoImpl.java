@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.team1.dadoc.users.dto.UsersDto;
 import com.team1.dadoc.users.dto.UsersPwdQuestionDto;
 
 //bean 이 될 수 있도록
@@ -63,6 +64,27 @@ public class UsersDaoImpl implements UsersDao {
 		if(nickname == null) {
 			return false;
 		}else {//아이디 있음
+			return true;
+		}
+	}
+
+	/*
+	 * Mapper's namespace : users
+	 * sql's id : insert
+	 * parameterType : UsersDto
+	 * resultType : int ()
+	 */
+	@Override
+	public boolean insertUser(UsersDto dto) {
+		//업데이트한 id 로 select 하여 count 를 return한다.
+		// 성공 : 1 / 실패 : 0
+		int isSuccess = session.insert("users.insert", dto);
+		
+		//0 이면 실패
+		if(isSuccess == 0) {
+			return false;
+		}else {
+			//이외에는 성공
 			return true;
 		}
 	}
