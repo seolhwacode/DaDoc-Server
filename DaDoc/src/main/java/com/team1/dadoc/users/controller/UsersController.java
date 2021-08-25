@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.team1.dadoc.users.dao.UsersDao;
+import com.team1.dadoc.users.dto.UsersDto;
 import com.team1.dadoc.users.dto.UsersPwdQuestionDto;
 import com.team1.dadoc.users.service.UsersService;
 
@@ -60,6 +61,27 @@ public class UsersController {
 	public Map<String, Object> checkNickname(@RequestParam String inputNick){
 		//UsersService 가 리턴해주는 Map 을 리턴해서 json 문자열을 응답한다.
 		return service.isNickExist(inputNick);
+	}
+	
+	//회원가입 정보를 insert
+	@RequestMapping(value = "/users/signup", method = RequestMethod.POST)
+	public ModelAndView signup(UsersDto dto) {
+		System.out.println("여기는 컨트롤러");
+		
+		//System.out.println(id);
+		
+		System.out.println("id : " + dto.getId());
+		System.out.println("pwd : " + dto.getPwd());
+		System.out.println("nickname : " + dto.getNickname());
+		System.out.println("name : " + dto.getName());
+		System.out.println("sex : " + dto.getSex());
+		System.out.println("birth : " + dto.getBirth());
+		System.out.println("tel : " + dto.getTel());
+		System.out.println("email : " + dto.getEmail());
+		System.out.println("pwd_question : " + dto.getPwd_question());
+		System.out.println("pwd_answer : " + dto.getPwd_answer());
+		
+		return null;
 	}
 	
 }

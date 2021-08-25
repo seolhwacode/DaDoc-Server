@@ -12,7 +12,9 @@
 	<div id="signup_form_container" class="container">
 		<h1>회원가입 페이지</h1>
 		<p>* 이 포함된 사항은 필수 입력사항입니다. 반드시 입력해주세요.</p>
-		<form action="${pageContext.request.contextPath}/users/signup.do" method="post" id="signup_form">
+		<form action="${pageContext.request.contextPath}/users/signup.do" 
+				@submit="onSubmit" 
+				method="post" id="signup_form">
 			<!-- parameter 로 넘어온 isAdChecked 추가 : 0(동의X), 1(동의O) -->
 			<input type="hidden" name="tos" value="${isAdChecked ? 1 : 0}" />
 			<div>
@@ -81,9 +83,9 @@
 						v-bind:class="{ 'is-valid': isSexValid, 'is-invalid': !isSexValid && isSexInputed }"
 						name="sex" id="sex" class="form-select">
 					<option value="not-selected" selected>성별</option>
-					<option value="man" >남성</option>
-					<option value="woman">여성</option>
-					<option value="else">그 외</option>
+					<option value='0'>남성</option>
+					<option value='1'>여성</option>
+					<option value='2'>그 외</option>
 				</select>
 				<!-- not-selected 일 때 -> 필수 정보임을 알림 -->
 				<div class="invalid-feedback" id="sex-invalid-feedback">필수 정보입니다.</div>
@@ -221,6 +223,10 @@
 				}
 			},
 			methods: {
+				//form 제출
+				onSubmit(e){
+					//e.preventDefault();
+				},
 				answerCheck(){
 					//focus 된 적 있음
 					this.isFocused = true;
