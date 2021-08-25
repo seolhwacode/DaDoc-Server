@@ -46,6 +46,7 @@
 <body>
 <div class="container">
    	<h1>겔러리 목록 입니다.</h1>
+   	<button></button>
    	<div class="row">
 		<c:forEach var="tmp" items="${list }">
 			<div class="col-6 col-md-4 col-lg-3">
@@ -105,7 +106,24 @@
 			</c:otherwise>
 		</c:choose>
       </ul>
-   </nav>   
+   </nav> 
+   	<div style="clear:both;"></div>
+	<form action="main.do" method="get"> 
+		<label for="condition">검색조건</label>
+		<select name="condition" id="condition">
+			<option value="title_content" ${condition eq 'title_description' ? 'selected' : '' }>제목+내용</option>
+			<option value="title" ${condition eq 'title' ? 'selected' : '' }>제목</option>
+			<option value="writer" ${condition eq 'writer' ? 'selected' : '' }>작성자</option>
+		</select>
+		<input type="text" id="keyword" name="keyword" placeholder="검색어..." value="${keyword }"/>
+		<button type="submit">검색</button>
+	</form>	
+	<c:if test="${ not empty condition }">
+		<p>
+			<strong>${totalRow }</strong> 개의 글이 검색 되었습니다.
+		</p>
+	</c:if>
+     
 </div>
 </body>
 </html>
