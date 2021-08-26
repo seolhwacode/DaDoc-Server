@@ -30,12 +30,12 @@
 				<label class="form-label" for="pwd">비밀번호</label>
 				<input class="form-control" type="password" name="pwd" id="pwd" placeholder="password" />
 			</div>
-			<div>
+<!-- 			<div>
 				<label class="form-label" for="loginSave">
 					<input type="checkbox" name="loginSave" id="loginSave"></input>
 					7일동안 로그인 상태 유지
 				</label>
-			</div>
+			</div> -->
 			<button class="btn btn-primary mt-4" type="submit">로그인</button>
 		</form>
 		<a href="${pageContext.request.contextPath}/users/signup_tos.do">회원가입</a>

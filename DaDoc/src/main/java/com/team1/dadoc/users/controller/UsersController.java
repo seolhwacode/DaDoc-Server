@@ -90,7 +90,7 @@ public class UsersController {
 	@RequestMapping(value = "/users/login")
 	public ModelAndView login(ModelAndView mView, UsersDto dto,
 						@RequestParam String url, HttpSession session) {
-		//db 에서 실제 id/pwd 가 일치하는지 확인하는 서비스
+		//db 에서 실제 id/pwd 가 일치하는지 확인 & 로그인처하는 서비스
 		service.loginProcess(dto, session);
 		
 		//parameter 로 넘어온 url 을 인코딩하여 request 영역에 추가한다.
@@ -100,6 +100,17 @@ public class UsersController {
 		
 		//경로 설정
 		mView.setViewName("users/login");
+		
+		return mView;
+	}
+	
+	//로그아웃
+	@RequestMapping(value = "/users/private/logout")
+	public ModelAndView logout(ModelAndView mView, HttpSession session) {
+		//세션에서 id 라는 키값으로 저장된 값 삭제
+		session.removeAttribute("id");
+		//이동 경로
+		mView.setViewName("users/logout");
 		
 		return mView;
 	}
