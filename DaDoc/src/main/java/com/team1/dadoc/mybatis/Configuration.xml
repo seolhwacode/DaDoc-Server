@@ -14,6 +14,6 @@
 		<mapper resource="com/team1/dadoc/mybatis/ChallengesMapper.xml"/>
 		<mapper resource="com/team1/dadoc/mybatis/ChallengerMapper.xml"/>
 		<mapper resource="com/team1/dadoc/mybatis/UsersMapper.xml"/>
-    <mapper resource="com/team1/dadoc/mybatis/TradeMapper.xml"/>
+    		<mapper resource="com/team1/dadoc/mybatis/TradeMapper.xml"/>
 	</mappers>
 </configuration>
