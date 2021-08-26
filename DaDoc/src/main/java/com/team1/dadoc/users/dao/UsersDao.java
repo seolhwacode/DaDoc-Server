@@ -14,4 +14,6 @@ public interface UsersDao {
 	public boolean isNickExist(String inputNick);
 	//인자로 전달된 dto 를 db 에 insert
 	public boolean insertUser(UsersDto dto);
+	//id 에 해당하는 data 를 dto 에 담아 return
+	public UsersDto getData(String id);
 }

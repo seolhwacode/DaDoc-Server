@@ -2,6 +2,8 @@ package com.team1.dadoc.users.service;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import com.team1.dadoc.users.dto.UsersDto;
 
 public interface UsersService {
@@ -11,4 +13,6 @@ public interface UsersService {
 	public Map<String, Object> isNickExist(String inputNick);
 	//UsersDto 의 내용을 db 에 추가 - 비밀번호 암호화 추가
 	public boolean addUser(UsersDto dto);
+	//dto 의 id/pwd 의 값이 db 에 일치하는 값이 있는지 확인 및 로그인(session)
+	public void loginProcess(UsersDto dto, HttpSession session);
 }

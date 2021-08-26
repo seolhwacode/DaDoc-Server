@@ -18,8 +18,17 @@
 	<div class="container">
 		<h1>인덱스 페이지입니다.</h1>
 		<ul>
-      <li><a href="${pageContext.request.contextPath}/users/login_form.do">로그인 form 으로 이동</a></li>
-			<li><a href="${pageContext.request.contextPath}/users/signup_tos.do">회원가입 약관 으로 이동</a></li>
+			<c:choose>
+				<c:when test="${ empty sessionScope.id }">
+					<li><a href="${pageContext.request.contextPath}/users/login_form.do">로그인 form 으로 이동</a></li>
+					<li><a href="${pageContext.request.contextPath}/users/signup_tos.do">회원가입 약관 으로 이동</a></li>
+				</c:when>
+				<c:otherwise>
+					<p><strong>${ sessionScope.id }</strong> 님이 로그인 중...</p>
+					<li><a href="${pageContext.request.contextPath}/users/private/info.do">개인 페이지</a></li>
+					<li><a href="${pageContext.request.contextPath}/users/private/logout.do">로그아웃</a></li>
+				</c:otherwise>
+			</c:choose>
 			<li><a href="${pageContext.request.contextPath}/challenge/main.do">챌린지 게시판으로 이동</a></li>
 		</ul>
 		
