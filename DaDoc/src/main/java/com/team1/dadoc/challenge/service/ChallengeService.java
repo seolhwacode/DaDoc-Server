@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.web.servlet.ModelAndView;
 
+import com.team1.dadoc.challenger.dto.ChallengerDto;
 import com.team1.dadoc.challenges.dto.ChallengesDto;
 
 public interface ChallengeService {
@@ -18,7 +19,8 @@ public interface ChallengeService {
 	public void getList(HttpServletRequest request);
 	// 상세 목록 가져오기
 	public void getDetail(ModelAndView mView, int num);
-	
+	// 챌린지 참가 신청 하기
+	public void saveChallenger(ChallengerDto dto, HttpServletRequest request);
 	
 
 }
