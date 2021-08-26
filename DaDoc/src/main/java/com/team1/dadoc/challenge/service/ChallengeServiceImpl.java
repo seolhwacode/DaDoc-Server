@@ -121,6 +121,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 		request.setAttribute("startPageNum", startPageNum);
 		request.setAttribute("endPageNum", endPageNum);
 		request.setAttribute("condition", condition);
+		request.setAttribute("category_name", category_name);
 		request.setAttribute("keyword", keyword);
 		request.setAttribute("encodedK", encodedK);
 		request.setAttribute("totalPageCount", totalPageCount);
