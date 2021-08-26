@@ -1,37 +1,37 @@
 package com.team1.dadoc.trade.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class TradeDto {
 
 	private int num;
 	private String writer;
 	private String title;
 	private String content;
-	private int price;
-	private int status;
+	private String imagePath;
 	private String regdate;
-	private String category;
 	private int startRowNum;
 	private int endRowNum;
 	private int prevNum;
 	private int nextNum;
+	private MultipartFile image;
 	
 	public TradeDto () {}
 
-	public TradeDto(int num, String writer, String title, String content, int price, int status, String regdate,
-			String category, int startRowNum, int endRowNum, int prevNum, int nextNum) {
+	public TradeDto(int num, String writer, String title, String content, String imagePath, String regdate,
+			int startRowNum, int endRowNum, int prevNum, int nextNum, MultipartFile image) {
 		super();
 		this.num = num;
 		this.writer = writer;
 		this.title = title;
 		this.content = content;
-		this.price = price;
-		this.status = status;
+		this.imagePath = imagePath;
 		this.regdate = regdate;
-		this.category = category;
 		this.startRowNum = startRowNum;
 		this.endRowNum = endRowNum;
 		this.prevNum = prevNum;
 		this.nextNum = nextNum;
+		this.image = image;
 	}
 
 	public int getNum() {
@@ -66,20 +66,12 @@ public class TradeDto {
 		this.content = content;
 	}
 
-	public int getPrice() {
-		return price;
+	public String getImagePath() {
+		return imagePath;
 	}
 
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
-	public int getStatus() {
-		return status;
-	}
-
-	public void setStatus(int status) {
-		this.status = status;
+	public void setImagePath(String imagePath) {
+		this.imagePath = imagePath;
 	}
 
 	public String getRegdate() {
@@ -88,14 +80,6 @@ public class TradeDto {
 
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
-	}
-
-	public String getCategory() {
-		return category;
-	}
-
-	public void setCategory(String category) {
-		this.category = category;
 	}
 
 	public int getStartRowNum() {
@@ -129,6 +113,13 @@ public class TradeDto {
 	public void setNextNum(int nextNum) {
 		this.nextNum = nextNum;
 	}
-	
+
+	public MultipartFile getImage() {
+		return image;
+	}
+
+	public void setImage(MultipartFile image) {
+		this.image = image;
+	}
 	
 }

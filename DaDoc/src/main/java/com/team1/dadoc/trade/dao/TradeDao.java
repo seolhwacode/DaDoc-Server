@@ -9,7 +9,7 @@ public interface TradeDao {
 	//글 목록
 	public List<TradeDto> getList(TradeDto dto);
 	//글의 갯수
-	public int getCount(TradeDto dto);
+	public int getCount();
 	//글 추가
 	public void insert(TradeDto dto);
 	//글 정보 얻어오기
@@ -20,4 +20,8 @@ public interface TradeDao {
 	public void delete(int num);
 	//글 수정
 	public void update(TradeDto dto);
+	
+	
+	
+	
 }

@@ -3,5 +3,10 @@
   PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-
+	<typeAliases>
+		<typeAlias alias="tradeDto" type="com.team1.dadoc.trade.dto.TradeDto"/>
+	</typeAliases>
+	<mappers>
+		<mapper resource="com/team1/dadoc/mybatis/TradeMapper.xml"/>
+	</mappers>
 </configuration>
