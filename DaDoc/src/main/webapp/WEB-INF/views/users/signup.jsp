@@ -12,7 +12,7 @@
 		<c:choose>
 			<c:when test="${ isSuccess }">
 			<h1>회원가입 성공!</h1>
-			<a href="${pageContext.request.contextPath}/users/login.do">로그인하러가기</a>
+			<a href="${pageContext.request.contextPath}/users/login_form.do">로그인하러가기</a>
 			<a href="${pageContext.request.contextPath}/home.do">홈으로 돌아가기</a>
 			</c:when>
 			<c:otherwise>
