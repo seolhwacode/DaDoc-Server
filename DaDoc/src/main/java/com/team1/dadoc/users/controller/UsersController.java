@@ -1,7 +1,10 @@
 package com.team1.dadoc.users.controller;
 
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -73,16 +76,30 @@ public class UsersController {
 		//이동할 페이지 설정
 		mView.setViewName("users/signup");
 		
-		System.out.println("id : " + dto.getId());
-		System.out.println("pwd : " + dto.getPwd());
-		System.out.println("nickname : " + dto.getNickname());
-		System.out.println("name : " + dto.getName());
-		System.out.println("sex : " + dto.getSex());
-		System.out.println("birth : " + dto.getBirth());
-		System.out.println("tel : " + dto.getTel());
-		System.out.println("email : " + dto.getEmail());
-		System.out.println("pwd_question : " + dto.getPwd_question());
-		System.out.println("pwd_answer : " + dto.getPwd_answer());
+		return mView;
+	}
+	
+	//로그인 폼 페이지로 이동
+	@RequestMapping(value = "/users/login_form")
+	public ModelAndView loginForm() {
+		return new ModelAndView("users/login_form");
+	}
+	
+	//로그인 처리
+	//dto : id, pwd 가 들어있다.
+	@RequestMapping(value = "/users/login")
+	public ModelAndView login(ModelAndView mView, UsersDto dto,
+						@RequestParam String url, HttpSession session) {
+		//db 에서 실제 id/pwd 가 일치하는지 확인하는 서비스
+		service.loginProcess(dto, session);
+		
+		//parameter 로 넘어온 url 을 인코딩하여 request 영역에 추가한다.
+		String encodeUrl = URLEncoder.encode(url);
+		mView.addObject("url", url);
+		mView.addObject("encodeUrl", encodeUrl);
+		
+		//경로 설정
+		mView.setViewName("users/login");
 		
 		return mView;
 	}

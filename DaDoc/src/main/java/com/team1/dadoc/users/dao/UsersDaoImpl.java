@@ -88,6 +88,19 @@ public class UsersDaoImpl implements UsersDao {
 			return true;
 		}
 	}
+
+	/*
+	 * Mapper's namespace : users
+	 * sql's id : getData
+	 * parameterType : string
+	 * resultType : UsersDto -> 실제 리턴 타입
+	 */
+	//id 에 해당하는 data 를 dto 에 담아 return
+	@Override
+	public UsersDto getData(String id) {
+		//해당 data 가 없으면 null 이 리턴됨
+		return session.selectOne("users.getData", id);
+	}
 	
 	
 	

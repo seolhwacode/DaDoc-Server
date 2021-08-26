@@ -4,7 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -65,6 +68,31 @@ public class UsersServiceImpl implements UsersService {
 		boolean isSuccess = dao.insertUser(dto);
 		
 		return isSuccess;
+	}
+
+	//dto 의 id/pwd 의 값이 db 에 일치하는 값이 있는지 확인 및 로그인(session)
+	@Override
+	public void loginProcess(UsersDto dto, HttpSession session) {
+		//1. 로그인 폼에 입력한 아이디를 이용해서 해당 정보를 select 
+		UsersDto result = dao.getData(dto.getId());
+		
+		//isValid : 입력한 정보가 맞는지 여부
+		boolean isValid = false;
+		
+		//2. select 된 정보가 없으면 -> null -> 로그인 실패
+		if(result != null) {
+			//존재하는 id
+			//비밀번호가 일치하는지 확인
+			//암호화 되어 있기 때문에, BCrypt 객체를 사용해서 검사한다. -> true / false 리턴
+			isValid = BCrypt.checkpw(dto.getPwd(), result.getPwd());
+		}
+		
+		//3. isValid == true 면 -> 비밀번호가 일치한다.
+		//-> 로그인 처리 : session 에 "id" 라는 키값으로 아이디를 담는다.
+		if(isValid) {
+			//유효하다 : 비밀번호가 일치
+			session.setAttribute("id", dto.getId());
+		}
 	}
 	
 	
