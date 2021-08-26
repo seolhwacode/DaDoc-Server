@@ -21,3 +21,35 @@ CREATE TABLE users_pwd_question(
 	num NUMBER PRIMARY KEY,	-- PK
 	question VARCHAR2(200) NOT NULL	-- 질문 내용
 );
+
+-- 챌린지 정보를 저장할 테이블
+CREATE TABLE dadoc_challenges(
+	num NUMBER PRIMARY KEY, -- 등록된 챌린지 순서
+	type VARCHAR2(100) NOT NULL, -- 일반챌린지/프리미엄 챌린지 구분
+	writer VARCHAR2(100), -- 등록자
+	title VARCHAR2(100) NOT NULL, -- 챌린지명
+	category VARCHAR2(100) NOT NULL, -- 챌린지 종류 구분
+	imagePath VARCHAR2(100), -- 이미지 경로
+	orgFileName VARCHAR2(100), -- 원본 파일명
+	saveFileName VARCHAR2(100), -- 서버에 실제로 저장된 파일명
+	fileSize NUMBER, -- 파일의 크기 
+	description CLOB NOT NULL, -- 챌린지 설명
+	period NUMBER NOT NULL, -- 인증 주기 몇회?
+	startdate VARCHAR2(100), -- 챌린지 시작일
+	enddate VARCHAR2(100), -- 챌린지 종료일
+	regdate DATE -- 챌린지 등록 날짜
+);
+
+CREATE SEQUENCE challenges_seq; 
+
+CREATE TABLE dadoc_challenger( 
+	num NUMBER PRIMARY KEY, -- 챌린저 번호
+	id VARCHAR2(100) NOT NULL, -- 챌린저 id
+	challengeTitle VARCHAR2(100) NOT NULL, -- 챌린지 명
+	period NUMBER, -- 챌린지 인증해야하는 횟수
+	stamp NUMBER, -- 인증한 횟수
+	success VARCHAR2(100) -- 챌린지 성공 여부 (default false)
+);
+	
+CREATE SEQUENCE challenger_seq; 
+

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.team1.dadoc.challenger.dao.ChallengerDao;
+import com.team1.dadoc.challenger.dto.ChallengerDto;
 import com.team1.dadoc.challenges.dao.ChallengesDao;
 import com.team1.dadoc.challenges.dto.ChallengesDto;
 
@@ -19,13 +21,15 @@ import com.team1.dadoc.challenges.dto.ChallengesDto;
 public class ChallengeServiceImpl implements ChallengeService {
 
 	@Autowired
-	private ChallengesDao dao;
+	private ChallengesDao challengesDao;
+	@Autowired
+	private ChallengerDao challengerDao;
 	
 	// 새로운 챌린지 등록하는 메소드
 	@Override
 	public void register(ChallengesDto dto, HttpServletRequest request) {
 		//dto에 챌린지 정보와 imagePath를 가지고 있다.
-		dao.register(dto);
+		challengesDao.register(dto);
 	}
 	
 	// 챌린지 리스트 가져오는 메소드
@@ -96,7 +100,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 			dto.setCategory(category_name);
 		}
 		//ChallengesDto 객체를 이용해서 회원 목록을 얻어온다.
-		List<ChallengesDto> list = dao.getList(dto);
+		List<ChallengesDto> list = challengesDao.getList(dto);
 			   
 		//하단 시작 페이지 번호 
 		int startPageNum = 1 + ((pageNum-1)/PAGE_DISPLAY_COUNT) * PAGE_DISPLAY_COUNT;
@@ -104,7 +108,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 		int endPageNum = startPageNum + PAGE_DISPLAY_COUNT - 1;
 			   
 		//전체 row 의 갯수
-		int totalRow = dao.getCount();
+		int totalRow = challengesDao.getCount();
 		//전체 페이지의 갯수 구하기
 		int totalPageCount = (int)Math.ceil(totalRow / (double)PAGE_ROW_COUNT);
 		//끝 페이지 번호가 이미 전체 페이지 갯수보다 크게 계산되었다면 잘못된 값이다.
@@ -155,17 +159,22 @@ public class ChallengeServiceImpl implements ChallengeService {
 		
 		dto.setImagePath("/upload/"+saveFileName);
 		
-		//ChallengesDao를 이용해서 DB에 저장하기
-		dao.register(dto);
+		//ChallengeschallengesDao를 이용해서 DB에 저장하기
+		challengesDao.register(dto);
 	}
 
 	// 챌린지 detail 페이지에 필요한 data를 ModelAndView에 저장
 	@Override
 	public void getDetail(ModelAndView mView, int num) {
-		//dao로 해당 게시글 num에 해당하는 데이터를 가져온다.
-		ChallengesDto dto = dao.getData(num);
+		//challengesDao로 해당 게시글 num에 해당하는 데이터를 가져온다.
+		ChallengesDto dto = challengesDao.getData(num);
 		//ModelAndView에 가져온 Dto를 담는다.
 		mView.addObject("dto", dto);
+	}
+
+	@Override
+	public void saveChallenger(ChallengerDto dto, HttpServletRequest request) {
+		challengerDao.insert(dto);
 	}
 
 	

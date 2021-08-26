@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.team1.dadoc.challenge.service.ChallengeService;
+import com.team1.dadoc.challenger.dto.ChallengerDto;
 import com.team1.dadoc.challenges.dto.ChallengesDto;
 
 
@@ -34,14 +35,10 @@ public class ChallengeController {
 	
 	// 챌린지 DB에 집어넣기 
 	@RequestMapping(value="/challenge/register")
-	public ModelAndView register(ChallengesDto dto, HttpServletRequest request) {
-		
-		System.out.println("챌린지 넣고싶어");
-		
+	public ModelAndView register(ChallengesDto dto, HttpServletRequest request) {		
 		// form에서 dto로 데이터 받아오고
 		// dto: challenge 정보와 MultipartFile image 정보를 가지고 있다.
 		// request : imagePath 만드는데 사용, session 영역의 id 가져오기
-		System.out.println(dto.getImage());
 		service.saveImage(dto, request);
 		return new ModelAndView("challenge/main");
 	}
@@ -54,6 +51,18 @@ public class ChallengeController {
 		service.getDetail(mView,num);
 		mView.setViewName("challenge/detail");
 		
+		return mView;
+	}
+	
+	// 챌린지 신청하기
+	@RequestMapping(value="/challenge/insertChallenger")
+	public ModelAndView Insert(ChallengerDto dto, ModelAndView mView, HttpServletRequest request) {
+		
+		//글 작성자는 session에서 얻어낸다 (로그인 처리 기능 완료 후 만들 예정)
+		
+		//ChallengeDto 객체에 id 정보 담기 dto.setWriter(id);
+		service.saveChallenger(dto, request);
+		mView.setViewName("challenge/main"); // 마이페이지로 이동하게 하기 
 		return mView;
 	}
 }
