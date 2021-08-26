@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/user/signup_tos.do</title>
+<title>/users/signup_tos.do</title>
 <!-- BootStrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
@@ -87,10 +87,10 @@
 			//3 번째 선태 체크박스는 선택이다. -> 이 사항을 get 방식으로 페이지에 전달할 것
 			if(three.checked){
 				//체크박스 선택 -> query string 추가
-				location.href = "${pageContext.request.contextPath}/user/signup_form.do?adChecked=true";
+				location.href = "${pageContext.request.contextPath}/users/signup_form.do?isAdChecked=true";
 			}else{
 				//체크박스 선택 X -> query string X
-				location.href = "${pageContext.request.contextPath}/user/signup_form.do";
+				location.href = "${pageContext.request.contextPath}/users/signup_form.do?isAdChecked=false";
 			}
 		});
 		

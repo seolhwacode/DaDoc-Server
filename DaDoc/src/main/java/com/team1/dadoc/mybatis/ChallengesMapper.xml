@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="challenges">
+	<sql id="searchCondition">
+		<choose>
+			<when test="title != null and description != null">
+				WHERE title LIKE '%'||#{title}||'%' 
+				OR description LIKE '%'||#{description}||'%'
+			</when>
+			<when test="title != null">
+				WHERE title LIKE '%'||#{title}||'%'
+			</when>
+			<when test="writer != null">
+				WHERE writer LIKE '%'||#{writer}||'%'
+			</when>
+		</choose>
+	</sql>
+	
+	<insert id="insert" parameterType="challengesDto">
+		INSERT INTO dadoc_challenges
+		(num, writer, type, title, category, description, period, startdate, enddate, regdate, imagePath)
+		VALUES(challenges_seq.NEXTVAL, #{writer}, #{type}, #{title}, #{category}, #{description}, #{period}, #{startDate}, #{endDate}, SYSDATE, #{imagePath})
+	</insert>
+	
+	<select id="getList" parameterType="challengesDto" resultType="challengesDto">
+		SELECT result2.*
+		FROM	
+			(SELECT result1.* , ROWNUM as rnum
+				FROM
+				(SELECT num, writer, type, title, category, imagePath, description, period, startdate, enddate, regdate
+				FROM dadoc_challenges
+				<choose>
+					<when test="category != null">
+						WHERE category LIKE '%'||#{category}||'%'
+					</when>
+				</choose>) result1
+				<include refid="searchCondition"/>
+				ORDER BY num DESC) result2
+		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	
+	<select id="getCount" resultType="int">
+		SELECT NVL(MAX(ROWNUM),0)
+		FROM dadoc_challenges
+		<include refid="searchCondition"/>
+	</select>
+	
+	<select id="getData" resultType="challengesDto">
+	SELECT *
+		FROM
+			(SELECT num, writer, type, title, category, imagePath, description, period, startdate, enddate, regdate
+			FROM dadoc_challenges
+			ORDER BY num DESC)
+		WHERE num = #{num}
+	</select>
+</mapper>
