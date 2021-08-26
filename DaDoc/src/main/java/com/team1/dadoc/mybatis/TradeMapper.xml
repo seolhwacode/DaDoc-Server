@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="trade">
+	<select id="getList" parameterType="tradeDto" resultType="tradeDto">
+		SELECT *
+		FROM	
+			(SELECT result1.*, ROWNUM as rnum
+			FROM
+				(SELECT num, writer, title, imagePath, regdate
+				FROM trade_board
+				<choose>
+					<when test="title != null and content != null">
+						WHERE title LIKE '%'||#{title}||'%'
+						OR content LIKE '%'||#{content}||'%'
+					</when>
+					<when test="title != null">
+						WHERE title LIKE '%'||#{title}||'%'
+					</when>
+					<when test="writer != null">
+						WHERE writer LIKE '%'||#{writer}||'%'
+					</when>
+				</choose>
+				ORDER BY num DESC) result1)
+		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
+	</select>
+	<select id="getCount" resultType="int">
+		SELECT NVL(MAX(ROWNUM), 0)
+		FROM trade_board
+	</select>
+	<insert id="insert" parameterType="tradeDto">
+		INSERT INTO trade_board
+		(num, writer, title, content, imagePath, regdate)
+		VALUES(trade_board_seq.NEXTVAL, #{writer}, #{title}, 
+		#{content}, #{imagePath}, SYSDATE)
+	</insert>
+	<select id="getData" parameterType="int" resultType="tradeDto">
+		SELECT *
+		FROM
+			(SELECT num, writer, title, imagePath, regdate, 
+				LAG(num, 1, 0) OVER (ORDER BY num DESC) AS prevNum,
+				LEAD(num, 1, 0) OVER (ORDER BY num DESC) AS nextNum
+			FROM trade_board
+			ORDER BY num DESC)
+		WHERE num = #{num}
+	</select>
+</mapper>

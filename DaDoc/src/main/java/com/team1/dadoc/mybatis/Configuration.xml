@@ -8,10 +8,12 @@
 		<typeAlias type="com.team1.dadoc.challenger.dto.ChallengerDto" alias="challengerDto"/>
 		<typeAlias type="com.team1.dadoc.users.dto.UsersPwdQuestionDto" alias="usersPwdQuestionDto"/>
 		<typeAlias type="com.team1.dadoc.users.dto.UsersDto" alias="usersDto"/>
+    		<typeAlias alias="tradeDto" type="com.team1.dadoc.trade.dto.TradeDto"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/team1/dadoc/mybatis/ChallengesMapper.xml"/>
 		<mapper resource="com/team1/dadoc/mybatis/ChallengerMapper.xml"/>
 		<mapper resource="com/team1/dadoc/mybatis/UsersMapper.xml"/>
+    		<mapper resource="com/team1/dadoc/mybatis/TradeMapper.xml"/>
 	</mappers>
 </configuration>
