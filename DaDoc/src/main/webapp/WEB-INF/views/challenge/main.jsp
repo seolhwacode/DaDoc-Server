@@ -113,7 +113,7 @@
 	<form action="main.do" method="get">
 	<label for="category">카테고리 검색</label> 
 		<select name="category_name" id="category_name">
-			<option selected>카테고리 검색</option>
+			<option>카테고리 검색</option>
 			<option value="writing" ${category_name eq 'writing' ? 'selected' : '' }>writing</option>
 			<option value="reading" ${category_name eq 'reading' ? 'selected' : '' }>reading</option>
 			<option value="speaking" ${category_name eq 'speaking' ? 'selected' : '' }>speaking</option>
