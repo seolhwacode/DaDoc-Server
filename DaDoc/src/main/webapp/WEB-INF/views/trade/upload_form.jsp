@@ -6,22 +6,26 @@
 <meta charset="UTF-8">
 <title>/trade/upload_form.jsp</title>
 <%-- bootstrap 읽어오기 --%>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css"/>
 </head>
 <body>
 	<div class="container">
 	   	<h1>게시글 폼</h1>
 	   	<form action="${pageContext.request.contextPath}/trade/upload.do" method="post" enctype="multipart/form-data">
 	      	<div>
-	         	<label for="title">설명</label>
+	         	<label for="title">제목</label>
 	         	<input type="text" name="title" id="title"/>
+	      	</div>
+	      	<div>
+	      		<label for="content">내용</label>
+	      		<textarea name="content" id="content" cols="30" rows="10"></textarea>
 	      	</div>
 	      	<div>
 	         	<label for="image">이미지</label>
 	         	<input type="file" name="image" id="image"
 	            	accept=".jpg, .jpeg, .png, .JPG, .JPEG"/>
 	      	</div>
-	      	<button type="submit">업로드</button>
+	      	<button type="submit">저장</button>
 	   	</form>
 	</div>
 </body>
