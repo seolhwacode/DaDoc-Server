@@ -1,46 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="trade">
+	<sql id="searchCondition">
+		<choose>
+			<when test="title != null and content != null">
+				WHERE title LIKE '%'||#{title}||'%'
+				OR content LIKE '%'||#{content}||'%'
+			</when>
+			<when test="title != null">
+				WHERE title LIKE '%'||#{title}||'%'
+			</when>
+			<when test="writer != null">
+				WHERE writer LIKE '%'||#{writer}||'%'
+			</when>
+		</choose>
+	</sql>
+	
 	<select id="getList" parameterType="tradeDto" resultType="tradeDto">
 		SELECT *
 		FROM	
 			(SELECT result1.*, ROWNUM as rnum
 			FROM
-				(SELECT num, writer, title, imagePath, regdate
+				(SELECT num, writer, title, content, imagePath, regdate
 				FROM trade_board
-				<choose>
-					<when test="title != null and content != null">
-						WHERE title LIKE '%'||#{title}||'%'
-						OR content LIKE '%'||#{content}||'%'
-					</when>
-					<when test="title != null">
-						WHERE title LIKE '%'||#{title}||'%'
-					</when>
-					<when test="writer != null">
-						WHERE writer LIKE '%'||#{writer}||'%'
-					</when>
-				</choose>
+				<include refid="searchCondition"/>
 				ORDER BY num DESC) result1)
+			
 		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
+		
 	</select>
-	<select id="getCount" resultType="int">
+	
+	<select id="getCount" parameterType="tradeDto" resultType="int">
 		SELECT NVL(MAX(ROWNUM), 0)
 		FROM trade_board
+		<include refid="searchCondition"/>
 	</select>
+	
 	<insert id="insert" parameterType="tradeDto">
 		INSERT INTO trade_board
 		(num, writer, title, content, imagePath, regdate)
 		VALUES(trade_board_seq.NEXTVAL, #{writer}, #{title}, 
 		#{content}, #{imagePath}, SYSDATE)
 	</insert>
+	
 	<select id="getData" parameterType="int" resultType="tradeDto">
-		SELECT *
+		SELECT result1.*
 		FROM
-			(SELECT num, writer, title, imagePath, regdate, 
+			(SELECT num, writer, title, content, imagePath,  
+				TO_CHAR(regdate,'YY.MM.DD HH24:MI') AS regdate,
 				LAG(num, 1, 0) OVER (ORDER BY num DESC) AS prevNum,
 				LEAD(num, 1, 0) OVER (ORDER BY num DESC) AS nextNum
 			FROM trade_board
-			ORDER BY num DESC)
+			ORDER BY num DESC) result1
 		WHERE num = #{num}
 	</select>
+	
+	<select id="getData2" parameterType="tradeDto" resultType="tradeDto">
+		SELECT result1.*
+		FROM
+			(SELECT num,writer,title,content, imagePath,
+				TO_CHAR(regdate,'YY.MM.DD HH24:MI') AS regdate,
+				LAG(num,1,0) OVER (ORDER BY num DESC) AS prevNum,
+				LEAD(num,1,0) OVER (ORDER BY num DESC) AS nextNum
+			FROM board_cafe
+			<include refid="searchCondition"/>
+			) result1
+		WHERE num=#{num}	
+	</select>
+	
 </mapper>
