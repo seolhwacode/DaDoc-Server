@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="photoShot">
+	<insert id="insert" parameterType="photoShotDto">
+		INSERT INTO dadoc_photoshot
+		(num, id, challengeTitle, imagePath, regdate)
+		VALUES(photoshot_seq.NEXTVAL, #{id}, #{challengeTitle}, #{imagePath}, sysdate)
+	</insert>
+</mapper>

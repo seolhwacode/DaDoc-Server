@@ -2,7 +2,9 @@ package com.team1.dadoc.challenge.service;
 
 import java.io.File;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,6 +18,8 @@ import com.team1.dadoc.challenger.dao.ChallengerDao;
 import com.team1.dadoc.challenger.dto.ChallengerDto;
 import com.team1.dadoc.challenges.dao.ChallengesDao;
 import com.team1.dadoc.challenges.dto.ChallengesDto;
+import com.team1.dadoc.photoshot.dao.PhotoShotDao;
+import com.team1.dadoc.photoshot.dto.PhotoShotDto;
 
 @Service
 public class ChallengeServiceImpl implements ChallengeService {
@@ -24,6 +28,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 	private ChallengesDao challengesDao;
 	@Autowired
 	private ChallengerDao challengerDao;
+	@Autowired
+	private PhotoShotDao photoShotDao;
 	
 	// 새로운 챌린지 등록하는 메소드
 	@Override
@@ -177,6 +183,43 @@ public class ChallengeServiceImpl implements ChallengeService {
 	public void saveChallenger(ChallengerDto dto, HttpServletRequest request) {
 		challengerDao.insert(dto);
 	}
+
+	@Override
+	public void savePhotoShot(PhotoShotDto dto, HttpServletRequest request) {
+		//업로드된 파일의 정보를 가지고 있는 MultipartFile 객체의 참조값 가져오기
+		MultipartFile image = dto.getImage();
+		//원본 파일명 -> 저장할 파일 이름 만들기 위해서 사용됨
+		String orgFileName = image.getOriginalFilename();
+		//파일 크기 -> 다운로드가 없으므로, 여기서는 필요없다.
+		long fileSize = image.getSize();
+				
+		// webapp/uplaod 폴더까지의 실제 경로(서버의 파일 시스템 상에서의 경로)
+		String realPath = request.getServletContext().getRealPath("/upload");
+		// db에 저장할 파일의 상세 경로
+		String filePath = realPath + File.separator;
+		//디렉토리를 만들 파일 객체 생성
+		File upload = new File(filePath);
+		if(!upload.exists()) {
+			//만약 디렉토리가 존재하지 않는다면
+			upload.mkdir(); // 폴더 생성
+			}
+			//저장할 파일의 이름을 구성한다.
+			String saveFileName = System.currentTimeMillis()+orgFileName;
+			
+			try{
+				//upload 폴더에 파일을 저장한다.
+				image.transferTo(new File(filePath+saveFileName));
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+				
+			dto.setImagePath("/upload/"+saveFileName);
+				
+			//ChallengeschallengesDao를 이용해서 DB에 저장하기
+			photoShotDao.insert(dto);	
+	}
+
+
 
 	
 }
