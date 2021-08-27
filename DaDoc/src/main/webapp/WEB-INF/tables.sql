@@ -53,3 +53,13 @@ CREATE TABLE dadoc_challenger(
 	
 CREATE SEQUENCE challenger_seq; 
 
+CREATE TABLE dadoc_photoshot( 
+	num NUMBER PRIMARY KEY, -- 인증샷 번호
+	id VARCHAR2(100) NOT NULL, -- 챌린저 id
+	challengeTitle VARCHAR2(100) NOT NULL, -- 챌린지 명
+	photo VARCHAR2(100), -- 인증샷 담을 주소
+	regdate DATE -- 인증샷 등록 날짜
+);
+	
+CREATE SEQUENCE photoshot_seq; 
+

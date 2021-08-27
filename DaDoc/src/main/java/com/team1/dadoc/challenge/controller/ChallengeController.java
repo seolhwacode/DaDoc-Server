@@ -1,5 +1,7 @@
 package com.team1.dadoc.challenge.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,11 +9,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.team1.dadoc.challenge.service.ChallengeService;
 import com.team1.dadoc.challenger.dto.ChallengerDto;
 import com.team1.dadoc.challenges.dto.ChallengesDto;
+import com.team1.dadoc.photoshot.dto.PhotoShotDto;
 
 
 @Controller
@@ -66,6 +71,20 @@ public class ChallengeController {
 		//ChallengeDto 객체에 id 정보 담기 dto.setWriter(id);
 		service.saveChallenger(dto, request);
 		mView.setViewName("challenge/main"); // 마이페이지로 이동하게 하기 
+		return mView;
+	}
+	
+	//인증샷 업로드 요청 처리 
+	@RequestMapping(value="/challenge/photoShot_upload.do")
+	public ModelAndView uploadPhotoShot(PhotoShotDto dto, ModelAndView mView,HttpServletRequest request) {
+		// form에서 dto로 데이터 받아오고
+		// dto: 인증샷 정보와 MultipartFile image 정보를 가지고 있다.
+		// request : imagePath 만드는데 사용, session 영역의 id 가져오기
+		service.savePhotoShot(dto, request);
+		// 상세 정보글의 번호 담아주기
+		int detailNum = dto.getNum();
+		mView.setViewName("redirect:/challenge/detail.do?num="+detailNum); //detail 페이지에 다시 데려오기
+		
 		return mView;
 	}
 }

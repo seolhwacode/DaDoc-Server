@@ -1,13 +1,16 @@
 package com.team1.dadoc.challenge.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.team1.dadoc.challenger.dto.ChallengerDto;
 import com.team1.dadoc.challenges.dto.ChallengesDto;
+import com.team1.dadoc.photoshot.dto.PhotoShotDto;
 
 public interface ChallengeService {
 	
@@ -21,6 +24,7 @@ public interface ChallengeService {
 	public void getDetail(ModelAndView mView, int num);
 	// 챌린지 참가 신청 하기
 	public void saveChallenger(ChallengerDto dto, HttpServletRequest request);
-	
+	// 챌린지 인증샷 업로드
+	public void savePhotoShot(PhotoShotDto dto, HttpServletRequest request);
 
 }
