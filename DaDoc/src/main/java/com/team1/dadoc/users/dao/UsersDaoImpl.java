@@ -101,6 +101,43 @@ public class UsersDaoImpl implements UsersDao {
 		//해당 data 가 없으면 null 이 리턴됨
 		return session.selectOne("users.getData", id);
 	}
+
+	/*
+	 * Mapper's namespace : users
+	 * sql's id : getQuestion
+	 * parameterType : string
+	 * resultType : string
+	 */
+	//id 에 해당하는 pwd_question 의 문장을 리턴한다.
+	@Override
+	public String getQuestion(String id) {
+		//해당 질문이 없으면, null 이 리턴됨
+		return session.selectOne("users.getQuestion", id);
+	}
+
+	/*
+	 * Mapper's namespace : users
+	 * sql's id : getAnswer
+	 * parameterType : string
+	 * resultType : string
+	 */
+	//id 에 해당하는 pwd_answer 의 string 값을 읽어온다.
+	@Override
+	public String getAnswer(String id) {
+		//해당 질문의 답이 없으면 null 이 리턴됨
+		return session.selectOne("users.getAnswer", id);
+	}
+
+	/*
+	 * Mapper's namespace : users
+	 * sql's id : updatePwd
+	 * parameterType : string
+	 */
+	//암호화된 비밀번호 db 에 update
+	@Override
+	public void updatePwd(UsersDto dto) {
+		session.update("users.updatePwd", dto);		
+	}
 	
 	
 	

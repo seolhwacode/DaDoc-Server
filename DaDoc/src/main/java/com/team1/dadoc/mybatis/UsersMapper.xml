@@ -34,4 +34,24 @@
 		FROM dadoc_users
 		WHERE id = #{id}
 	</select>
+	<!-- id 에 해당하는 pwd_question 의 string 을 가져옴 -->
+	<select id="getQuestion" parameterType="string" resultType="string">
+		SELECT question
+		FROM users_pwd_question
+		WHERE num = (SELECT pwd_question
+				FROM dadoc_users
+				WHERE id = #{ id })
+	</select>
+	<!--  -->
+	<select id="getAnswer" parameterType="string" resultType="string">
+		SELECT pwd_answer
+		FROM dadoc_users
+		WHERE id = #{ id }
+	</select>
+	<!--  -->
+	<update id="updatePwd" parameterType="usersDto">
+		UPDATE dadoc_users
+		SET pwd = #{ pwd }
+		WHERE id = #{ id }
+	</update>
 </mapper>

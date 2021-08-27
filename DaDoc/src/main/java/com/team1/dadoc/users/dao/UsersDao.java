@@ -16,4 +16,10 @@ public interface UsersDao {
 	public boolean insertUser(UsersDto dto);
 	//id 에 해당하는 data 를 dto 에 담아 return
 	public UsersDto getData(String id);
+	//id 에 해당하는 pwd_question 의 문장을 리턴한다.
+	public String getQuestion(String id);
+	//id 에 해당하는 pwd_answer 의 string 값을 읽어온다.
+	public String getAnswer(String id);
+	//암호화된 비밀번호 db 에 update
+	public void updatePwd(UsersDto dto);
 }
