@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.team1.dadoc.users.dao.UsersDao;
 import com.team1.dadoc.users.dto.UsersDto;
@@ -94,6 +95,69 @@ public class UsersServiceImpl implements UsersService {
 			session.setAttribute("id", dto.getId());
 		}
 	}
-	
+
+	//inputId 에 해당하는 data 를 읽어와서 해당 질문과 inputId를 mView 에 넣어준다.
+	@Override
+	public void getPwdQuestion(ModelAndView mView, String inputId) {
+		//id 를 mView 에 넣어준다.
+		mView.addObject("id", inputId);
+		//db에서 inputId 에 해당하는 qwd_question 을 읽어온다.
+		String question = dao.getQuestion(inputId);
+		//mView 에 읽어온 질문을 넣는다.
+		mView.addObject("question", question);
+	}
+
+	//비밀번호 찾기 - id 와 작성 답변을 통해 질문의 답이 맞는지 체크한다.
+	@Override
+	public boolean checkAnswer(String id, String answer) {
+		//db 에서 답변이 맞는지 체크하기위해 답변을 읽어온다.
+		String correctAnswer = dao.getAnswer(id);
+		//db 에서 읽어온 정답과, 입력한 답의 빈칸을 전부 업애고 검사한다.
+		String correctAnswer2 = correctAnswer.replaceAll(" ", "");
+		String answer2 = answer.replaceAll(" ", "");
+		//답이 일치하면 -> true
+		if(answer2.equals(correctAnswer2)) {
+			return true;
+		}		
+		//일치하지 X -> false
+		return false;
+	}
+
+	//새로운 비밀번호를 생성하고, db 에 pwd 를 갱신한 후, 새로 생성한 pwd plain text 를 mView 에 담기
+	@Override
+	public void createNewRPwd(ModelAndView mView, String id) {
+		//랜덤 문자열로 비밀번호 생성하기
+		// 숫자, 영어 대문자, 영서 소문자로 이루어진 문자열 만들기
+		int leftLimit = 48; // numeral '0'
+		int rightLimit = 122; // letter 'z'
+		//랜덤으로 5 ~ 10 사이의 수 만들기 -> 비밀번호의 길이는 5 ~ 10 글자이다.
+		Random random = new Random();
+		int targetStringLength = random.nextInt(6) + 5;
+		
+		//랜덤 문자열 생성
+		String newPwd = random.ints(leftLimit,rightLimit + 1)
+		  .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+		  .limit(targetStringLength)
+		  .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+		  .toString();
+
+		//비밀번호 암호화하기
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String encodedPwd = encoder.encode(newPwd);
+		
+		//UsersDto 를 생성
+		UsersDto dto = new UsersDto();
+		//id, encodedPwd 를 담기
+		dto.setId(id);
+		dto.setPwd(encodedPwd);
+		
+		//비밀번호 DB에 반영하기
+		dao.updatePwd(dto);
+		
+		//System.out.println(newPwd);
+		//사용자에게는 plain text 를 전달해준다.
+		mView.addObject("newPwd", newPwd);
+	}
+
 	
 }

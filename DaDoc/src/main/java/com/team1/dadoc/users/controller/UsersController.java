@@ -3,6 +3,7 @@ package com.team1.dadoc.users.controller;
 import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javax.servlet.http.HttpSession;
 
@@ -114,5 +115,45 @@ public class UsersController {
 		
 		return mView;
 	}
+	
+	//비밀번호 찾기 - id 입력하기
+	@RequestMapping(value = "/users/pwd/input_id")
+	public ModelAndView pwdInputId() {
+		return new ModelAndView("/users/pwd/input_id");
+	}
+	
+	//비밀번호 찾기 - id 가 있을 때, 이에 맞는 질문 출력하는 페이지로 넘어가기(페이지 이동만)
+	@RequestMapping(value = "/users/pwd/question")
+	public ModelAndView pwdInputId(ModelAndView mView, @RequestParam String inputId) {
+		//서비스에서 inputId 에 해당하는 data 를 읽어와서 해당 질문을 mView 에 넣어준다.
+		service.getPwdQuestion(mView, inputId);
+		return mView;
+	}
+	
+	//비밀번호 찾기 - 질문 체크 후, 결과를 띄우는 페이지
+	@RequestMapping(value = "/users/pwd/result")
+	public ModelAndView newPwd(ModelAndView mView, 
+			@RequestParam String id, @RequestParam String answer) {
+		//질문의 답변이 일치하는지 검사
+		//1. 일치 X - isCorrect: false 값만 mView 에 담겨서 넘어간다.
+		//2. 일치 O - isCorrect: true, newPwd: xxxx 값이 mView 에 담겨서 넘어간다.
+		
+		//답이 맞는지 체크한다.
+		boolean isCorrect = service.checkAnswer(id, answer);
+		//답 맞는지 여부 ModelAndView 에 담기
+		mView.addObject("isCorrect", isCorrect);
+		
+		if(isCorrect) {
+			//정답
+			//새로운 비밀번호를 생성하고, db 에 pwd 를 갱신한 후, 새로 생성한 pwd plain text 를 mView 에 담기
+			service.createNewRPwd(mView, id);
+		}
+		
+		//이동할 페이지 경로 설정
+		mView.setViewName("users/pwd/result");
+		
+		return mView;
+	}
+	
 	
 }
