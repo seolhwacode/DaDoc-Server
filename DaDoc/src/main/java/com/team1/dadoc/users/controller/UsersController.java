@@ -155,5 +155,26 @@ public class UsersController {
 		return mView;
 	}
 	
+	//개인정보 메인 페이지로 이동
+	@RequestMapping(value = "/users/private/info")
+	public ModelAndView usersInfo() {
+		return new ModelAndView("users/private/info");
+	}
+	
+	//id 에 맞는 개인정보 가져오기
+	// 일부러 /users/private/ 아래 경로를 사용한 이유 : 개인 정보는 아무나 함부로 가져오면 안된다.
+	@RequestMapping(value = "/users/private/ajax/get_user_all")
+	@ResponseBody
+	public UsersDto getUserAll(@RequestParam String id) {
+		//id 에 해당하는 사용자의 정보를 모두 읽어와, UsersDto 로 return
+		return service.getUserDataAll(id);
+	}
+	
+	//id 에 맞는 질문 문장 가져오기
+	@RequestMapping(value = "/ajax/users/get_question")
+	@ResponseBody
+	public Map<String, Object> ajaxGetQuestion(@RequestParam String id) {
+		return service.getQuestion(id);
+	}
 	
 }

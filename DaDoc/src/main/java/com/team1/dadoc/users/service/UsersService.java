@@ -23,4 +23,8 @@ public interface UsersService {
 	public boolean checkAnswer(String id, String answer);
 	//새로운 비밀번호를 생성하고, db 에 pwd 를 갱신한 후, 새로 생성한 pwd plain text 를 mView 에 담기
 	public void createNewRPwd(ModelAndView mView, String id);
+	//id 에 해당하는 pwd 를 제외한 정보를 모두 읽어와, UsersDto 로 return
+	public UsersDto getUserDataAll(String id);
+	//id 에 해당하는 질문을 읽어와서 리턴
+	public Map<String, Object> getQuestion(String id);
 }

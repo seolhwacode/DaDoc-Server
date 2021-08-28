@@ -60,7 +60,7 @@ public class UsersServiceImpl implements UsersService {
 		int randNum = random.nextInt(3) + 1;
 		
 		//-> /resources/images/profile01 ~ 4
-		String profile = "/resources/images/profile0" + randNum;
+		String profile = "/resources/images/profile0" + randNum + ".png";
 		
 		//dto 에 profile 추가
 		dto.setProfile(profile);
@@ -157,6 +157,19 @@ public class UsersServiceImpl implements UsersService {
 		//System.out.println(newPwd);
 		//사용자에게는 plain text 를 전달해준다.
 		mView.addObject("newPwd", newPwd);
+	}
+
+	//id 에 해당하는 pwd 를 제외한 정보를 모두 읽어와, UsersDto 로 return
+	@Override
+	public UsersDto getUserDataAll(String id) {
+		return dao.getData(id);
+	}
+
+	@Override
+	public Map<String, Object> getQuestion(String id) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("question", dao.getQuestion(id));
+		return map;
 	}
 
 	
