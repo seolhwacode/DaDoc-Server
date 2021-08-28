@@ -7,9 +7,11 @@
 		VALUES(photoshot_seq.NEXTVAL, #{id}, #{challengeTitle}, #{imagePath}, #{period}, sysdate)
 	</insert>
 	
-	<select id="getPhotoShot" parameterType="String" resultType="photoShotDto">
-			SELECT imagePath, num
+	<select id="getPhotoShot" parameterType="PhotoShotDto" resultType="photoShotDto">
+			SELECT result1.*, ROWNUM as shotNum
+				FROM
+			(SELECT imagePath, num, period, regdate
 			FROM dadoc_photoShot
-			WHERE challengeTitle = #{challengeTitle} AND id =#{id}
+			WHERE challengeTitle = #{challengeTitle} AND id =#{id}) result1
 	</select>
 </mapper>

@@ -31,6 +31,9 @@
 	                  		<img class="card-img-top" src="${pageContext.request.contextPath }${tmp.imagePath}" />
 	               		</div>
             		<div class="card-body">
+            		<p><small>${tmp.regdate}</small></p>
+            		<p><small>현재 인증 횟수는 ${tmp.shotNum}/${tmp.period }</small></p>
+            		<p><small></small></p>
             		</div>
          		</div>
       		</div>
