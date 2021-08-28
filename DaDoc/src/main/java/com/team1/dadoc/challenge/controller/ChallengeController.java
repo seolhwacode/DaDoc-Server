@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +26,7 @@ public class ChallengeController {
 	@Autowired
 	private ChallengeService service;
 	
+	// 메인페이지에 챌린지 목록 가져오기
 	@RequestMapping(value="/challenge/main")
 	public String getList(HttpServletRequest request) {
 		
@@ -54,9 +56,15 @@ public class ChallengeController {
 	// 챌린지 상세보기 (detail 페이지)
 	// 게시글의 num이 parameter get 방식으로 넘어온다.
 	@RequestMapping(value="/challenge/detail", method= RequestMethod.GET)
-	public ModelAndView detail(ModelAndView mView, @RequestParam int num) {
+	public ModelAndView detail(ModelAndView mView, @RequestParam int num, @RequestParam String title) {
 		//detail 페이지에 필요한 data를 num을 통해 가져와서 ModelAndView에 저장
+		
 		service.getDetail(mView,num);
+		String id = "hungry";
+		PhotoShotDto dto = new PhotoShotDto();
+		dto.setId(id);
+		dto.setChallengeTitle(title);
+		service.getPhotoShot(mView, dto);
 		mView.setViewName("challenge/detail");
 		
 		return mView;

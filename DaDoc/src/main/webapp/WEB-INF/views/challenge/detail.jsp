@@ -22,6 +22,20 @@
          <p><small>${dto.period}</small></p>
       </div>
    </div>
+   <!-- 인증샷 사진 출력 -->
+   	<div class="row">
+		<c:forEach var="tmp" items="${photoList }">
+			<div class="col-6 col-md-4 col-lg-3">
+         		<div class="card mb-3">
+	               		<div class="img-wrapper">
+	                  		<img class="card-img-top" src="${pageContext.request.contextPath }${tmp.imagePath}" />
+	               		</div>
+            		<div class="card-body">
+            		</div>
+         		</div>
+      		</div>
+		</c:forEach>
+   	</div>
    <nav>
       <ul class="pagination justify-content-center">
          <c:choose>
@@ -78,7 +92,8 @@
 					<input type="hidden" name="id" id="id" value="hungry" />
 					<input type="hidden" name="challengeTitle" id="challengeTitle" value="${dto.title}" />
 					<input type="hidden" name="num" id="num" value="${dto.num }" />
-		      
+		      		<input type="hidden" name="period" id="period" value="${dto.period }" />
+		   
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 		        <button type="submit" class="btn btn-primary">인증샷 업로드</button>

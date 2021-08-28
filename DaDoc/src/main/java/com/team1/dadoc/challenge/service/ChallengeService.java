@@ -26,5 +26,6 @@ public interface ChallengeService {
 	public void saveChallenger(ChallengerDto dto, HttpServletRequest request);
 	// 챌린지 인증샷 업로드
 	public void savePhotoShot(PhotoShotDto dto, HttpServletRequest request);
-
+	// 챌린지 인증샷 가져오기
+	public void getPhotoShot(ModelAndView mView, PhotoShotDto dto);
 }
