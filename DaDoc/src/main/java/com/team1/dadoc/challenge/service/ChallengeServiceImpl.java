@@ -225,7 +225,10 @@ public class ChallengeServiceImpl implements ChallengeService {
 		List<PhotoShotDto> photoList = photoShotDao.getPhotoShot(dto);
 		//ModelAndView에 가져온 Dto를 담는다.
 		mView.addObject("photoList", photoList);
-		
+		for(int i=0; i<photoList.size(); i++) {
+			System.out.println(photoList.get(i).getPeriod());
+			System.out.println(photoList.get(i).getRegdate());
+		}		
 	}
 
 
