@@ -3,7 +3,13 @@
 <mapper namespace="photoShot">
 	<insert id="insert" parameterType="photoShotDto">
 		INSERT INTO dadoc_photoshot
-		(num, id, challengeTitle, imagePath, regdate)
-		VALUES(photoshot_seq.NEXTVAL, #{id}, #{challengeTitle}, #{imagePath}, sysdate)
+		(num, id, challengeTitle, imagePath, period, regdate)
+		VALUES(photoshot_seq.NEXTVAL, #{id}, #{challengeTitle}, #{imagePath}, #{period}, sysdate)
 	</insert>
+	
+	<select id="getPhotoShot" parameterType="String" resultType="photoShotDto">
+			SELECT imagePath, num
+			FROM dadoc_photoShot
+			WHERE challengeTitle = #{challengeTitle} AND id =#{id}
+	</select>
 </mapper>

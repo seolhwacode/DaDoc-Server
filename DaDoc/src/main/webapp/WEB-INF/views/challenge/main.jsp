@@ -53,7 +53,7 @@
 		<c:forEach var="tmp" items="${list }">
 			<div class="col-6 col-md-4 col-lg-3">
          		<div class="card mb-3">
-            		<a href="${pageContext.request.contextPath}/challenge/detail.do?num=${tmp.num}">
+            		<a href="${pageContext.request.contextPath}/challenge/detail.do?num=${tmp.num}&title=${tmp.title}">
 	               		<div class="img-wrapper">
 	                  		<img class="card-img-top" src="${pageContext.request.contextPath }${tmp.imagePath}" />
 	               		</div>

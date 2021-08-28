@@ -9,6 +9,7 @@ public class PhotoShotDto {
 	private String challengeTitle;
 	private String imagePath;
 	private String regdate;
+	private int period;
 	private String saveFileName;
 	private String orgFileName;
 	private MultipartFile image; // 이미지 파일 업로드 처리를 위한 필드
@@ -17,7 +18,7 @@ public class PhotoShotDto {
 	public PhotoShotDto() {}
 
 
-	public PhotoShotDto(int num, String id, String challengeTitle, String imagePath, String regdate,
+	public PhotoShotDto(int num, String id, String challengeTitle, String imagePath, String regdate, int period,
 			String saveFileName, String orgFileName, MultipartFile image) {
 		super();
 		this.num = num;
@@ -25,6 +26,7 @@ public class PhotoShotDto {
 		this.challengeTitle = challengeTitle;
 		this.imagePath = imagePath;
 		this.regdate = regdate;
+		this.period = period;
 		this.saveFileName = saveFileName;
 		this.orgFileName = orgFileName;
 		this.image = image;
@@ -81,6 +83,16 @@ public class PhotoShotDto {
 	}
 
 
+	public int getPeriod() {
+		return period;
+	}
+
+
+	public void setPeriod(int period) {
+		this.period = period;
+	}
+
+
 	public String getSaveFileName() {
 		return saveFileName;
 	}
@@ -110,6 +122,6 @@ public class PhotoShotDto {
 		this.image = image;
 	}
 
-	
+
 	
 }

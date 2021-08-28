@@ -219,6 +219,15 @@ public class ChallengeServiceImpl implements ChallengeService {
 			photoShotDao.insert(dto);	
 	}
 
+	@Override
+	public void getPhotoShot(ModelAndView mView, PhotoShotDto dto) {
+		//PhotoShotDao로 해당 게시글 num에 해당하는 데이터를 가져온다.
+		List<PhotoShotDto> photoList = photoShotDao.getPhotoShot(dto);
+		//ModelAndView에 가져온 Dto를 담는다.
+		mView.addObject("photoList", photoList);
+		
+	}
+
 
 
 	
