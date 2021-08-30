@@ -45,8 +45,8 @@
 </head>
 <body>
 <div class="container">
-   	<a href="${pageContext.request.contextPath}/trade/upload_form.do">게시글 작성1</a><br/>
-   	<a href="${pageContext.request.contextPath}/trade/ajax_form.do">게시글 작성 2</a>
+   	<a href="${pageContext.request.contextPath}/trade/upload_form.do">게시글 작성</a><br/>
+   	
    	<h1>거래 목록 입니다.</h1>
    	<div class="row">
 		<c:forEach var="tmp" items="${list }">
