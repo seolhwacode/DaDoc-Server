@@ -1,15 +1,19 @@
 package com.team1.dadoc.users.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.team1.dadoc.users.dao.UsersDao;
@@ -171,6 +175,84 @@ public class UsersServiceImpl implements UsersService {
 		map.put("question", dao.getQuestion(id));
 		return map;
 	}
+
+	//프로필 사진을 바꿀 때, upload 폴더에 upload 하기 - imagePath(/upload/실제파일이름) 리턴
+	@Override
+	public Map<String, Object> uploadProfile(MultipartFile image, HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		//원본 파일명 -> 저장할 파일 이름 만들기위해서 사용됨
+		String orgFileName = image.getOriginalFilename();
+		//파일 크기 -> 다운로드가 없으므로, 여기서는 필요 없다.
+		long fileSize = image.getSize();
+		
+		// webapp/upload 폴더 까지의 실제 경로(서버의 파일 시스템 상에서의 경로)
+		String realPath = request.getServletContext().getRealPath("/upload");
+		//db 에 저장할 저장할 파일의 상세 경로
+		String filePath = realPath + File.separator;
+		//디렉토리를 만들 파일 객체 생성
+		File upload = new File(filePath);
+		if(!upload.exists()) {
+			//만약 디렉토리가 존재하지X
+			upload.mkdir();//폴더 생성
+		}
+		//저장할 파일의 이름을 구성한다. -> 우리가 직접 구성해줘야한다.
+		String saveFileName = System.currentTimeMillis() + orgFileName;
+		
+		try {
+			//upload 폴더에 파일을 저장한다.
+			image.transferTo(new File(filePath + saveFileName));
+			System.out.println(filePath + saveFileName);	//임시 출력
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		//map 에 업로드된 파일의 정보를 담는다.
+		//-> 추가할 것 : imagePath (실제 업로드 path)
+		map.put("imagePath", "/upload/" + saveFileName);
+		
+		return map;
+	}
+
+	@Override
+	public boolean deleteUploadProfile(String imagePath, HttpServletRequest request) {
+		// webapp/upload 폴더 까지의 실제 경로(서버의 파일 시스템 상에서의 경로)
+		String realPath = request.getServletContext().getRealPath("/upload");
+		
+		//db 에 저장할 저장할 파일의 상세 경로
+		String filePath = realPath + File.separator;
+		//파일을 찾을 디렉토리 File 객체 생성
+		File upload = new File(filePath);
+		//폴더가 존재 X -> 아무 일도 없음 -> return
+		if(!upload.exists()) {
+			return false;
+		}
+		//가장 뒤에 있는 / 의 위치를 구한다. -> 그 자리 index + 1 의 자리부터 잘라낸다.
+		String saveFileName = imagePath.substring(imagePath.lastIndexOf('/') + 1);
+		
+		System.out.println(saveFileName);
+		System.out.println(filePath + saveFileName);
+		
+		//삭제할 파일 객체
+		File deleteFile = new File(filePath + saveFileName);
+		//해당 파일 있음 -> 삭제
+		if(deleteFile.exists()) {
+			//존재하면 -> 삭제
+			if(deleteFile.delete()) {
+				return true;
+			}else {
+				return false;
+			}
+		}
+		return false;
+	}
+
+	//프로필(profile)을 db 에 수정 반영한다.
+	@Override
+	public void updateProfile(UsersDto dto) {
+		dao.updateProfile(dto);
+	}
+	
 
 	
 }

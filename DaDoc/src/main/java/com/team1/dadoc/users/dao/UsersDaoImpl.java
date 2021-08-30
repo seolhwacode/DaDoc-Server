@@ -138,6 +138,18 @@ public class UsersDaoImpl implements UsersDao {
 	public void updatePwd(UsersDto dto) {
 		session.update("users.updatePwd", dto);		
 	}
+
+	/*
+	 * Mapper's namespace : users
+	 * sql's id : updateProfile
+	 * parameterType : UsersDto
+	 * resultType : X
+	 */
+	//profile 을 update
+	@Override
+	public void updateProfile(UsersDto dto) {
+		session.update("users.updateProfile", dto);		
+	}
 	
 	
 	
