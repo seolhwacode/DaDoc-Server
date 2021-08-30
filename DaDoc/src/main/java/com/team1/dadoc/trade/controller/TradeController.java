@@ -128,17 +128,17 @@ public class TradeController {
 	}
 	
 	//imagePath 구성 X -> dto 로 imagePath 를 받아서 DB 에 저장하기
-	@RequestMapping(value = "/Trade/insert")
+	@RequestMapping(value = "/trade/insert")
 	public ModelAndView authInsert(TradeDto dto, HttpServletRequest request) {
 		//dto : caption, imagePath 가지고 있다.
 		//request : dto 에 writer(id) 추가
 		service.insert(dto, request);
 		
-		return new ModelAndView("Trade/upload");
+		return new ModelAndView("trade/upload");
 	}
 	
 	//imagePath 구성 X -> dto 로 imagePath 를 받아서 DB 에 저장하기
-	@RequestMapping(value = "/Trade/ajax_insert")
+	@RequestMapping(value = "/trade/ajax_insert")
 	@ResponseBody
 	public Map<String, Object> authAjaxInsert(TradeDto dto, HttpServletRequest request) {
 		//dto : caption, imagePath 가지고 있다.
@@ -151,7 +151,7 @@ public class TradeController {
 	
 	//gallery 게시글의 num 이 parameter get 방식으로 넘어온다.
 	//detail 페이지
-	@RequestMapping(value = "/Trade/detail", method = RequestMethod.GET)
+	@RequestMapping(value = "/trade/detail", method = RequestMethod.GET)
 	public ModelAndView detail(ModelAndView mView, @RequestParam int num) {
 		//갤러리 detail 페이지에 필요한 data를 num 으로 가져와, ModelAndView 에 저장
 		service.getDetail(mView, num);
