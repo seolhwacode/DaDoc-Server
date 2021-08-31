@@ -13,7 +13,7 @@
 		<!-- 사용되는 기능들 리스트 -->
 		<div>
 			<ul>
-				<li><a href="">프로필 사진 변경</a></li>
+				<li><a v-bind:href="update_profile_link">프로필 사진 변경</a></li>
 				<li><a href="">개인정보 수정</a></li>
 				<li><a href="">비밀번호 수정</a></li>
 				<li><a href="">좋아요 표기한 책 모아보기</a></li>
@@ -30,7 +30,7 @@
 			<ul>
 				<li>
 					1. 프로필 : 
-					<a href="">
+					<a v-bind:href="update_profile_link">
 						<img v-bind:src="profilePath" alt="프로필사진" />
 					</a>
 					{{profilePath}}
@@ -65,7 +65,8 @@
 				userData: {},
 				profilePath: '',
 				pwd_question: '',
-				sex: ''
+				sex: '',
+				update_profile_link: ''
 			},
 			methods: {
 				
@@ -74,7 +75,7 @@
 				//dadoc_users table 에서 기본 정보 가져오기
 				let self = this;
 				
-				fetch(this.base_url + "/users/private/ajax/get_user_all.do?id=" + this.id)
+				fetch(this.base_url + "/users/private/ajax_get_user_all.do?id=" + this.id)
 				.then(function(response){
 					return response.json();
 				})
@@ -91,6 +92,8 @@
 					}else{
 						self.sex = '그 외';
 					}
+					//
+					self.update_profile_link = '${pageContext.request.contextPath}/users/private/update_profile_form.do?profile=' + data.profile;
 				});
 				
 				//pwd_question table 에서 해당 번호에 맞는 질문 가져오기

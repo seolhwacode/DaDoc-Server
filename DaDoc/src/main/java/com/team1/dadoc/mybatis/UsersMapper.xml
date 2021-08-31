@@ -54,4 +54,10 @@
 		SET pwd = #{ pwd }
 		WHERE id = #{ id }
 	</update>
+	<!-- profile 을 update -->
+	<update id="updateProfile" parameterType="usersDto">
+		UPDATE dadoc_users
+		SET profile = #{ profile }
+		WHERE id = #{ id }
+	</update>
 </mapper>

@@ -22,4 +22,6 @@ public interface UsersDao {
 	public String getAnswer(String id);
 	//암호화된 비밀번호 db 에 update
 	public void updatePwd(UsersDto dto);
+	//profile 을 update
+	public void updateProfile(UsersDto dto);
 }

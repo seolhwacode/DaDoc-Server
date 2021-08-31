@@ -2,8 +2,10 @@ package com.team1.dadoc.users.service;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.team1.dadoc.users.dto.UsersDto;
@@ -27,4 +29,10 @@ public interface UsersService {
 	public UsersDto getUserDataAll(String id);
 	//id 에 해당하는 질문을 읽어와서 리턴
 	public Map<String, Object> getQuestion(String id);
+	//프로필 사진을 바꿀 때, upload 폴더에 upload 하기 - imagePath(/upload/실제파일이름) 리턴
+	public Map<String, Object> uploadProfile(MultipartFile image, HttpServletRequest request);
+	//imagePath 에 해당하는 파일을 삭제한다.
+	public boolean deleteUploadProfile(String imagePath, HttpServletRequest request);
+	//프로필(profile)을 db 에 수정 반영한다.
+	public void updateProfile(UsersDto dto);
 }
