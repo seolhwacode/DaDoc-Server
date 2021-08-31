@@ -60,7 +60,7 @@
             		</a>
             		<div class="card-body">
                			<p class="card-text">${tmp.writer}</p>
-               			<p class="card-text">by <strong>${tmp.title}</strong></p>
+               			<p class="card-text">by<strong>${tmp.title}</strong></p>
                			<p><small>${tmp.description}</small></p>
             		</div>
          		</div>
@@ -132,8 +132,8 @@
 			<strong>${totalRow }</strong> 개의 글이 검색 되었습니다.
 		</p>
 	</c:if>
-        
 </div>
+
 </body>
 </html>
 
