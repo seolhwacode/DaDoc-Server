@@ -1,7 +1,5 @@
 package com.team1.dadoc.users.dto;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class UsersDto {
 	private String id;	//아이디
 	private String pwd;	//비밀번호
@@ -17,15 +15,10 @@ public class UsersDto {
 	private String pwd_answer;	//사용자의 대답. 단답형
 	private int tos;	//광고 수신 동의 : 0(동의X), 1(동의O)
 	
-	private MultipartFile image;	//이미지 파일 업로드 처리를 위한 필드
-	private String saveFileName;	//파일 시스템에 저장된 파일명 -> 삭제를 위해 사용할 것
-	
-	//생성자
 	public UsersDto() {}
 
-	public UsersDto(String id, String pwd, String name, String nickname, String tel, String email, int sex,
-			String birth, String profile, String regdate, int pwd_question, String pwd_answer, int tos,
-			MultipartFile image, String saveFileName) {
+	public UsersDto(String id, String pwd, String name, String nickname, String tel, String email, int sex, String birth,
+			String profile, String regdate, int pwd_question, String pwd_answer, int point, int tos) {
 		super();
 		this.id = id;
 		this.pwd = pwd;
@@ -40,8 +33,6 @@ public class UsersDto {
 		this.pwd_question = pwd_question;
 		this.pwd_answer = pwd_answer;
 		this.tos = tos;
-		this.image = image;
-		this.saveFileName = saveFileName;
 	}
 
 	public String getId() {
@@ -147,22 +138,6 @@ public class UsersDto {
 	public void setTos(int tos) {
 		this.tos = tos;
 	}
-
-	public MultipartFile getImage() {
-		return image;
-	}
-
-	public void setImage(MultipartFile image) {
-		this.image = image;
-	}
-
-	public String getSaveFileName() {
-		return saveFileName;
-	}
-
-	public void setSaveFileName(String saveFileName) {
-		this.saveFileName = saveFileName;
-	}
-
+	
 	
 }
