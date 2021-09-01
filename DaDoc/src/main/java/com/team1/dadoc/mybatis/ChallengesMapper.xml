@@ -27,7 +27,7 @@
 		FROM	
 			(SELECT result1.* , ROWNUM as rnum
 				FROM
-				(SELECT num, writer, type, title, category, imagePath, description, period, startdate, enddate, regdate
+				(SELECT *
 				FROM dadoc_challenges
 				<choose>
 					<when test="category != null">
@@ -36,7 +36,7 @@
 				</choose>) result1
 				<include refid="searchCondition"/>
 				ORDER BY num DESC) result2
-		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
+			WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
 	
 	<select id="getCount" resultType="int">
