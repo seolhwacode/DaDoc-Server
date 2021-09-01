@@ -6,73 +6,194 @@
 <html>
 <head>
 <meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">	
+
 <title>/views/challenge/main.do</title>
-<%-- bootstrap 읽어오기 --%>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
-<style>
-   /* card 이미지 부모요소의 높이 지정 */
-   .img-wrapper{
-      height: 250px;
-      /* transform 을 적용할대 0.3s 동안 순차적으로 적용하기 */
-      transition: transform 0.3s ease-out;
-   }
-   /* .img-wrapper 에 마우스가 hover 되었을때 적용할 css */
-   .img-wrapper:hover{
-      /* 원본 크기의 1.1 배로 확대 시키기*/
-      transform: scale(1.05);
-   }
-   
-   .card .card-text{
-      /* 한줄만 text 가 나오고  한줄 넘는 길이에 대해서는 ... 처리 하는 css */
-      display:block;
-      white-space : nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
-   }
-   	.img-wrapper img{
-	   	width: 100%;
-	   	height: 100%;
-	   	/* fill | contain | cover | scale-down | none(default) */
-	   	/*	
-	   		cover - 부모의 크기에 맞게 키운 후, 자른다. 비율은 일정하게 증가한다. 
-	   		contain - 안잘린다. 대신 빈 공간이 남을 수 있다.
-	   		fill - 부모의 크기에 딱 맞게, 비율 관계 없이 맞춘다.(이미지가 일그러질 수 있다.)
-	   		scale-down - 가로, 세로 중에 큰 것을 부모의 크기에 맞춘 상태까지만 커지거나 작아지고, 비율은 일정하다.
-	   	*/
-		object-fit: contain;	
-   	}
-</style>
+
+		<meta name="keywords" content="HTML5 Template" />
+		<meta name="description" content="Porto - Responsive HTML5 Template">
+		<meta name="author" content="okler.net">
+		
+		<!-- Mobile Metas -->
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
+
+		<!-- Web Fonts  -->
+		<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800%7CShadows+Into+Light" rel="stylesheet" type="text/css">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@700&display=swap" rel="stylesheet">
+		
+		<!-- Vendor CSS -->
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/animate/animate.min.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/simple-line-icons/css/simple-line-icons.min.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/owl.carousel/assets/owl.carousel.min.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/owl.carousel/assets/owl.theme.default.min.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/magnific-popup/magnific-popup.min.css">
+
+		<!-- Theme CSS -->
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/theme.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/theme-elements.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/theme-blog.css">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/theme-shop.css">
+		
+		<!-- Demo CSS -->
+
+
+		<!-- Skin CSS -->
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/skins/default.css"> 
+
+		<!-- Theme Custom CSS -->
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/custom.css">
+
+		<!-- Head Libs -->
+		<script src="${pageContext.request.contextPath}/resources/vendor/modernizr/modernizr.min.js"></script>
+
+		<!-- CSS -->
+		<style>
+			
+			/*페이지 모든 폰트 sans 적용*/
+			.bold-family{
+				font-family: 'Noto Sans KR', sans-serif;
+			}
+			
+			/*페이지 헤더 색상 조정*/
+			.page-header{
+				background-color: #F9E0AE !important;
+			}
+			
+			/*챌린지 개설 버튼 위치 조정*/
+			#challengeBtn{
+				position: absolute;
+				top: 200px;
+				right: 20px;
+			}
+			
+			/*챌린지 이미지 크기 통일*/
+			.img-thumbnail{
+				width:225px;
+				height:206px;
+			}
+			
+			/*챌린지 검색 그룹*/
+			.search-group{
+				display: flex;
+  				justify-content: center;
+  				margin: 0 0 30px;
+			}
+			
+			/*챌린지 검색 input 크기 조절 */
+			.search-input{
+				width:200px;
+			}
+			
+			/*페이징 처리*/
+			.pagination{
+				margin-bottom: 50px;
+			}
+		</style>
 </head>
 <body>
-<div class="container">
-   	<h1>챌린지 목록 입니다.</h1>
-   	<a href="${pageContext.request.contextPath}/challenge/register_form.do">챌린지 신청</a>
-     <a href="${pageContext.request.contextPath}/challenge/detail.do">디테일 페이지</a>
-  
-   	<div class="row">
-		<c:forEach var="tmp" items="${list }">
-			<div class="col-6 col-md-4 col-lg-3">
-         		<div class="card mb-3">
-            		<a href="${pageContext.request.contextPath}/challenge/detail.do?num=${tmp.num}&title=${tmp.title}">
-	               		<div class="img-wrapper">
-	                  		<img class="card-img-top" src="${pageContext.request.contextPath }${tmp.imagePath}" />
-	               		</div>
-            		</a>
-            		<div class="card-body">
-               			<p class="card-text">${tmp.writer}</p>
-               			<p class="card-text">by<strong>${tmp.title}</strong></p>
-               			<p><small>${tmp.description}</small></p>
-            		</div>
-         		</div>
+	<!-- main -->
+	<div role="main" class="main">
+	<!-- 페이지 헤더 -->
+	<section
+		class="page-header page-header-modern page-header-md">
+		<div class="container">
+			<div class="row">
+
+				<div
+					class="col-md-12 align-self-center p-static order-2 text-center">
+
+					<h1 class="text-dark font-weight-bold text-8 bold-family">CHALLENGE</h1>
+					<span class="sub-title text-dark">You can do with DADOC</span>
+				</div>
+
+				<div class="col-md-12 align-self-center order-1">
+
+					<ul class="breadcrumb d-block text-center">
+						<li><a href="${pageContext.request.contextPath}/">Home</a></li>
+						<li class="active">Challenge</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+	</div>
+	<!-- 페이지 메인  -->
+	<div class="container py-4">
+   	
+   	<button id="challengeBtn" type="button" onclick="location.href='${pageContext.request.contextPath}/challenge/register_form.do'" class="btn btn-rounded btn-tertiary mb-2">새로운 챌린지 개설하기</button>
+   		<div class="row">
+   			<div class="col">
+   				<div class="blog-posts">
+   					<div class="row">
+						<c:forEach var="tmp" items="${list }">
+							<div class="col-md-4 col-lg-3">
+								<article class="post post-medium border-0 pb-0 mb-5">
+									<div class="post-image">
+				            			<a href="${pageContext.request.contextPath}/challenge/detail.do?num=${tmp.num}&title=${tmp.title}">
+				                  			<img class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0" src="${pageContext.request.contextPath }${tmp.imagePath}" />
+				               			</a>
+				               		</div>
+			            		
+			            		<div class="post-content">
+			            			<h2 class="font-weight-semibold text-5 line-height-6 mt-3 mb-2 bold-family"><a href="${pageContext.request.contextPath}/challenge/detail.do?num=${tmp.num}&title=${tmp.title}">${tmp.title }</a></h2>
+			               			<p>${tmp.description}</p>
+			               		<div class="post-meta">
+									<span><i class="far fa-user"></i> By <a href="#">${tmp.writer }</a> </span>
+									<span><i class="far fa-folder"></i> <a href="#">${tmp.type }</a>, <a href="#">${tmp.category }</a> </span>
+									<span><i class="far fa-comments"></i> <a href="#">댓글 수 가져오기</a></span>
+								</div>
+			               			
+			               			
+			            			</div>
+			            				</div>
+			            			</c:forEach>
+			            			</div>
+			            		</article>
+			         		</div>
       		</div>
-		</c:forEach>
+		
+			</div>
+		</div>
    	</div>
+   	
+   	<!-- 챌린지 검색 -->
+ 	<div style="clear:both;"></div>
+ 	<div class="search-group">
+	<form action="main.do" method="get">
+	<label class="bold-family" for="category">카테고리 검색</label> 
+		<select name="category_name" id="category_name">
+			<option class="bold-family">카테고리 검색</option>
+			<option value="writing" ${category_name eq 'writing' ? 'selected' : '' }>writing</option>
+			<option value="reading" ${category_name eq 'reading' ? 'selected' : '' }>reading</option>
+			<option value="speaking" ${category_name eq 'speaking' ? 'selected' : '' }>speaking</option>
+		</select>
+		<label class="bold-family" for="condition">검색조건</label>
+		<select name="condition" id="condition">
+			<option value="title_content" ${condition eq 'title_description' ? 'selected' : '' }>제목+내용</option>
+			<option value="title" ${condition eq 'title' ? 'selected' : '' }>제목</option>
+			<option value="writer" ${condition eq 'writer' ? 'selected' : '' }>작성자</option>
+		</select>
+		<div class="input-group">
+			<input class="form-control text-1 search-input" id="keyword" name=keyword" type="search" value="${keyword }" placeholder="Search..."/>
+				<button class="btn" type="submit">
+					<i class="fa fa-search header-nav-top-icon"></i>
+				</button>
+		</div>
+	</form>	
+	</div>
+	
+		
+   	<!-- 페이징 처리 -->
    	<nav>
 	<ul class="pagination justify-content-center">
 		<c:choose>
 			<c:when test="${startPageNum ne 1 }">
 				<li class="page-item">
-               		<a class="page-link" href="${pageContext.request.contextPath}/gallery/list.do?pageNum=${startPageNum - 1}">Prev</a>
+               		<a class="page-link" href="${pageContext.request.contextPath}/dadoc/challenge/main.do?pageNum=${startPageNum - 1}">Prev</a>
             	</li>
 			</c:when>
 			<c:otherwise>
@@ -85,12 +206,12 @@
 			<c:choose>
 				<c:when test="${i eq pageNum }">
 					<li class="page-item active">
-                  		<a class="page-link" href="${pageContext.request.contextPath}/gallery/list.do?pageNum=${i}">${i }</a>
+                  		<a class="page-link" href="${pageContext.request.contextPath}/dadoc/challenge/main.do?pageNum=${i}">${i }</a>
                		</li>
 				</c:when>
 				<c:otherwise>
 					<li class="page-item">
-                  		<a class="page-link" href="${pageContext.request.contextPath}/gallery/list.do?pageNum=${i}">${i}</a>
+                  		<a class="page-link" href="${pageContext.request.contextPath}/dadoc/challenge/main.do?pageNum=${i}">${i}</a>
                		</li>
 				</c:otherwise>
 			</c:choose>
@@ -98,7 +219,7 @@
 		<c:choose>
 			<c:when test="${endPageNum lt totalPageCount }">
 				<li class="page-item">
-               		<a class="page-link" href="${pageContext.request.contextPath}/gallery/list.do?pageNum=${endPageNum + 1}">Next</a>
+               		<a class="page-link" href="${pageContext.request.contextPath}/dadoc/challenge/main.do?pageNum=${endPageNum + 1}">Next</a>
             	</li>
 			</c:when>
 			<c:otherwise>
@@ -109,30 +230,16 @@
 		</c:choose>
       </ul>
    </nav> 
- 	<div style="clear:both;"></div>
-	<form action="main.do" method="get">
-	<label for="category">카테고리 검색</label> 
-		<select name="category_name" id="category_name">
-			<option>카테고리 검색</option>
-			<option value="writing" ${category_name eq 'writing' ? 'selected' : '' }>writing</option>
-			<option value="reading" ${category_name eq 'reading' ? 'selected' : '' }>reading</option>
-			<option value="speaking" ${category_name eq 'speaking' ? 'selected' : '' }>speaking</option>
-		</select>
-		<label for="condition">검색조건</label>
-		<select name="condition" id="condition">
-			<option value="title_content" ${condition eq 'title_description' ? 'selected' : '' }>제목+내용</option>
-			<option value="title" ${condition eq 'title' ? 'selected' : '' }>제목</option>
-			<option value="writer" ${condition eq 'writer' ? 'selected' : '' }>작성자</option>
-		</select>
-		<input type="text" id="keyword" name="keyword" placeholder="검색어..." value="${keyword }"/>
-		<button type="submit">검색</button>
-	</form>	
-	<c:if test="${ not empty condition }">
-		<p>
-			<strong>${totalRow }</strong> 개의 글이 검색 되었습니다.
-		</p>
-	</c:if>
 </div>
+
+<!-- Theme Base, Components and Settings -->
+<script src="js/theme.js"></script>
+
+<!-- Theme Custom -->
+<script src="js/custom.js"></script>
+
+<!-- Theme Initialization Files -->
+<script src="js/theme.init.js"></script>
 
 </body>
 </html>
