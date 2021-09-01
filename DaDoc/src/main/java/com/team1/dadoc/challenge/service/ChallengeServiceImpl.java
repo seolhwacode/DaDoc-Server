@@ -75,7 +75,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 			//클라이언트 웹브라우저에 출력할때 "null" 을 출력되지 않게 하기 위해서  
 			keyword="";
 			condition=""; 
-		}
+		}		
 		if(category_name==null) {
 			category_name="";
 		}

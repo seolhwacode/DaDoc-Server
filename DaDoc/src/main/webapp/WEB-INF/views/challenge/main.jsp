@@ -69,6 +69,15 @@
 <script
 	src="${pageContext.request.contextPath}/resources/vendor/modernizr/modernizr.min.js"></script>
 
+<!-- Theme Base, Components and Settings -->
+<script src="${pageContext.request.contextPath}/resources/js/theme.js"></script>
+
+<!-- Theme Custom -->
+<script src="${pageContext.request.contextPath}/resources/js/custom.js"></script>
+
+<!-- Theme Initialization Files -->
+<script src="${pageContext.request.contextPath}/resources/js/theme.init.js"></script>
+
 <!-- CSS -->
 <style>
 
@@ -190,7 +199,7 @@
 		<form action="main.do" method="get">
 			<label class="bold-family" for="category">카테고리 검색</label> <select
 				name="category_name" id="category_name">
-				<option class="bold-family">카테고리 검색</option>
+				<option value="" ${category_name eq ''? 'selected' : '' }>ALL</option>
 				<option value="writing"
 					${category_name eq 'writing' ? 'selected' : '' }>writing</option>
 				<option value="reading"
@@ -222,7 +231,7 @@
 			<c:choose>
 				<c:when test="${startPageNum ne 1 }">
 					<li class="page-item"><a class="page-link"
-						href="${pageContext.request.contextPath}/dadoc/challenge/main.do?pageNum=${startPageNum - 1}">Prev</a>
+						href="${pageContext.request.contextPath}/challenge/main.do?pageNum=${startPageNum - 1}">Prev</a>
 					</li>
 				</c:when>
 				<c:otherwise>
@@ -258,14 +267,7 @@
 		</ul>
 	</nav>
 </div>
-<!-- Theme Base, Components and Settings -->
-<script src="js/theme.js"></script>
 
-<!-- Theme Custom -->
-<script src="js/custom.js"></script>
-
-<!-- Theme Initialization Files -->
-<script src="js/theme.init.js"></script>
 </body>
 </html>
 
