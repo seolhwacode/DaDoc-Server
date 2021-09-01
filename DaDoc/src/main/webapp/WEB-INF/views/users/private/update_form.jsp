@@ -180,7 +180,7 @@
 				</tr>
 			</table>
 			
-			<button @click.prevent="reset" class="btn btn-secondary">취소</button>
+			<button @click.prevent="cancel" class="btn btn-secondary">취소</button>
 			<button type="submit" class="btn btn-primary">수정</button>			
 		</form>
 		</div>
@@ -244,6 +244,13 @@
 				isFocused: false	//focus 된 적이 있으면 -> true
 			},
 			methods: {
+				//취소 버튼
+				cancel(){
+					let result = confirm("작성하신 내용은 저장되지 않습니다. 페이지에서 나가시겠습니까?");
+					if(result){//yes
+						location.href = base_url + "/users/private/info.do";
+					}
+				},
 				//비밀번호 수정 페이지로 이동
 				pwdUpdateForm(){
 					location.href = base_url + "/users/private/pwd_update_form.do";
