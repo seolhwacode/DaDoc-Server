@@ -223,7 +223,7 @@ public class UsersController {
 	}
 	
 	//입력한 비밀번호가 유효한지 체크
-	//유효하면 -> requestScope 에 "auth" attribute 를 추가한다.
+	//유효하면 -> sessionScope 에 "auth" attribute 를 추가한다.
 	@RequestMapping(value = "/users/private/pwd_check")
 	public ModelAndView pwdCheck(UsersDto dto, ModelAndView mView, HttpSession session) {
 		//id 에 맞는 pwd 가 일치하는지 확인한 후 -> boolean 으로 return 한다.
