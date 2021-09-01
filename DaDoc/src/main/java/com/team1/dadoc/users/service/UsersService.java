@@ -35,4 +35,8 @@ public interface UsersService {
 	public boolean deleteUploadProfile(String imagePath, HttpServletRequest request);
 	//프로필(profile)을 db 에 수정 반영한다.
 	public void updateProfile(UsersDto dto);
+	//id 와, 입력한 비밀번호가 맞는지 확인 여부 return
+	public boolean pwdCheck(UsersDto dto);
+	//사용자 정보 update
+	public void update(UsersDto dto);
 }

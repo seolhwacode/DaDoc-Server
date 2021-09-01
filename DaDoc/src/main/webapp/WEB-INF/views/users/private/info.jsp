@@ -14,7 +14,7 @@
 		<div>
 			<ul>
 				<li><a v-bind:href="update_profile_link">프로필 사진 변경</a></li>
-				<li><a href="">개인정보 수정</a></li>
+				<li><a href="${pageContext.request.contextPath}/users/private/update_form.do">개인정보 수정</a></li>
 				<li><a href="">비밀번호 수정</a></li>
 				<li><a href="">좋아요 표기한 책 모아보기</a></li>
 				<li><a href="">작성한 게시글 모아보기</a></li>

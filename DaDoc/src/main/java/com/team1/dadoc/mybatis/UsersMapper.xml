@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="users">
 	<sql id="allColumn">
-		id, pwd, name, nickname, sex, birth, profile, regdate, pwd_question, pwd_answer, tos, tel, email
+		id, pwd, name, nickname, sex, profile, regdate, pwd_question, pwd_answer, tos, tel, email
 	</sql>
 
 	<!-- 비밀번호 분실시 선택할 질문 list return -->
@@ -25,12 +25,12 @@
 	<!-- 사용자 정보 insert -->
 	<insert id="insert" parameterType="usersDto">
 		INSERT INTO dadoc_users
-		(<include refid="allColumn"/>)
-		VALUES (#{id}, #{pwd}, #{name}, #{nickname}, #{sex}, #{birth}, #{profile}, SYSDATE, #{pwd_question}, #{pwd_answer}, #{tos}, #{tel, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR})
+		(<include refid="allColumn"/>, birth)
+		VALUES (#{id}, #{pwd}, #{name}, #{nickname}, #{sex}, #{profile}, SYSDATE, #{pwd_question}, #{pwd_answer}, #{tos}, #{tel, jdbcType=VARCHAR}, #{email, jdbcType=VARCHAR}, #{birth})
 	</insert>
 	<!-- id 에 해당하는 사용자 정보를 가져옴 -->
 	<select id="getData" parameterType="string" resultType="usersDto">
-		SELECT <include refid="allColumn"/>
+		SELECT <include refid="allColumn"/>, TO_CHAR(birth, 'YYYY-MM-DD') AS birth
 		FROM dadoc_users
 		WHERE id = #{id}
 	</select>
@@ -58,6 +58,14 @@
 	<update id="updateProfile" parameterType="usersDto">
 		UPDATE dadoc_users
 		SET profile = #{ profile }
+		WHERE id = #{ id }
+	</update>
+	<!-- 사용자 데이터를 update -->
+	<update id="updateUserData" parameterType="usersDto">
+		UPDATE dadoc_users
+		SET name = #{ name }, nickname = #{ nickname }, sex = #{ sex }, birth = #{ birth }, 
+			pwd_question = #{ pwd_question }, pwd_answer = #{ pwd_answer }, tos = #{ tos }, 
+			tel = #{ tel, jdbcType=VARCHAR }, email = #{ email, jdbcType=VARCHAR }
 		WHERE id = #{ id }
 	</update>
 </mapper>

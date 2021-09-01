@@ -252,6 +252,35 @@ public class UsersServiceImpl implements UsersService {
 	public void updateProfile(UsersDto dto) {
 		dao.updateProfile(dto);
 	}
+
+	//id 와, 입력한 비밀번호가 맞는지 확인 여부 return
+	@Override
+	public boolean pwdCheck(UsersDto dto) {
+		//1. dto 의 아이디를 이용해서 해당 정보를 select 
+		UsersDto result = dao.getData(dto.getId());
+		
+		//isValid : 입력한 정보가 맞는지 여부
+		boolean isValid = false;
+		
+		//2. select 된 정보가 없으면 -> null -> false
+		//id 가 존재 -> 비밀번호 체크 -> true / false
+		if(result != null) {
+			//존재하는 id
+			//비밀번호가 일치하는지 확인
+			//암호화 되어 있기 때문에, BCrypt 객체를 사용해서 검사한다. -> true / false 리턴
+			isValid = BCrypt.checkpw(dto.getPwd(), result.getPwd());
+		}
+
+		//확인 값 return
+		return isValid;
+	}
+
+	//사용자의 정보를 수정한다.
+	@Override
+	public void update(UsersDto dto) {
+		//사용자의 정보를 수정한다.
+		dao.updateUserData(dto);
+	}
 	
 
 	
