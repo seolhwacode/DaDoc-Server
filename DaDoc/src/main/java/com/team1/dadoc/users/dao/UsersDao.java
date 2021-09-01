@@ -24,4 +24,6 @@ public interface UsersDao {
 	public void updatePwd(UsersDto dto);
 	//profile 을 update
 	public void updateProfile(UsersDto dto);
+	//사용자의 정보를 수정한다.
+	public void updateUserData(UsersDto dto);
 }
