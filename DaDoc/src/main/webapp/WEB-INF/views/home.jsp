@@ -30,7 +30,8 @@
 				</c:otherwise>
 			</c:choose>
 			<li><a href="${pageContext.request.contextPath}/challenge/main.do">챌린지 게시판으로 이동</a></li>
-			<li><a href="${pageContext.request.contextPath}/trade/list.do">거래 게시판으로 이동</a></li>			
+			<li><a href="${pageContext.request.contextPath}/trade/list.do">거래 게시판으로 이동</a></li>
+			<li><a href="${pageContext.request.contextPath}/notice/list.do">공지 게시판으로 이동</a></li>			
 		</ul>
 		
 		<!-- 캐로세일 실험 -->

@@ -11,6 +11,7 @@
 		<typeAlias type="com.team1.dadoc.users.dto.UsersDto" alias="usersDto"/>
     	<typeAlias type="com.team1.dadoc.trade.dto.TradeDto" alias="tradeDto"/>
     	<typeAlias type="com.team1.dadoc.trade.dto.TradeCommentDto" alias="tradeCommentDto"/>
+    	<typeAlias type="com.team1.dadoc.notice.dto.NoticeDto" alias="noticeDto"/>
 	</typeAliases>
 	<mappers>
 		<mapper resource="com/team1/dadoc/mybatis/ChallengesMapper.xml"/>
@@ -19,5 +20,6 @@
 		<mapper resource="com/team1/dadoc/mybatis/UsersMapper.xml"/>
     	<mapper resource="com/team1/dadoc/mybatis/TradeMapper.xml"/>
     	<mapper resource="com/team1/dadoc/mybatis/TradeCommentMapper.xml"/>
+    	<mapper resource="com/team1/dadoc/mybatis/NoticeMapper.xml"/>
 	</mappers>
 </configuration>
