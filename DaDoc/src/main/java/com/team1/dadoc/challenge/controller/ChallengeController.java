@@ -35,13 +35,13 @@ public class ChallengeController {
 	}
 	
 	// 챌린지 업로드 & DB 저장
-	@RequestMapping(value="/challenge/register_form")
+	@RequestMapping(value="/challenge/private/register_form")
 	public ModelAndView registerForm(HttpServletRequest request) {
-		return new ModelAndView("challenge/register_form");
+		return new ModelAndView("challenge/private/register_form");
 	}
 	
 	// 챌린지 DB에 집어넣기 
-	@RequestMapping(value="/challenge/register")
+	@RequestMapping(value="/challenge/private/register")
 	public ModelAndView register(ChallengesDto dto, ModelAndView mView, HttpServletRequest request) {		
 		// form에서 dto로 데이터 받아오고
 		// dto: challenge 정보와 MultipartFile image 정보를 가지고 있다.
@@ -56,11 +56,11 @@ public class ChallengeController {
 	// 챌린지 상세보기 (detail 페이지)
 	// 게시글의 num이 parameter get 방식으로 넘어온다.
 	@RequestMapping(value="/challenge/detail", method= RequestMethod.GET)
-	public ModelAndView detail(ModelAndView mView, @RequestParam int num, @RequestParam String title) {
+	public ModelAndView detail(HttpServletRequest request, ModelAndView mView, @RequestParam int num, @RequestParam String title) {
 		//detail 페이지에 필요한 data를 num을 통해 가져와서 ModelAndView에 저장
 		
 		service.getDetail(mView,num);
-		String id = "hungry";
+		String id = request.getSession().getId();
 		PhotoShotDto dto = new PhotoShotDto();
 		dto.setId(id);
 		dto.setChallengeTitle(title);

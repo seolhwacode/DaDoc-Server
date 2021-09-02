@@ -120,6 +120,24 @@
 .pagination {
 	margin-bottom: 50px;
 }
+
+
+/*링크 들어간 글자 색 변경*/
+a{
+	color:#D0AF84;
+}
+
+/*마우스 올렸을 때 색 변경*/
+a:hover{
+	color:#966C3B;
+}
+
+/*챌린지 설명 부분 크기 고정*/
+#challenge-description{
+	width: 210px;
+	height: 130px;
+	margin-bottom: 20px;
+}
 </style>
 </head>
 <body>
@@ -148,10 +166,14 @@
 		</section>
 	<!-- 페이지 메인  -->
 	<div class="container py-4">
-
-		<button id="challengeBtn" type="button"
-			onclick="location.href='${pageContext.request.contextPath}/challenge/register_form.do'"
-			class="btn btn-rounded btn-tertiary mb-2">새로운 챌린지 개설하기</button>
+	<!-- 로그인 할 때만 새로운 챌린지를 개설할 수 있다. -->
+		<c:choose>
+			<c:when test="${not empty sessionScope.id}">
+				<button id="challengeBtn" type="button"
+				onclick="location.href='${pageContext.request.contextPath}/challenge/private/register_form.do'"
+				class="btn btn-rounded btn-tertiary mb-2">새로운 챌린지 개설하기</button>
+			</c:when>
+		</c:choose>
 		<div class="row">
 			<div class="col">
 				<div class="blog-posts">
@@ -171,21 +193,21 @@
 									<div class="post-content">
 										<h2
 											class="font-weight-semibold text-5 line-height-6 mt-3 mb-2 bold-family">
-											<a
-												href="${pageContext.request.contextPath}/challenge/detail.do?num=${tmp.num}&title=${tmp.title}">${tmp.title }</a>
+											<a href="${pageContext.request.contextPath}/challenge/detail.do?num=${tmp.num}&title=${tmp.title}">${tmp.title }</a>
 										</h2>
-										<p>${tmp.description}</p>
+										<p id="challenge-description">${tmp.description}</p>
 										<div class="post-meta">
-											<span><i class="far fa-user"></i> By <a href="#">${tmp.writer }</a>
-											</span> <span><i class="far fa-folder"></i> <a href="#">${tmp.type }</a>,
-												<a href="#">${tmp.category }</a> </span> <span><i
-												class="far fa-comments"></i> <a href="#">댓글 수 가져오기</a></span>
+											<span><i class="far fa-user"></i> By ${tmp.writer }</span> 
+											<span><i class="far fa-folder"></i> ${tmp.type },${tmp.category }</span> 
+											<span><i class="icon-calendar icons"> ${tmp.startDate } ~ ${tmp.endDate}</i></span>
+											<span><i class="icon-people icons"></i> <a href="#">참가자 수 가져오기</a></span>
 										</div>
 									</div>
+								</article>
 							</div>
 						</c:forEach>
 					</div>
-					</article>
+					
 				</div>
 			</div>
 
