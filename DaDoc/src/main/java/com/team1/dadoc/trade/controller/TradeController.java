@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+
 import com.team1.dadoc.trade.dao.TradeDao;
+import com.team1.dadoc.trade.dto.TradeCommentDto;
 import com.team1.dadoc.trade.dto.TradeDto;
 import com.team1.dadoc.trade.service.TradeService;
 
@@ -25,10 +27,10 @@ public class TradeController {
 	
 	@Autowired
 	private TradeService service;
-	@Autowired
 	private TradeDao dao;
 	
-	//ajax 요청에 대해 Gallery 하단 페이징 처리에 필요한 데이터 리턴하는 메소드
+	
+	//ajax 요청에 대해 trade 하단 페이징 처리에 필요한 데이터 리턴하는 메소드
 	@RequestMapping("/api/trade/paging")
 	@ResponseBody
 	public Map<String, Object> paging(@RequestParam int pageNum){
@@ -61,7 +63,7 @@ public class TradeController {
 		return map;
 	}
 	
-	//ajax 요청에 대해 Gallery 목록을 출력할 컨트롤러 메소드 
+	//ajax 요청에 대해 trade 목록을 출력할 컨트롤러 메소드 
 	@RequestMapping("/api/trade/list")
 	@ResponseBody 
 	public List<TradeDto> getList2(HttpServletRequest request){
@@ -69,7 +71,7 @@ public class TradeController {
 		return service.getList2(request);
 	}
 	
-	//gallery list 페이지로 이동
+	//trade list 페이지로 이동
 	@RequestMapping(value = "/trade/list")
 	public String getList(HttpServletRequest request) {
 		//view 페이지에 사용될 데이터는 request 영역에 담는다.
@@ -78,14 +80,14 @@ public class TradeController {
 		return "trade/list";
 	}
 	
-	//gallery 사진 업로드 form 페이지로 이동
+	//trade 사진 업로드 form 페이지로 이동
 	@RequestMapping(value = "/trade/upload_form")
 	public ModelAndView authUploadForm(HttpServletRequest request) {
 		
 		return new ModelAndView("trade/upload_form");
 	}
 	
-	//gallery 사진 업로드 & DB 저장
+	//trade 사진 업로드 & DB 저장
 	@RequestMapping(value = "/trade/upload")
 	public ModelAndView authUpload(TradeDto dto, HttpServletRequest request) {
 		//form 에서 dto 로 데이터 받아옴
@@ -96,14 +98,14 @@ public class TradeController {
 		return new ModelAndView("trade/upload");
 	}
 	
-	//gallery 사진 업로드 form - ajax form
+	//trade 사진 업로드 form - ajax form
 	@RequestMapping(value = "/trade/ajax_form")
 	public ModelAndView authAjaxForm(HttpServletRequest request) {
 		
 		return new ModelAndView("trade/ajax_form");
 	}
 
-	//gallery 사진 업로드 - ajax
+	//trade 사진 업로드 - ajax
 	//json 으로 return 할 것
 	@RequestMapping(value = "/trade/ajax_upload")
 	@ResponseBody
@@ -115,7 +117,7 @@ public class TradeController {
 		return service.uploadAjaxImage(dto, request);
 	}
 	
-	//gallery 사진 업로드 - ajax
+	//trade 사진 업로드 - ajax
 	//json 으로 return 할 것
 	@RequestMapping(value = "/trade/ajax_upload2")
 	@ResponseBody
@@ -159,5 +161,49 @@ public class TradeController {
 		
 		return mView;
 	}
+	//글 자세히 보기 요청 처리
+		@RequestMapping("/trade/detail")
+		public String detail(HttpServletRequest request) {
+			service.getDetail(request);
+			return "trade/detail";
+		}
+	
+	//새로운 댓글 저장 요청 처리
+		@RequestMapping("/trade/private/comment_insert")
+		public ModelAndView CommentInsert(HttpServletRequest request, 
+				@RequestParam int ref_group) {
+			
+			service.saveComment(request);
+		
+			return new ModelAndView("redirect:/trade/detail.do?num="+ref_group);
+		}
+		//댓글 더보기 요청 처리
+		@RequestMapping("/trade/ajax_comment_list")
+		public String ajaxCommentList(HttpServletRequest request) {
+			
+			service.moreCommentList(request);
+			
+			return "trade/ajax_comment_list";
+		}
+		//댓글 삭제 요청 처리
+		@RequestMapping("/trade/private/comment_delete")
+		@ResponseBody
+		public Map<String, Object> authCommentDelete(HttpServletRequest request) {
+			service.deleteComment(request);
+			Map<String, Object> map=new HashMap<String, Object>();
+			map.put("isSuccess", true);
+			// {"isSuccess":true} 형식의 JSON 문자열이 응답되도록 한다. 
+			return map;
+		}
+		//댓글 수정 요청처리 (JSON 을 응답하도록 한다)
+		@RequestMapping("/trade/private/comment_update")
+		@ResponseBody
+		public Map<String, Object> authCommentUpdate(TradeCommentDto dto, HttpServletRequest request){
+			service.updateComment(dto);
+			Map<String, Object> map=new HashMap<String, Object>();
+			map.put("isSuccess", true);
+			// {"isSuccess":true} 형식의 JSON 문자열이 응답되도록 한다. 
+			return map;
+		}
 	
 }
