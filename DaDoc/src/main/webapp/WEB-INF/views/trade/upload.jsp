@@ -9,7 +9,7 @@
 </head>
 <body>
 	<script>
-		alert("사진 업로드에 성공했습니다.");
+		alert("업로드에 성공했습니다.");
 		location.href = "${pageContext.request.contextPath}/trade/list.do";
 	</script>
 </body>
