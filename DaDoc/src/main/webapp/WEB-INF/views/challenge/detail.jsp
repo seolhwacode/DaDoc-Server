@@ -128,13 +128,11 @@
 					<form
 						action="${pageContext.request.contextPath}/challenge/photoShot_upload.do"
 						method="post" id="photoShotForm" enctype="multipart/form-data">
-						<input type="file" name="image" id="image"
-							accept=".jpg, .jpeg, .png, .JPG, .JPEG, .gif" /> <input
-							type="hidden" name="id" id="id" value="hungry" /> <input
-							type="hidden" name="challengeTitle" id="challengeTitle"
-							value="${dto.title}" /> <input type="hidden" name="num" id="num"
-							value="${dto.num }" /> <input type="hidden" name="period"
-							id="period" value="${dto.period }" />
+						<input type="file" name="image" id="image" accept=".jpg, .jpeg, .png, .JPG, .JPEG, .gif" />
+						<input type="hidden" name="id" id="id" value="${sessionScope.id }" />
+						<input type="hidden" name="challengeTitle" id="challengeTitle" value="${dto.title}" /> 
+						<input type="hidden" name="num" id="num" value="${dto.num }" /> 
+						<input type="hidden" name="period" id="period" value="${dto.period }" />
 
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary"
@@ -188,10 +186,9 @@
 					<form
 						action="${pageContext.request.contextPath}/challenge/insertChallenger.do"
 						method="post">
-						<input type="hidden" name="id" id="id" value="hungry" /> <input
-							type="hidden" name="challengeTitle" id="challengeTitle"
-							value="${dto.title}" /> <input type="hidden" name="period"
-							id="period" value="${dto.period}" />
+						<input type="hidden" name="id" id="id" value="${sessionScope.id }" />
+						 <input type="hidden" name="challengeTitle" id="challengeTitle" value="${dto.title}" /> 
+						 <input type="hidden" name="period" id="period" value="${dto.period}" />
 						<button type="submit" class="btn btn-primary">신청</button>
 					</form>
 				</div>

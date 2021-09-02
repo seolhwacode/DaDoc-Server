@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 // /users/private/* 하위에서 일어나는 모든 요청에 filtering
 // /cafe/private/* 
 // 여러 장소에 filtering 하게 되었다! -> urlPatterns = {필터링 경로, ... } 로 여러 url 패턴을 넣을 수 있다!
-@WebFilter(urlPatterns = { "/users/private/*" })
+@WebFilter(urlPatterns = { "/users/private/*" , "/challenge/private/*"})
 public class LoginFilter implements Filter{
 
 	@Override

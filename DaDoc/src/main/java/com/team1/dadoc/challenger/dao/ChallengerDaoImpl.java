@@ -1,5 +1,7 @@
 package com.team1.dadoc.challenger.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -16,5 +18,12 @@ public class ChallengerDaoImpl implements ChallengerDao{
 	public void insert(ChallengerDto dto) {
 		session.insert("challenger.insert", dto);
 	}
+
+	@Override
+	public int getChallengers(String title) {
+		return session.selectOne("challenger.getChallenger"); 
+	}
+
+
 
 }

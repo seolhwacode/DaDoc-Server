@@ -107,12 +107,11 @@ public class ChallengeServiceImpl implements ChallengeService {
 		}
 		//ChallengesDto 객체를 이용해서 회원 목록을 얻어온다.
 		List<ChallengesDto> list = challengesDao.getList(dto);
-			   
+				
 		//하단 시작 페이지 번호 
 		int startPageNum = 1 + ((pageNum-1)/PAGE_DISPLAY_COUNT) * PAGE_DISPLAY_COUNT;
 		//하단 끝 페이지 번호
 		int endPageNum = startPageNum + PAGE_DISPLAY_COUNT - 1;
-			   
 		//전체 row 의 갯수
 		int totalRow = challengesDao.getCount();
 		//전체 페이지의 갯수 구하기

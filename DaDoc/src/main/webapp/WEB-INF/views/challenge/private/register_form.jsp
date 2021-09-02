@@ -16,7 +16,7 @@
 
 
 	<h1>챌린지 신청 폼입니다.</h1>
-	<form action="${pageContext.request.contextPath}/challenge/register.do" method="post" enctype="multipart/form-data" id="myForm" >
+	<form action="${pageContext.request.contextPath}/challenge/private/register.do" method="post" enctype="multipart/form-data" id="myForm" >
 		<!-- type radio -->
 		<p>-----타입 정하기-----</p>
 		<div>
@@ -29,7 +29,7 @@
 		</div>
 		<div>
 			<label class="control-label form-check-label" for="writer"></label>
-			<input class="control-label form-check-input" id="writer" name="writer" type="hidden" value="hungry" />
+			<input class="control-label form-check-input" id="writer" name="writer" type="hidden" value="${sessionScope.id }" />
 		</div>
 		<!-- title input -->
 		<p>-----챌린지 이름-----</p>

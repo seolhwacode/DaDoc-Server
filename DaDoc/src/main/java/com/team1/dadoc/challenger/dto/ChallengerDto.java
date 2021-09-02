@@ -8,10 +8,14 @@ public class ChallengerDto {
 	private int period;
 	private int stamp;
 	private String success;
+	private int countNum;
 	
 	public ChallengerDto() {}
 	
-	public ChallengerDto(int num, String id, String challengeTitle, int period, int stamp, String success) {
+
+
+	public ChallengerDto(int num, String id, String challengeTitle, int period, int stamp, String success,
+			int countNum) {
 		super();
 		this.num = num;
 		this.id = id;
@@ -19,7 +23,10 @@ public class ChallengerDto {
 		this.period = period;
 		this.stamp = stamp;
 		this.success = success;
+		this.countNum = countNum;
 	}
+
+
 
 	public int getNum() {
 		return num;
@@ -68,6 +75,15 @@ public class ChallengerDto {
 	public void setSuccess(String success) {
 		this.success = success;
 	}
+
+	public int getCountNum() {
+		return countNum;
+	}
+
+	public void setCountNum(int countNum) {
+		this.countNum = countNum;
+	}
+	
 	
 	
 }
