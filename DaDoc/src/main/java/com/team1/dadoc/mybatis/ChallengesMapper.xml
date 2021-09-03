@@ -53,4 +53,16 @@
 			ORDER BY num DESC)
 		WHERE num = #{num}
 	</select>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM dadoc_challenges
+		WHERE num=#{num}
+	</delete>
+	
+	<update id="update" parameterType="challengesDto">
+		UPDATE dadoc_challenges
+		SET title=#{title}, category=#{category}, description=#{description}, 
+		period=#{period}, startDate=#{startDate}, endDate=#{endDate}
+		WHERE num = #{num}
+	</update>
 </mapper>

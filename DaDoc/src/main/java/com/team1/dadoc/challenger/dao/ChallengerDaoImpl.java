@@ -24,6 +24,4 @@ public class ChallengerDaoImpl implements ChallengerDao{
 		return session.selectOne("challenger.getChallenger"); 
 	}
 
-
-
 }

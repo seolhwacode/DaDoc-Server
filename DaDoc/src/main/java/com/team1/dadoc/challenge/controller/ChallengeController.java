@@ -55,7 +55,7 @@ public class ChallengeController {
 	
 	// 챌린지 상세보기 (detail 페이지)
 	// 게시글의 num이 parameter get 방식으로 넘어온다.
-	@RequestMapping(value="/challenge/detail", method= RequestMethod.GET)
+	@RequestMapping(value="/challenge/private/detail", method= RequestMethod.GET)
 	public ModelAndView detail(HttpServletRequest request, ModelAndView mView, @RequestParam int num, @RequestParam String title) {
 		//detail 페이지에 필요한 data를 num을 통해 가져와서 ModelAndView에 저장
 		
@@ -65,8 +65,37 @@ public class ChallengeController {
 		dto.setId(id);
 		dto.setChallengeTitle(title);
 		service.getPhotoShot(mView, dto);
-		mView.setViewName("challenge/detail");
+		mView.setViewName("challenge/private/detail");
 		
+		return mView;
+	}
+	
+	//챌린시 수정 폼 요청 처리
+	@RequestMapping("/challenge/private/update_form")
+	public ModelAndView updateForm(HttpServletRequest request, ModelAndView mView,
+				@RequestParam int num) {
+		
+		//getData를 통해 수정 요청한 해당 정보를 가져온다.
+		service.getDetail(mView, num);
+		
+		mView.setViewName("challenge/private/update_form");
+		return mView;
+	}
+	
+	//챌린지 수정 하기
+	@RequestMapping(value="/challenge/private/update", method= RequestMethod.POST)
+	public ModelAndView update(ChallengesDto dto, HttpServletRequest request) {
+		service.updateChallenge(dto);
+		return new ModelAndView("challenge/private/update");
+	}
+	
+	//챌린지 삭제하기
+	@RequestMapping("/challenge/private/delete")
+	public ModelAndView delete(HttpServletRequest request, ModelAndView mView,
+				@RequestParam int num) {
+		service.deleteChallenge(num, request);
+		
+		mView.setViewName("redirect:/challenge/main");
 		return mView;
 	}
 	
@@ -91,7 +120,7 @@ public class ChallengeController {
 		service.savePhotoShot(dto, request);
 		// 상세 정보글의 번호 담아주기
 		int detailNum = dto.getNum();
-		mView.setViewName("redirect:/challenge/detail.do?num="+detailNum); //detail 페이지에 다시 데려오기
+		mView.setViewName("redirect:/challenge/private/detail.do?num="+detailNum); //detail 페이지에 다시 데려오기
 		
 		return mView;
 	}

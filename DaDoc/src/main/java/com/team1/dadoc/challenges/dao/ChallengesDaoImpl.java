@@ -48,4 +48,24 @@ public class ChallengesDaoImpl implements ChallengesDao {
 		return session.selectOne("challenges.getData", num);
 	}
 
+	@Override
+	public void delete(int num) {
+		/*
+		 * Mapper's name: challenges
+		 * sql's id: delete
+		 * parameterType: int
+		 * */
+		session.delete("challenges.delete", num);
+	}
+
+	@Override
+	public void update(ChallengesDto dto) {
+		/*
+		 * Mapper's name: challenges
+		 * sql's id: update
+		 * parameterType: dto
+		 * */
+		session.update("challenges.update",dto);
+	}
+
 }
