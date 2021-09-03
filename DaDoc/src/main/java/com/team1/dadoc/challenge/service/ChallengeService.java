@@ -28,4 +28,8 @@ public interface ChallengeService {
 	public void savePhotoShot(PhotoShotDto dto, HttpServletRequest request);
 	// 챌린지 인증샷 가져오기
 	public void getPhotoShot(ModelAndView mView, PhotoShotDto dto);
+	// 챌린지 삭제하기
+	public void deleteChallenge(int num, HttpServletRequest request);
+	// 챌린지 업뎃하기
+	public void updateChallenge(ChallengesDto dto);
 }

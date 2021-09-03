@@ -210,7 +210,7 @@
 											<span><i class="far fa-user"></i> By ${tmp.writer }</span> 
 											<span><i class="far fa-folder"></i> ${tmp.type },${tmp.category }</span> 
 											<span><i class="icon-calendar icons" > ${tmp.startDate } ~ ${tmp.endDate}</i></span>
-											<button type="button" data-class="${tmp.startDate }" class="detailBtn btn btn-rounded btn-warning mb-2" onclick="location.href='${pageContext.request.contextPath}/challenge/detail.do?num=${tmp.num}&title=${tmp.title}'">자세히 보기</button>
+											<button type="button" data-class="${tmp.startDate }" class="detailBtn btn btn-rounded btn-warning mb-2" onclick="location.href='${pageContext.request.contextPath}/challenge/private/detail.do?num=${tmp.num}&title=${tmp.title}'">자세히 보기</button>
 										</div>
 									</div>
 								</article>

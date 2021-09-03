@@ -13,4 +13,8 @@ public interface ChallengesDao {
 	public int getCount();
 	//챌린지 상세 정보 가져오기
 	public ChallengesDto getData(int num);
+	//챌린지 삭제
+	public void delete(int num);
+	//챌린지 업데이트
+	public void update(ChallengesDto dto);
 }

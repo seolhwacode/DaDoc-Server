@@ -135,6 +135,12 @@
 										<span><i class="icon-calendar icons" > ${dto.startDate } ~ ${dto.endDate}</i></span>
 									</div>
 								</div>
+								<c:if test="${dto.writer eq id }">
+								<!-- 수정 -->
+								<a href="update_form.do?num=${dto.num }"><i class="icon-pencil icons"></i><span class="name">수정</span></a>
+								<!-- 삭제 -->
+								<a href="javascript:deleteChallenge();"><i class="icon-trash icons"></i><span class="name">삭제</span></a>
+								</c:if>
 								<hr class="solid my-5">
 							<!-- 공유하기 칸 -->
 							<div class="post-block mt-5 post-share">
@@ -366,6 +372,14 @@
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script>
 
+	//챌린지 삭제
+	function deleteChallenge(){
+		let isDelete = confirm("챌린지를 삭제하시겠습니까?");
+		if(isDelete){
+			location.href="delete.do?num=${dto.num}";
+		}
+	}
+	
 	//트위터 공유 기능
 	function shareTwitter() {
 	    let sendText = "${dto.title}"; // 전달할 텍스트

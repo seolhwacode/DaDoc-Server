@@ -223,12 +223,20 @@ public class ChallengeServiceImpl implements ChallengeService {
 		//PhotoShotDao로 해당 게시글 num에 해당하는 데이터를 가져온다.
 		List<PhotoShotDto> photoList = photoShotDao.getPhotoShot(dto);
 		//ModelAndView에 가져온 Dto를 담는다.
-		mView.addObject("photoList", photoList);
-		for(int i=0; i<photoList.size(); i++) {
-			System.out.println(photoList.get(i).getPeriod());
-			System.out.println(photoList.get(i).getRegdate());
-		}		
+		mView.addObject("photoList", photoList);		
 	}
+
+	@Override
+	public void deleteChallenge(int num, HttpServletRequest request) {
+		challengesDao.delete(num);
+	}
+
+	@Override
+	public void updateChallenge(ChallengesDto dto) {
+		challengesDao.update(dto);
+	}
+
+
 
 
 
