@@ -9,6 +9,18 @@
 </head>
 <body>
 <div class="container">
+	<c:if test="${dto.prevNum ne 0 }">
+		<a href="detail.do?num=${dto.prevNum }&keyword=${encodedK }&condition=${condition }">이전글</a>
+	</c:if>
+	<c:if test="${dto.nextNum ne 0 }">
+		<a href="detail.do?num=${dto.nextNum }&keyword=${encodedK }&condition=${condition }">다음글</a>
+	</c:if>
+	<c:if test="${ not empty keyword }">
+		<p>	
+			<strong>${condition }</strong> 조건, 
+			<strong>${keyword }</strong> 검색어로 검색된 내용 자세히 보기 
+		</p>
+	</c:if>
 	<table>
 		<tr>
 			<th>글번호</th>
@@ -32,6 +44,15 @@
 			</td>
 		</tr>
 	</table>
+	<ul>
+		<li><a href="${pageContext.request.contextPath}/notice/list.do">목록보기</a></li>
+		<c:if test="${dto.writer eq id }">
+			<li><a href="updateform.do?num=${dto.num }">수정</a></li>
+			<li><a href="delete.do?num=${dto.num }">삭제</a></li>
+		</c:if>
+	</ul>
+	
 </div>
+
 </body>
 </html>

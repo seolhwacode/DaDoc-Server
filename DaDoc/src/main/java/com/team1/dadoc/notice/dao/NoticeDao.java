@@ -15,7 +15,7 @@ public interface NoticeDao {
 	
 	public NoticeDto getData(int num);
 	
-	public NoticeDto getDate(NoticeDto dto);
+	public NoticeDto getData(NoticeDto dto);
 	
 	public void delete(int num);
 		
