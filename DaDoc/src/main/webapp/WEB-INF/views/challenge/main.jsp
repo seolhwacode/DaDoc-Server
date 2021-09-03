@@ -7,9 +7,6 @@
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-
-<title>/views/challenge/main.do</title>
-
 <meta name="keywords" content="HTML5 Template" />
 <meta name="description" content="Porto - Responsive HTML5 Template">
 <meta name="author" content="okler.net">
@@ -77,7 +74,7 @@
 
 <!-- Theme Initialization Files -->
 <script src="${pageContext.request.contextPath}/resources/js/theme.init.js"></script>
-
+<title>CHALLENGE</title>
 <!-- CSS -->
 <style>
 
