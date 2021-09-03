@@ -121,22 +121,38 @@
 	margin-bottom: 50px;
 }
 
-
-/*링크 들어간 글자 색 변경*/
-a{
-	color:#D0AF84;
-}
-
-/*마우스 올렸을 때 색 변경*/
-a:hover{
-	color:#966C3B;
-}
-
 /*챌린지 설명 부분 크기 고정*/
 #challenge-description{
 	width: 210px;
-	height: 130px;
+	height: 110px;
 	margin-bottom: 20px;
+}
+
+/*챌린지명 색깔*/
+.titleLink{
+	color:#966C3B;
+}
+
+/*상세보기 버튼에 마우스를 올렸을 때*/
+.detailBtn:hover{
+	background-color: #966C3B;
+	border : 1px solid white;
+}
+
+/*상세보기 CSS */
+.detailBtn{
+	background-color: #D0AF84;
+	border : 1px solid white;
+	width:100px;
+	height:35px;
+	margin: 8px 40px;
+}
+
+/*비활성화 된 버튼*/
+.disabled-class:hover{
+	border : 0.1px solid white;
+	background-color: #C8C2BC; !important
+	
 }
 </style>
 </head>
@@ -182,25 +198,22 @@ a:hover{
 							<div class="col-md-4 col-lg-3">
 								<article class="post post-medium border-0 pb-0 mb-5">
 									<div class="post-image">
-										<a
-											href="${pageContext.request.contextPath}/challenge/detail.do?num=${tmp.num}&title=${tmp.title}">
-											<img
+										<img
 											class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0"
 											src="${pageContext.request.contextPath }${tmp.imagePath}" />
-										</a>
 									</div>
 
 									<div class="post-content">
 										<h2
 											class="font-weight-semibold text-5 line-height-6 mt-3 mb-2 bold-family">
-											<a href="${pageContext.request.contextPath}/challenge/detail.do?num=${tmp.num}&title=${tmp.title}">${tmp.title }</a>
+											<p class="titleLink">${tmp.title }</p>
 										</h2>
 										<p id="challenge-description">${tmp.description}</p>
 										<div class="post-meta">
 											<span><i class="far fa-user"></i> By ${tmp.writer }</span> 
 											<span><i class="far fa-folder"></i> ${tmp.type },${tmp.category }</span> 
-											<span><i class="icon-calendar icons"> ${tmp.startDate } ~ ${tmp.endDate}</i></span>
-											<span><i class="icon-people icons"></i> <a href="#">참가자 수 가져오기</a></span>
+											<span><i class="icon-calendar icons" > ${tmp.startDate } ~ ${tmp.endDate}</i></span>
+											<button type="button" data-class="${tmp.startDate }" class="detailBtn btn btn-rounded btn-warning mb-2" onclick="location.href='${pageContext.request.contextPath}/challenge/detail.do?num=${tmp.num}&title=${tmp.title}'">자세히 보기</button>
 										</div>
 									</div>
 								</article>
@@ -290,6 +303,54 @@ a:hover{
 	</nav>
 </div>
 
+<script>
+
+
+//모든 상세보기 버튼을 기간 체크를 해본다.
+challengeExpired(".detailBtn");
+
+//기간이 지난 챌린지 비활성화 시키는 함수
+function challengeExpired(sel){
+	//상세보기 버튼의 참조값을 모두 배열에 담는다.
+	let detailBtns = document.querySelectorAll(sel);
+	for(let i=0; i< detailBtns.length; i++){
+			//챌린지에 배정된 시작날짜를 불러온다.
+			const startDateValue = detailBtns[i].getAttribute("data-class");
+			//시작날짜 문자열 -> 숫자형으로 변환
+			const startDate = getStartDate(startDateValue);
+			//현재날짜를 숫자형으로 구한다.
+			const nowDate = getNowDate(new Date());
+			//만약 시작날짜보다 현재날짜가 더 크다면 
+			if(startDate<nowDate){
+				//해당 버튼을 비활성화 시킨다.
+				detailBtns[i].disabled=true;
+				//해당 버튼을 dsiabled-class를 넣고 CSS를 적용한다.
+				detailBtns[i].classList.add("disabled-class");
+				detailBtns[i].style.backgroundColor="#C8C2BC";
+				detailBtns[i].innerText="지난 챌린지"
+			}
+	}
+}
+
+//현재 날짜를 구하고 숫자로 변형하는 함수
+function getNowDate(date){
+	let nowYear = String(date.getFullYear());
+	let nowMonth = date.getMonth()+1;
+	    nowMonth = nowMonth >= 10? nowMonth : '0' + nowMonth;
+	let nowDay = date.getDate();
+	    nowDay = nowDay >=10 ? nowDay : '0' + nowDay
+
+	let nowTime = nowYear.concat(nowMonth,nowDay);
+
+	  return Number(nowTime);
+	  
+	}
+
+//신청 날짜를 구하고 숫자로 변형하는 함수
+function getStartDate(date){
+  return Number(date.replace(/-/gi,'')); 
+}
+</script>
 </body>
 </html>
 
