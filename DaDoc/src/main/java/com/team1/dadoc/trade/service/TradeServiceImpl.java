@@ -49,6 +49,8 @@ public class TradeServiceImpl implements TradeService {
 		int startRowNum = 1 + (pageNum-1) * PAGE_ROW_COUNT;
 		//보여줄 페이지의 끝 ROWNUM
 		int endRowNum = pageNum * PAGE_ROW_COUNT;
+		
+		
 	   
 		//startRowNum 과 endRowNum  을 TradeDto 객체에 담고
 		TradeDto dto = new TradeDto();
@@ -78,6 +80,7 @@ public class TradeServiceImpl implements TradeService {
 		request.setAttribute("endPageNum", endPageNum);	//끝 페이지 번호
 		request.setAttribute("pageNum", pageNum);	//현재 페이지 번호
 		request.setAttribute("totalPageCount", totalPageCount);	//모든 페이지 count
+		request.setAttribute("totalRow", totalRow);
 		
 	}
 	
@@ -219,9 +222,7 @@ public class TradeServiceImpl implements TradeService {
 	@Override
 	public void getDetail(HttpServletRequest request) {
 		//자세히 보여줄 글번호를 읽어온다. 
-		System.out.println("서비스");
 		int num=Integer.parseInt(request.getParameter("num"));
-
 		/*
 			[ 검색 키워드에 관련된 처리 ]
 			-검색 키워드가 파라미터로 넘어올수도 있고 안넘어 올수도 있다.		
@@ -286,10 +287,7 @@ public class TradeServiceImpl implements TradeService {
 		int totalRow=tradeCommentDao.getCount(num);
 		//댓글 전체 페이지의 갯수
 		int totalPageCount=(int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
-		
-		
-		System.out.println(totalPageCount);
-		
+			
 		//view page 에서 필요한 값 request 에 담아주기
 		request.setAttribute("dto", dto);
 		request.setAttribute("commentList", commentList);
@@ -388,7 +386,8 @@ public class TradeServiceImpl implements TradeService {
 		request.setAttribute("commentList", commentList);
 		request.setAttribute("num", num); //원글의 글번호
 		request.setAttribute("pageNum", pageNum); //댓글의 페이지 번호
-		
+		request.setAttribute("totalPageCount", totalPageCount);
+		request.setAttribute("totalRow", totalRow);
 	}
 	
 	@Override

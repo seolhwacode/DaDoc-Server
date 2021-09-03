@@ -29,6 +29,19 @@
 		]]>
 	</select> 
 	
+	<select id="getCount" parameterType="noticeDto" resultType="int">
+		SELECT NVL(MAX(ROWNUM), 0)
+		FROM notice_board
+		<include refid="searchCondition"/>
+	</select>
+	
+	<insert id="insert" parameterType="noticeDto">
+		INSERT INTO notice_board
+		(num,writer,title,content,regdate)
+		VALUES(notice_board_seq.NEXTVAL, #{writer}, #{title},
+			#{content}, SYSDATE)
+	</insert>
+	
 	<select id="getData" parameterType="int" resultType="noticeDto">
 		SELECT result1.*
 		FROM
@@ -38,5 +51,30 @@
 			LEAD(num,1,0) OVER (ORDER BY num DESC) AS nextNum
 			FROM notice_board) result1
 		WHERE num=#{num}
-</select>
+	</select>
+	
+	<select id="getData2" parameterType="noticeDto" resultType="noticeDto">
+		SELECT result1.*
+		FROM
+			(SELECT num,writer,title,content,
+				TO_CHAR(regdate,'YY.MM.DD HH24:MI') AS regdate,
+				LAG(num,1,0) OVER (ORDER BY num DESC) AS prevNum,
+				LEAD(num,1,0) OVER (ORDER BY num DESC) AS nextNum
+			FROM notice_board
+			<include refid="searchCondition"/>
+			) result1
+		WHERE num=#{num}	
+	</select>
+	
+	<delete id="delete" parameterType="int">
+		DELETE FROM notice_board
+		WHERE num=#{num}
+	</delete>
+	
+	<update id="update" parameterType="noticeDto">
+		UPDATE notice_board
+		SET title=#{title}, content=#{content}
+		WHERE num=#{num}
+	</update>
+	
 </mapper>
