@@ -44,7 +44,7 @@ public class AuthAspect {
 						
 					//로그인 페이지로 리다일렉트 할수 있는 ModelAndView 객체를 생성해서 
 					ModelAndView mView=new ModelAndView();
-					mView.setViewName("redirect:/users/loginform.do?url="+encodedUrl);
+					mView.setViewName("redirect:/users/login_form.do?url="+encodedUrl);
 					//메소드를 여기서 리턴 시킨다. 
 					return mView;
 				}
