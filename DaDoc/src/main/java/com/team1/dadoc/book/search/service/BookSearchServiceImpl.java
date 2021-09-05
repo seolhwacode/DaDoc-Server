@@ -11,12 +11,13 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.team1.dadoc.book.search.dto.BookSearchDto;
 
 @Service
 public class BookSearchServiceImpl implements BookSearchService {
 
 	@Override
-	public Map<String, Object> getBasicSearchList(String query) {
+	public Map<String, Object> getBasicSearchList(BookSearchDto dto) {
 		//애플리케이션 클라이언트 아이디값
 		String clientId = "tPLcDAdvKX1Enb22c25W";
 		//애플리케이션 클라이언트 시크릿값
@@ -24,9 +25,10 @@ public class BookSearchServiceImpl implements BookSearchService {
 		
         try {
         	//검색어를 인코딩하기
-        	String encodedQuery = URLEncoder.encode(query, "UTF-8");
+        	String encodedQuery = URLEncoder.encode(dto.getQuery(), "UTF-8");
         	//검색 요청 url
-        	String apiURL = "https://openapi.naver.com/v1/search/book.json?query=" + encodedQuery;
+        	String apiURL = "https://openapi.naver.com/v1/search/book.json?query=" + encodedQuery 
+        			+ "&display=" + dto.getDisplay() + "&start=" + dto.getStart();
         	//요청 url 에 요청하기위한 URL 객체
         	URL url = new URL(apiURL);
         	//connection 가져오기
