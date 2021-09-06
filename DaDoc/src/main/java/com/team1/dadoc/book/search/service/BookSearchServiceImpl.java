@@ -28,9 +28,11 @@ public class BookSearchServiceImpl implements BookSearchService {
         try {
         	//검색어를 인코딩하기
         	String encodedQuery = URLEncoder.encode(dto.getQuery(), "UTF-8");
+        	//sort 인코딩하기
+        	String encodedSort = URLEncoder.encode(dto.getSort(), "UTF-8");
         	//검색 요청 url
         	String apiURL = "https://openapi.naver.com/v1/search/book.json?query=" + encodedQuery 
-        			+ "&display=" + dto.getDisplay() + "&start=" + dto.getStart();
+        			+ "&display=" + dto.getDisplay() + "&start=" + dto.getStart() + "&sort=" + encodedSort;
         	//요청 url 에 요청하기위한 URL 객체
         	URL url = new URL(apiURL);
         	//connection 가져오기
@@ -84,9 +86,11 @@ public class BookSearchServiceImpl implements BookSearchService {
 	@Override
 	public Map<String, Object> getDetailSearchList(BookSearchDto dto) {
 		try {
+			//sort 인코딩하기
+        	String encodedSort = URLEncoder.encode(dto.getSort(), "UTF-8");
 			//검색 요청 url
         	String apiURL = "https://openapi.naver.com/v1/search/book_adv.xml?"
-        			+ "display=" + dto.getDisplay() + "&start=" + dto.getStart();
+        			+ "display=" + dto.getDisplay() + "&start=" + dto.getStart() + "&sort=" + encodedSort;
 			//검색어들 null 검사하기
         	//-> null 이 아니면? -> 검색어를 인코딩하기 -> apiURL 에 추가한다.
         	//1. 제목(d_titl)

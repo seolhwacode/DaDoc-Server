@@ -8,6 +8,17 @@
 <title>/booksearch/search_list.do</title>
 <!-- bootstrap -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+<style>
+	a{
+		/* link 의 밑줄 없애기 */
+		text-decoration: none;
+		color: black;
+	}
+	.sort-selected{
+		/* 선택된 것의 글씨를 진하게 하기 */
+		font-weight: bold;
+	}
+</style>
 </head>
 <body>
 	<div class="container" id="search_list_container">
@@ -16,9 +27,10 @@
 			<form @submit.prevent="submitBasicSearch" ref="basicSearchForm"
 					method="get"
 					action="${pageContext.request.contextPath}/booksearch/ajax_basic_search.do">
-				<!-- 들고 올 총 개수 / 시작 row 번호 -->
+				<!-- 들고 올 총 개수 / 시작 row 번호  / 정렬 방법 -->
 				<input type="hidden" name="display" v-bind:value="display" />
 				<input type="hidden" name="start" value="1" ref="inputStart"/>
+				<input type="hidden" name="sort" value="sim" ref="b_inputSort" />
 				<div>
 					<label for="query">기본 검색</label>
 					<input v-model="query" type="text" name="query" id="query" />
@@ -32,9 +44,10 @@
 		<div>
 			<form @submit.prevent="submitDetailSearch" ref="detailSearchForm" 
 					action="${pageContext.request.contextPath}/booksearch/ajax_detail_search.do" method="get">
-				<!-- 들고 올 총 개수 / 시작 row 번호 -->
+				<!-- 들고 올 총 개수 / 시작 row 번호 / 정렬 방법 -->
 				<input type="hidden" name="display" v-bind:value="display" />
 				<input type="hidden" name="start" value="1" ref="d_inputStart" />
+				<input type="hidden" name="sort" value="sim" ref="d_inputSort" />
 				<div>
 					<label for="d_titl">책 제목</label>
 					<input type="text" name="d_titl" id="d_titl" />
@@ -72,6 +85,12 @@
 				</div>
 			</form>
 		</div>
+		
+		<!-- sim(유사도순), date(출간일순), count(판매량순) -->
+		<!-- css 로 선택된 상태 & hover된 상태에서 색이 다르게 되게 한다. -->
+		<a @click="changeSort('sim')" v-bind:class="{'sort-selected': isSimSort}" href="javascript:">유사도순</a>
+		<a @click="changeSort('date')" v-bind:class="{'sort-selected': isDateSort}" href="javascript:">출간일순</a>
+		<a @click="changeSort('count')" v-bind:class="{'sort-selected': isCountSort}" href="javascript:">판매량순</a>
 		
 		<br />
 		
@@ -178,7 +197,7 @@
 						요약 : <span v-html="listItem.description"></span>
 					</div>
 					<div>
-						출간일 : <span v-html="listItem.datetime"></span>
+						출간일 : <span v-html="listItem.pubdate"></span>
 					</div>
 				</div>
 			`,
@@ -224,9 +243,47 @@
 	            	totalPageCount: 1	//페이지의 총 개수 : total, display 로 부터 만들어내기
 	            },
 	            isBasicSearch: false,	//기본 검색 상태
-	            isDetailSearch: false	//상세 검색 상태
+	            isDetailSearch: false,	//상세 검색 상태
+	            isSimSort: true,	//유사도순
+	            isDateSort: false,	//출판일순
+	            isCountSort: false	//판매량순
 			},
 			methods: {
+				//정렬 방법 변경 및 화면 ajax 로 변경하기
+				changeSort(sort){
+					//기본 & 상세 검색 form 의 정렬방법 변경하기
+					this.$refs.b_inputSort.value = sort;
+					this.$refs.d_inputSort.value = sort;
+					
+					//class 변경을 위해 isSimSort, isDateSort, isCountSort 값 조절
+					if(sort === 'sim'){
+						//sim : 유사도순
+						this.isSimSort = true;
+						this.isDateSort = false;
+						this.isCountSort = false;
+					}else if(sort === 'date'){
+						//date : 출판일순
+						this.isSimSort = false;
+						this.isDateSort = true;
+						this.isCountSort = false;
+					}else{
+						//count : 판매량순
+						this.isSimSort = false;
+						this.isDateSort = false;
+						this.isCountSort = true;
+					}
+					
+					//어떤 검색인지에 따라서 ajax 하는 form 이 달라진다.
+					if(this.isDetailSearch){
+	                	//상세검색
+	                	alert("상세검색");
+	                	this.detailSearch();
+	                }else{
+	                	alert("기본 검색");
+	                	//bastic 검색
+		            	this.basicSearch();
+	                }
+				},
 				//네이버 상세검색 버튼을 눌러서 검색할 때 이벤트처리
 				submitDetailSearch(){
 					//검색버튼을 누른다 -> input 값 직접 변경(input hidden 은 v-model 이 통하지 X)
@@ -235,6 +292,12 @@
 					//상세 검색 상태로 만든다.
 					this.isBasicSearch = false;
 	            	this.isDetailSearch = true;
+	            	
+	            	//sort 는 첫 검색 버튼 누르면 무조건 sim(유사도순)
+	            	this.$refs.d_inputSort.value = 'sim';
+	            	this.isSimSort = true;
+					this.isDateSort = false;
+					this.isCountSort = false;
 					
 					//ajax 호출
 	            	this.detailSearch();
@@ -262,7 +325,7 @@
 					})
 					.then(function(data){
 						//제발 json 으로 넘어와줘
-						//console.log(data);
+						console.log(data);
 						//우리는 data 의 items object 를 사용한다.
 						//data : 내부에 개개 책의 정보가 담긴 object 를 담고 있는 array 이다.
 						
@@ -296,7 +359,6 @@
 	                //query 가 빈칸 -> detail 검색 -> 상세검색시에 query 가 빈칸이 아니면 오류가 생긴다.
 	                //-> 수정 : isBasicSearch, isDetailSearch 를 사용하여 상태를 관리한다.
 	                if(this.isDetailSearch){
-	                	alert('상세 검색');
 	                	//상세검색
 	                	// 화면 업데이트 -> form 의 start 를 바꾸고 -> 검색을 다시 한다.
 		                //-> input 값 직접 변경(input hidden 은 v-model 이 통하지 X)
@@ -305,7 +367,6 @@
 	                }else{//isBasicSearch 와 isDetailSearch 는 서로 반대의 값을 가짐 -> bastic 검색
 	                	// 화면 업데이트 -> form 의 start 를 바꾸고 -> 검색을 다시 한다.
 		                //-> input 값 직접 변경(input hidden 은 v-model 이 통하지 X)
-		                alert('기본 검색');
 		            	this.$refs.inputStart.value = pageNum;
 		                //ajax
 		            	this.basicSearch();
@@ -319,6 +380,12 @@
 	            	//기본 검색 상태로 만든다.
 	            	this.isBasicSearch = true;
 	            	this.isDetailSearch = false;
+	            	
+	            	//sort 는 첫 검색 버튼 누르면 무조건 sim(유사도순)
+	            	this.$refs.b_inputSort.value = 'sim';
+	            	this.isSimSort = true;
+					this.isDateSort = false;
+					this.isCountSort = false;
 	            	
 	            	//ajax 호출
 	            	this.basicSearch();
@@ -345,7 +412,7 @@
 					})
 					.then(function(data){
 						//제발 json 으로 넘어와줘
-						//console.log(data);
+						console.log(data);
 						//우리는 data 의 items object 를 사용한다.
 						//data : 내부에 개개 책의 정보가 담긴 object 를 담고 있는 array 이다.
 						self.searchList = data.items;
@@ -383,14 +450,14 @@
 					
 					
 					//임시 출력
-/* 					console.log('searchList');
-					console.log(this.searchList);
+ 					//console.log('searchList');
+					//console.log(this.searchList);
 					console.log('list type : ' + typeof(this.searchList));
 					console.log('total : ' + this.total);
 					console.log('totalPageCount : ' + this.paging_data.totalPageCount);
 					console.log('pageNum : ' + this.paging_data.pageNum);
 					console.log('startPageNum : ' + this.paging_data.startPageNum);
-					console.log('endPageNum : ' + this.paging_data.endPageNum); */
+					console.log('endPageNum : ' + this.paging_data.endPageNum);
 				}
 			},
 			created(){
