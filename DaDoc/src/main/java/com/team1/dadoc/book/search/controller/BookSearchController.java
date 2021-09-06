@@ -28,7 +28,15 @@ public class BookSearchController {
 	@RequestMapping(value = "/booksearch/ajax_basic_search")
 	@ResponseBody
 	public Map<String, Object> ajaxBasicSearch(BookSearchDto dto) {
-		//onpen api 에서 json 형식의 string 받다온다.
+		//onpen api 에서 json string 으로 받아서 Map 에 받다온다.
 		return service.getBasicSearchList(dto);
+	}
+	
+	//네이버 상세 검색 api
+	@RequestMapping(value = "/booksearch/ajax_detail_search")
+	@ResponseBody
+	public Map<String, Object> ajaxDetailSearch(BookSearchDto dto){
+		//open api 에서 xml 형식의 데이터를 받아, json 으로 만든 후, Map 에 담아 가져온다.
+		return service.getDetailSearchList(dto);
 	}
 }

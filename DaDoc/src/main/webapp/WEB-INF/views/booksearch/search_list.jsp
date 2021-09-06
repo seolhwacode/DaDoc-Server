@@ -30,10 +30,11 @@
 		</div>
 		<!-- 상세 검색 form -->
 		<div>
-			<form action="" method="get">
+			<form @submit.prevent="submitDetailSearch" ref="detailSearchForm" 
+					action="${pageContext.request.contextPath}/booksearch/ajax_detail_search.do" method="get">
 				<!-- 들고 올 총 개수 / 시작 row 번호 -->
 				<input type="hidden" name="display" v-bind:value="display" />
-				<input type="hidden" name="start" value="1" />
+				<input type="hidden" name="start" value="1" ref="d_inputStart" />
 				<div>
 					<label for="d_titl">책 제목</label>
 					<input type="text" name="d_titl" id="d_titl" />
@@ -65,6 +66,9 @@
 				<div>
 					<label for="d_catg">카테고리</label>
 					<input type="text" name="d_catg" id="d_catg" />
+				</div>
+				<div>
+					<button type="submit">검색</button>
 				</div>
 			</form>
 		</div>
@@ -221,18 +225,81 @@
 	            },
 			},
 			methods: {
+				//네이버 상세검색 버튼을 눌러서 검색할 때 이벤트처리
+				submitDetailSearch(){
+					//검색버튼을 누른다 -> input 값 직접 변경(input hidden 은 v-model 이 통하지 X)
+					this.$refs.d_inputStart.value = 1;
+					
+					//ajax 호출
+	            	this.detailSearch();
+				},
+				detailSearch(){
+					//form 의 객체를 가져옴
+					const form = this.$refs.detailSearchForm;
+					
+					//form 의 action 속성 url 을 가져옴
+					const url = form.getAttribute("action");
+					
+					//gura_util 에서 가져옴 -> form 의 쿼리string 을 가져오기
+					//여기서는 query, display, start 3가지가 들어온다.
+					const queryString = new URLSearchParams(new FormData(form)).toString();
+					
+					console.log('queryString : ' + queryString);
+					
+					//vue 객체
+					const self = this;
+					
+					//ajax 로 받아오기
+					fetch(url + "?" + queryString)
+					.then(function(response){
+						return response.json();
+					})
+					.then(function(data){
+						//제발 json 으로 넘어와줘
+						console.log(data);
+						//우리는 data 의 items object 를 사용한다.
+						//data : 내부에 개개 책의 정보가 담긴 object 를 담고 있는 array 이다.
+						
+						//오류 : 검색되는 결과가 1개일 때, array 가 아닌 단일 object 로 넘어온다.
+						//-> object 를 array 에 넣어서 this.searchList 에 담는다.
+						if(data.rss.channel.total === 1){
+							//새로운 array 만들기
+							let newArray = [];
+							//object 담기
+							newArray.push(data.rss.channel.item);
+							//this.arrayList 에 담기
+							self.searchList = newArray;
+						}else{
+							self.searchList = data.rss.channel.item;
+						}
+						
+						//페이징 처리와 관련된 데이터들 update
+						self.pagingDataUpdate(data.rss.channel);
+					});
+				},
 				//출력하는 페이지 가 변경된다.
 				movePage(pageNum){
-					alert(pageNum);
+					//현재페이지와 동일한 페이지를 클릭 -> ajax 받아오지 X(자원 낭비)
+					if(pageNum === this.paging_data.pageNum){
+						return;
+					}
 					
 	                //현재 페이지를 수정하고
 	                this.paging_data.pageNum = pageNum;
-	                
-		        	// 화면 업데이트 -> form 의 start 를 바꾸고 -> 검색을 다시 한다.
-	                //-> input 값 직접 변경(input hidden 은 v-model 이 통하지 X)
-	            	this.$refs.inputStart.value = pageNum;
-	                //ajax
-	                this.basicSearch();
+	               	
+	                //query 가 빈칸 -> detail 검색
+	                if(this.query == ''){
+	                	// 화면 업데이트 -> form 의 start 를 바꾸고 -> 검색을 다시 한다.
+		                //-> input 값 직접 변경(input hidden 은 v-model 이 통하지 X)
+	                	this.$refs.d_inputStart.value = pageNum;
+	                	this.detailSearch();
+	                }else{//query 가 빈칸 X -> bastic 검색
+	                	// 화면 업데이트 -> form 의 start 를 바꾸고 -> 검색을 다시 한다.
+		                //-> input 값 직접 변경(input hidden 은 v-model 이 통하지 X)
+		            	this.$refs.inputStart.value = pageNum;
+		                //ajax
+		            	this.basicSearch();
+	                }
 	            },
 	 	        //네이버 기본 검색버튼을 눌러서 검색할 때 이벤트처리
 	            submitBasicSearch(){
@@ -299,6 +366,17 @@
 					if(this.paging_data.endPageNum > this.paging_data.totalPageCount){
 						this.paging_data.endPageNum = this.paging_data.totalPageCount;	//보정해준다.
 					}
+					
+					
+					//임시 출력
+					console.log('searchList');
+					console.log(this.searchList);
+					console.log('list type : ' + typeof(this.searchList));
+					console.log('total : ' + this.total);
+					console.log('totalPageCount : ' + this.paging_data.totalPageCount);
+					console.log('pageNum : ' + this.paging_data.pageNum);
+					console.log('startPageNum : ' + this.paging_data.startPageNum);
+					console.log('endPageNum : ' + this.paging_data.endPageNum);
 				}
 			},
 			created(){
