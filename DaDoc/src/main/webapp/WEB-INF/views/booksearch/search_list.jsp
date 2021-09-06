@@ -223,12 +223,18 @@
 	            	endPageNum: 1,	//보여지는 끝 페이지 숫자
 	            	totalPageCount: 1	//페이지의 총 개수 : total, display 로 부터 만들어내기
 	            },
+	            isBasicSearch: false,	//기본 검색 상태
+	            isDetailSearch: false	//상세 검색 상태
 			},
 			methods: {
 				//네이버 상세검색 버튼을 눌러서 검색할 때 이벤트처리
 				submitDetailSearch(){
 					//검색버튼을 누른다 -> input 값 직접 변경(input hidden 은 v-model 이 통하지 X)
 					this.$refs.d_inputStart.value = 1;
+					
+					//상세 검색 상태로 만든다.
+					this.isBasicSearch = false;
+	            	this.isDetailSearch = true;
 					
 					//ajax 호출
 	            	this.detailSearch();
@@ -244,7 +250,7 @@
 					//여기서는 query, display, start 3가지가 들어온다.
 					const queryString = new URLSearchParams(new FormData(form)).toString();
 					
-					console.log('queryString : ' + queryString);
+					//console.log('queryString : ' + queryString);
 					
 					//vue 객체
 					const self = this;
@@ -256,7 +262,7 @@
 					})
 					.then(function(data){
 						//제발 json 으로 넘어와줘
-						console.log(data);
+						//console.log(data);
 						//우리는 data 의 items object 를 사용한다.
 						//data : 내부에 개개 책의 정보가 담긴 object 를 담고 있는 array 이다.
 						
@@ -287,15 +293,19 @@
 	                //현재 페이지를 수정하고
 	                this.paging_data.pageNum = pageNum;
 	               	
-	                //query 가 빈칸 -> detail 검색
-	                if(this.query == ''){
+	                //query 가 빈칸 -> detail 검색 -> 상세검색시에 query 가 빈칸이 아니면 오류가 생긴다.
+	                //-> 수정 : isBasicSearch, isDetailSearch 를 사용하여 상태를 관리한다.
+	                if(this.isDetailSearch){
+	                	alert('상세 검색');
+	                	//상세검색
 	                	// 화면 업데이트 -> form 의 start 를 바꾸고 -> 검색을 다시 한다.
 		                //-> input 값 직접 변경(input hidden 은 v-model 이 통하지 X)
 	                	this.$refs.d_inputStart.value = pageNum;
 	                	this.detailSearch();
-	                }else{//query 가 빈칸 X -> bastic 검색
+	                }else{//isBasicSearch 와 isDetailSearch 는 서로 반대의 값을 가짐 -> bastic 검색
 	                	// 화면 업데이트 -> form 의 start 를 바꾸고 -> 검색을 다시 한다.
 		                //-> input 값 직접 변경(input hidden 은 v-model 이 통하지 X)
+		                alert('기본 검색');
 		            	this.$refs.inputStart.value = pageNum;
 		                //ajax
 		            	this.basicSearch();
@@ -305,6 +315,10 @@
 	            submitBasicSearch(){
 	            	//검색버튼을 누른다 -> input 값 직접 변경(input hidden 은 v-model 이 통하지 X)
 	            	this.$refs.inputStart.value = 1;
+	            	
+	            	//기본 검색 상태로 만든다.
+	            	this.isBasicSearch = true;
+	            	this.isDetailSearch = false;
 	            	
 	            	//ajax 호출
 	            	this.basicSearch();
@@ -331,7 +345,7 @@
 					})
 					.then(function(data){
 						//제발 json 으로 넘어와줘
-						console.log(data);
+						//console.log(data);
 						//우리는 data 의 items object 를 사용한다.
 						//data : 내부에 개개 책의 정보가 담긴 object 를 담고 있는 array 이다.
 						self.searchList = data.items;
@@ -369,14 +383,14 @@
 					
 					
 					//임시 출력
-					console.log('searchList');
+/* 					console.log('searchList');
 					console.log(this.searchList);
 					console.log('list type : ' + typeof(this.searchList));
 					console.log('total : ' + this.total);
 					console.log('totalPageCount : ' + this.paging_data.totalPageCount);
 					console.log('pageNum : ' + this.paging_data.pageNum);
 					console.log('startPageNum : ' + this.paging_data.startPageNum);
-					console.log('endPageNum : ' + this.paging_data.endPageNum);
+					console.log('endPageNum : ' + this.paging_data.endPageNum); */
 				}
 			},
 			created(){
