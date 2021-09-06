@@ -70,6 +70,14 @@ public class ChallengeController {
 		return mView;
 	}
 	
+	//새로운 댓글 저장 요청 처리
+	@RequestMapping("/challenge/private/comment_insert")
+	public ModelAndView commentInsert(HttpServletRequest request,
+				@RequestParam int ref_group, @RequestParam String title) {
+		service.saveComment(request);
+		return new ModelAndView("redirect:challenge/main");
+	}
+	
 	//챌린시 수정 폼 요청 처리
 	@RequestMapping("/challenge/private/update_form")
 	public ModelAndView updateForm(HttpServletRequest request, ModelAndView mView,
