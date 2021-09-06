@@ -70,8 +70,7 @@ public class NoticeServiceImpl implements NoticeService {
 				dto.setContent(keyword);
 			}else if(condition.equals("title")){ //제목 검색인 경우
 				dto.setTitle(keyword);
-			}else if(condition.equals("writer")){ //작성자 검색인 경우
-				dto.setWriter(keyword);
+			
 			} // 다른 검색 조건을 추가 하고 싶다면 아래에 else if() 를 계속 추가 하면 된다.
 		}
 		//글 목록 얻어오기

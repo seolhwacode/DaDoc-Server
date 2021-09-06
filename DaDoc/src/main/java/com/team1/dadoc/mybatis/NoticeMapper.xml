@@ -10,9 +10,7 @@
 			<when test="title != null">
 				WHERE title LIKE '%'||#{title}||'%'
 			</when>
-			<when test="writer != null">
-				WHERE writer LIKE '%'||#{writer}||'%'
-			</when>
+			
 		</choose>
 	</sql>
 	<select id="getList" parameterType="noticeDto" resultType="noticeDto">

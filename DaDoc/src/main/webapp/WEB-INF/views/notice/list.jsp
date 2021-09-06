@@ -6,10 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>/views/notice/list.jsp</title>
+
 </head>
 <body>
 <div class="container">
-	<a href="insertform.do">새글 작성</a>
+	<!-- admin만 글쓰기 버튼 활성화 -->
+	<c:if test="${sessionScope.id eq 'admin' }">
+		<a href="${pageContext.request.contextPath}/notice/insertform.do">글쓰기</a>
+	</c:if>
 	<h1>공지 게시판 입니다.</h1>
 	<table>
 		<thead>
@@ -67,7 +71,7 @@
 		<select name="condition" id="condition">
 			<option value="title_content" ${condition eq 'title_content' ? 'selected' : '' }>제목+내용</option>
 			<option value="title" ${condition eq 'title' ? 'selected' : '' }>제목</option>
-			<option value="writer" ${condition eq 'writer' ? 'selected' : '' }>관리자</option>
+			
 		</select>
 		<input type="text" id="keyword" name="keyword" placeholder="검색어..." value="${keyword }"/>
 		<button type="submit">검색</button>
