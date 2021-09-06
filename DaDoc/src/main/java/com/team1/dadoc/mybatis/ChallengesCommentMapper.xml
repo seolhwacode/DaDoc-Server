@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="challengesComment">
+	<select id="getList" parameterType="challengesCommentDto" resultType="challengesCommentDto">
+		SELECT *
+		FROM
+			(SELECT result1.*, ROWNUM AS rnum
+			FROM
+				(SELECT num, writer, content, target_id, ref_group,
+					comment_group, deleted, dadoc_challenge_comment.regdate, profile
+				FROM dadoc_challenge_comment
+				INNER JOIN dadoc_users
+				ON dadoc_challenge_comment.writer=dadoc_users.id
+				WHERE ref_group=#{ref_group}
+				ORDER BY comment_group ASC, num ASC) result1)
+		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}	
+	</select>
+	
+	<select id="getCount" parameterType="int" resultType="int">
+		SELECT NVL(MAX(ROWNUM), 0)
+		FROM dadoc_challenge_comment
+		WHERE ref_group=#{ref_group}
+	</select>
+	
+	<insert id="insert" parameterType="challengesCommentDto">
+		INSERT INTO dadoc_challenge_comment
+		(num, writer, content, target_id, ref_group, comment_group, regdate)
+		VALUES(#{num}, #{writer}, #{content}, #{target_id}, #{ref_group},
+			#{comment_group}, SYSDATE)
+	</insert>
+	
+	<select id="getSequence" resultType="int">
+		SELECT dadoc_challenge_comment_seq.NEXTVAL
+		FROM DUAL
+	</select>
+</mapper>

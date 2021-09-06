@@ -16,7 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.team1.dadoc.challenger.dao.ChallengerDao;
 import com.team1.dadoc.challenger.dto.ChallengerDto;
+import com.team1.dadoc.challenges.dao.ChallengesCommentDao;
 import com.team1.dadoc.challenges.dao.ChallengesDao;
+import com.team1.dadoc.challenges.dto.ChallengesCommentDto;
 import com.team1.dadoc.challenges.dto.ChallengesDto;
 import com.team1.dadoc.photoshot.dao.PhotoShotDao;
 import com.team1.dadoc.photoshot.dto.PhotoShotDto;
@@ -30,6 +32,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 	private ChallengerDao challengerDao;
 	@Autowired
 	private PhotoShotDao photoShotDao;
+	@Autowired
+	private ChallengesCommentDao commentDao;
 	
 	// 새로운 챌린지 등록하는 메소드
 	@Override
@@ -174,8 +178,39 @@ public class ChallengeServiceImpl implements ChallengeService {
 	public void getDetail(ModelAndView mView, int num) {
 		//challengesDao로 해당 게시글 num에 해당하는 데이터를 가져온다.
 		ChallengesDto dto = challengesDao.getData(num);
-		//ModelAndView에 가져온 Dto를 담는다.
+		
+		//[댓글 관련 로직]
+		
+		//한 페이지에 몇개씩 표시할 것인지
+		final int PAGE_ROW_COUNT = 10;
+		//detail 페이지에서는 항상 1페이지의 댓글 내용만 출력한다.
+		int pageNum=1;
+		//보여줄 페이지의 시작 ROWNUM
+		int startRowNum=1+(pageNum-1)*PAGE_ROW_COUNT;
+		//보여줄 페이지의 끝 ROWNUM
+		int endRowNum=pageNum*PAGE_ROW_COUNT;
+		
+		//원글의 글번호를 이용해서 해당글에 달린 댓글 목록을 얻어온다.
+		ChallengesCommentDto commentDto = new ChallengesCommentDto();
+		commentDto.setRef_group(num);
+		//1페이지에 해당하는 startRowNum과 endRowNum을 dto에 담아서
+		commentDto.setStartRowNum(startRowNum);
+		commentDto.setEndRowNum(endRowNum);
+		
+		//1페이지에 해당하는 댓글 목록만 select 되도록 한다.
+		List<ChallengesCommentDto> commentList = commentDao.getList(commentDto);
+		
+		
+		//원글의 글 번호를 이용해서 댓글 전체 갯수 얻어오기
+		int totalRow = commentDao.getCount(num);
+		//댓글 전체 페이지 갯수
+		int totalPageCount=(int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
+		
+		//view에 필요한 값 담아주기
 		mView.addObject("dto", dto);
+		mView.addObject("commentList", commentList);
+		mView.addObject("totalPageCount", totalPageCount);
+		mView.addObject("totalRow", totalRow);
 	}
 
 	@Override
@@ -234,6 +269,43 @@ public class ChallengeServiceImpl implements ChallengeService {
 	@Override
 	public void updateChallenge(ChallengesDto dto) {
 		challengesDao.update(dto);
+	}
+	
+	//새로운 댓글을 저장하기
+	@Override
+	public void saveComment(HttpServletRequest request) {
+		//폼 전송되는 파라미터 추출
+		int ref_group=Integer.parseInt(request.getParameter("ref_group"));
+		String target_id=request.getParameter("target_id");
+		String content=request.getParameter("content");
+		/*
+		 * 원글의 댓글은 comment_group번호가 전송이 안되고
+		 * 댓글의 댓글은 comment_group번호가 전송이 된다.
+		 * 따라서 comment_group의 null 여부에 따라 댓글의 종류를 판단할 수 있다.
+		 */
+		String comment_group=request.getParameter("comment_group");
+		
+		//댓글 작성자는 session영역에서 얻어내기
+		String writer=(String)request.getSession().getAttribute("id");
+		//댓글의 시퀀스 번호 미리 얻어내기
+		int seq=commentDao.getSequence();
+		//저장할 댓글의 정보를 dto에 담기
+		ChallengesCommentDto dto = new ChallengesCommentDto();
+		dto.setNum(seq);
+		dto.setWriter(writer);
+		dto.setTarget_id(target_id);
+		dto.setContent(content);
+		dto.setRef_group(ref_group);
+		//원글의 댓글인 경우
+		if(comment_group==null) {
+			//댓글의 글 번호를 comment_group번호로 사용한다.
+			dto.setComment_group(seq);
+		}else {
+			//전송된 comment_group번호를 숫자로 바꿔서 dto에 넣어준다.
+			dto.setComment_group(Integer.parseInt(comment_group));
+		}
+		//댓글 정보를 DB에 저장하기
+		commentDao.insert(dto);
 	}
 
 

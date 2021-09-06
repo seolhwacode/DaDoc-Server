@@ -246,111 +246,94 @@
 
 	
 		
-		<!-- 댓글 -->
+		<!-- 댓글  목록-->
 		<div id="comments" class="post-block mt-5 post-comments">
-											<h4 class="mb-3">Comments (3)</h4>
-							
-											<ul class="comments">
-												<li>
-													<div class="comment">
-														<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
-															<img class="avatar" alt="" src="img/avatars/avatar-2.jpg">
-														</div>
-														<div class="comment-block">
-															<div class="comment-arrow"></div>
-															<span class="comment-by">
-																<strong>John Doe</strong>
-																<span class="float-right">
-																	<span> <a href="#"><i class="fas fa-reply"></i> Reply</a></span>
-																</span>
-															</span>
-															<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae, gravida pellentesque urna varius vitae. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae. Sed dui lorem, adipiscing in adipiscing et, interdum nec metus. Mauris ultricies, justo eu convallis placerat, felis enim ornare nisi, vitae mattis nulla ante id dui.</p>
-															<span class="date float-right">November 12, 2018 at 1:38 pm</span>
-														</div>
-													</div>
-							
-													<ul class="comments reply">
-														<li>
-															<div class="comment">
-																<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
-																	<img class="avatar" alt="" src="img/avatars/avatar-3.jpg">
-																</div>
-																<div class="comment-block">
-																	<div class="comment-arrow"></div>
-																	<span class="comment-by">
-																		<strong>John Doe</strong>
-																		<span class="float-right">
-																			<span> <a href="#"><i class="fas fa-reply"></i> Reply</a></span>
-																		</span>
-																	</span>
-																	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae, gravida pellentesque urna varius vitae.</p>
-																	<span class="date float-right">November 12, 2018 at 1:38 pm</span>
-																</div>
-															</div>
-														</li>
-														<li>
-															<div class="comment">
-																<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
-																	<img class="avatar" alt="" src="img/avatars/avatar-4.jpg">
-																</div>
-																<div class="comment-block">
-																	<div class="comment-arrow"></div>
-																	<span class="comment-by">
-																		<strong>John Doe</strong>
-																		<span class="float-right">
-																			<span> <a href="#"><i class="fas fa-reply"></i> Reply</a></span>
-																		</span>
-																	</span>
-																	<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam viverra euismod odio, gravida pellentesque urna varius vitae, gravida pellentesque urna varius vitae.</p>
-																	<span class="date float-right">November 12, 2018 at 1:38 pm</span>
-																</div>
-															</div>
-														</li>
-													</ul>
-												</li>
-												<li>
-													<div class="comment">
-														<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
-															<img class="avatar" alt="" src="img/avatars/avatar.jpg">
-														</div>
-														<div class="comment-block">
-															<div class="comment-arrow"></div>
-															<span class="comment-by">
-																<strong>John Doe</strong>
-																<span class="float-right">
-																	<span> <a href="#"><i class="fas fa-reply"></i> Reply</a></span>
-																</span>
-															</span>
-															<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-															<span class="date float-right">November 12, 2018 at 1:38 pm</span>
-														</div>
-													</div>
-												</li>
-												<li>
-													<div class="comment">
-														<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
-															<img class="avatar" alt="" src="img/avatars/avatar.jpg">
-														</div>
-														<div class="comment-block">
-															<div class="comment-arrow"></div>
-															<span class="comment-by">
-																<strong>John Doe</strong>
-																<span class="float-right">
-																	<span> <a href="#"><i class="fas fa-reply"></i> Reply</a></span>
-																</span>
-															</span>
-															<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-															<span class="date float-right">November 12, 2018 at 1:38 pm</span>
-														</div>
-													</div>
-												</li>
-											</ul>
-							
+			<h4 class="mb-3">comments(32)</h4>
+				<!-- 원댓글 -->
+				<ul class="comments">
+				<c:forEach var="tmp" items="${commentList }">
+					<c:choose>
+					<c:when test="${tmp.deleted eq 'yes' }">
+						<li>삭제된 댓글입니다.</li>
+					</c:when>
+					<c:otherwise>
+						<c:if test="${tmp.num eq tmp.comment_group }">
+							<li id="reli${tmp.num }">
+							<div class="comment">
+						<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
+							<c:if test="${empty tmp.profile }">
+							<img class="avatar" alt="" src="img/avatars/avatar-2.jpg">
+							</c:if>
+							<c:if test="${not empty tmp.profile }">
+								<img class="profile-image" src="${pageContext.request.contextPath}${tmp.profile }"/>
+							</c:if>
+						</div>
+						<div class="comment-block">
+							<div class="comment-arrow"></div>
+							<span class="comment-by">
+								<strong>${tmp.writer }</strong>
+								<c:if test="${tmp.num ne tmp.comment_group }">
+									@<i>${tmp.target_id }</i>
+								</c:if>
+								<span class="float-right">
+								<!-- 이건 뭐지? -->
+									<span> <a href="#"><i class="fas fa-reply"></i> Reply</a></span>
+								</span>
+							</span>
+							<p id="pre${tmp.num }">${tmp.content }</p>
+							<span class="date float-right">${tmp.regdate }</span>
+						</div>
+					</div>
+						</li>												
+						</c:if>
+				<!-- 대댓글 -->
+				<c:if test="${tmp.num ne tmp.comment_group }">
+						<li id="reli${tmp.num }">
+							<div class="comment">
+								<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
+									<c:if test="${empty tmp.profile }">
+										<img class="avatar" alt="" src="img/avatars/avatar-2.jpg">
+									</c:if>
+									<c:if test="${not empty tmp.profile }">
+										<img class="profile-image" src="${pageContext.request.contextPath}${tmp.profile }"/>
+									</c:if>								
+								</div>
+								<div class="comment-block">
+									<div class="comment-arrow"></div>
+									<span class="comment-by">
+										<strong>${tmp.writer }</strong>
+										<c:if test="${tmp.num ne tmp.comment_group }">
+											@<i>${tmp.target_id }</i>
+										</c:if>
+										<span class="float-right">
+											<span> <a href="#"><i class="fas fa-reply"></i> Reply</a></span>
+										</span>
+									</span>
+									<p id="pre${tmp.num }">${tmp.content }</p>
+									<span class="date float-right">${tmp.regdate }</span>
 										</div>
-							
+									</div>
+								</li>
+							</c:if>
+						</c:otherwise>
+					</c:choose>	
+				</c:forEach>
+			</ul>
+		</div>
+									<!-- comment 작성 창 -->
 										<div class="post-block mt-5 post-leave-comment">
 											<h4 class="mb-3">Leave a comment</h4>
-
+												<!-- 원글에 댓글을 작성할 폼 -->
+												<form class="comment-form insert-form" action="comment_insert.do" method="post">
+													<!-- 원글의 글번호가 댓글의 ref_group 번호가 된다. -->
+													<input type="hidden" name="ref_group" value="${dto.num }"/>
+													<!--  원글의 title도 보내준다. -->
+													<input type="hidden" name="title" value="${dto.title }" />
+													<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
+													<input type="hidden" name="target_id" value="${dto.writer }"/>		
+													<input type="text" name="content" id="content" />											
+													<button type="submit">등록</button>
+												</form>
 										</div>
 							
 									</div>

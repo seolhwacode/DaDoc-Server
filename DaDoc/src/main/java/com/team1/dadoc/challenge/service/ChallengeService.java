@@ -32,4 +32,6 @@ public interface ChallengeService {
 	public void deleteChallenge(int num, HttpServletRequest request);
 	// 챌린지 업뎃하기
 	public void updateChallenge(ChallengesDto dto);
+	// 새로운 댓글 저장하기
+	public void saveComment(HttpServletRequest request);
 }
