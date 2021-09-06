@@ -60,7 +60,7 @@ public class BookSearchServiceImpl implements BookSearchService {
         	int i = 0;
         	while((inputLine = br.readLine()) != null) {
         		response.append(inputLine);
-        		System.out.println(inputLine);
+        		//System.out.println(inputLine);
         	}
         	//리더 닫기
         	br.close();
