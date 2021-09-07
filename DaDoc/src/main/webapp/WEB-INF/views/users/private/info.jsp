@@ -15,14 +15,10 @@
 			<ul>
 				<li><a v-bind:href="update_profile_link">프로필 사진 변경</a></li>
 				<li><a href="${pageContext.request.contextPath}/users/private/update_form.do">개인정보 수정</a></li>
-				<li><a href="">비밀번호 수정</a></li>
+				<li><a href="${pageContext.request.contextPath}/users/private/pwd_update_form.do">비밀번호 수정</a></li>
 				<li><a href="">좋아요 표기한 책 모아보기</a></li>
-				<li><a href="">작성한 게시글 모아보기</a></li>
 				<li><a href="">작성한 댓글 모아보기</a></li>
-				<li><a href="">좋아요 누른 게시글 모아보기</a></li>
-				<li><a href="">태그 즐겨찾기</a></li>
 				<li><a href="">참여 중인 챌린지</a></li>
-				<li><a href="">좋아요 누른 챌린지</a></li>
 			</ul>
 		</div>
 		<!-- 메인에 출력할 개인정보 data -->

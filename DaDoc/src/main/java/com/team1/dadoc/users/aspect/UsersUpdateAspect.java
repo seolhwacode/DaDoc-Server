@@ -1,5 +1,7 @@
 package com.team1.dadoc.users.aspect;
 
+import java.net.URLEncoder;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -16,7 +18,7 @@ public class UsersUpdateAspect {
 	// 메소드 명 : authUsers 로 시작
 	// 파라미터 : 개수, 타입 관련 X
 	// @Around 로 aspect 를 적용하면 메소드의 인자로 ProceedingJoinPoint type 이 전달된다.
-	@Around("execution(org.springframework.web.servlet.ModelAndView authUsers*(..))")
+	@Around("execution(org.springframework.web.servlet.ModelAndView aspectUsers*(..))")
 	public Object usersUpdateCheck(ProceedingJoinPoint joinPoint) throws Throwable  {
 		//전달된 인자들을 가져온다.
 		Object[] args = joinPoint.getArgs();
@@ -38,9 +40,23 @@ public class UsersUpdateAspect {
 				//허가 여부 확인
 				//id 가 없음  / auth 가 없음 / auth 가 false
 				if(id == null || auth == null || "false".equals(auth)) {
+					//원래 가려던 url 정보 읽어오기
+					String url = request.getRequestURI();
+					//GET 방식 전송 파라미터를 query 문자열로 읽어오기 ( a=xxx&b=xxx&c=xxx )
+					String query = request.getQueryString();
+					//특수 문자는 인코딩을 해야한다.
+					String encodedUrl = null;
+					if(query == null) {//전송 파라미터가 없다면 
+						encodedUrl = URLEncoder.encode(url);
+					}else {
+						// 원래 목적지가 /test/xxx.jsp 라고 가정하면 아래와 같은 형식의 문자열을 만든다.
+						// "/test/xxx.jsp?a=xxx&b=xxx ..."
+						encodedUrl = URLEncoder.encode(url + "?" + query);
+					}
+					
 					//허가 X -> /users/private/prove.do 페이지로 이동하여 허가받게 하기
 					ModelAndView mView = new ModelAndView();
-					mView.setViewName("redirect:/users/private/prove.do");
+					mView.setViewName("redirect:/users/private/prove.do?url=" + encodedUrl);
 					//메소드를 여기서 return -> 원래 auth 로 수행되는 메소드는 실행되지 X
 					return mView;
 				}
