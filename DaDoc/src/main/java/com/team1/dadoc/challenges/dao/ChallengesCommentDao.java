@@ -13,4 +13,8 @@ public interface ChallengesCommentDao {
 	public void insert(ChallengesCommentDto dto);
 	//댓글 시퀀스 가져오기
 	public int getSequence();
+	//댓글 수정하기
+	public void update(ChallengesCommentDto dto);
+	//댓글 삭제하기
+	public void delete(int num);
 }

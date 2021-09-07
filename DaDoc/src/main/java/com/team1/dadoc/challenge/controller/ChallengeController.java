@@ -1,5 +1,6 @@
 package com.team1.dadoc.challenge.controller;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.team1.dadoc.challenge.service.ChallengeService;
 import com.team1.dadoc.challenger.dto.ChallengerDto;
+import com.team1.dadoc.challenges.dto.ChallengesCommentDto;
 import com.team1.dadoc.challenges.dto.ChallengesDto;
 import com.team1.dadoc.photoshot.dto.PhotoShotDto;
 
@@ -76,6 +78,28 @@ public class ChallengeController {
 				@RequestParam int ref_group, @RequestParam String title) {
 		service.saveComment(request);
 		return new ModelAndView("redirect:challenge/main");
+	}
+	
+	//댓글 수정 요청처리 (JSON 응답으로)
+	@RequestMapping("/challenge/private/comment_update")
+	@ResponseBody
+	public Map<String, Object> commentUpdate(ChallengesCommentDto dto, HttpServletRequest request){
+		service.updateComment(dto);
+		Map<String, Object>map = new HashMap<String, Object>();
+		map.put("isSuccess", true);
+		// {"isSuccess":true} 형식의 JSON 문자열이 응답되도록 한다.
+		return map;
+	}
+	
+	//댓글 삭제 요청처리
+	@RequestMapping("/challenge/private/comment_delete")
+	@ResponseBody
+	public Map<String, Object> commentDelete(HttpServletRequest request){
+		service.deleteComment(request);
+		Map<String,Object> map = new HashMap<String,Object>();
+		map.put("isSuccess", true);
+		//{"isSuccess":true} 형식의 JSON 문자열이 응답되도록 한다.
+		return map;
 	}
 	
 	//챌린시 수정 폼 요청 처리

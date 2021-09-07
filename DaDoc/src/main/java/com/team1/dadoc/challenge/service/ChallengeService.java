@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.team1.dadoc.challenger.dto.ChallengerDto;
+import com.team1.dadoc.challenges.dto.ChallengesCommentDto;
 import com.team1.dadoc.challenges.dto.ChallengesDto;
 import com.team1.dadoc.photoshot.dto.PhotoShotDto;
 
@@ -34,4 +35,8 @@ public interface ChallengeService {
 	public void updateChallenge(ChallengesDto dto);
 	// 새로운 댓글 저장하기
 	public void saveComment(HttpServletRequest request);
+	// 댓글 수정하기
+	public void updateComment(ChallengesCommentDto dto);
+	// 댓글 삭제하기
+	public void deleteComment(HttpServletRequest request);
 }

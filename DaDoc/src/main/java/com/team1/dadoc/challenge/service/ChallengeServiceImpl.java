@@ -308,6 +308,17 @@ public class ChallengeServiceImpl implements ChallengeService {
 		commentDao.insert(dto);
 	}
 
+	@Override
+	public void updateComment(ChallengesCommentDto dto) {
+		commentDao.update(dto);
+	}
+
+	@Override
+	public void deleteComment(HttpServletRequest request) {
+		int num= Integer.parseInt(request.getParameter("num"));
+		commentDao.delete(num);
+	}
+
 
 
 

@@ -33,4 +33,16 @@
 		SELECT dadoc_challenge_comment_seq.NEXTVAL
 		FROM DUAL
 	</select>
+	
+	<update id="update" parameterType="challengesCommentDto">
+		UPDATE dadoc_challenge_comment
+		SET content=#{content}
+		WHERE num=#{num}
+	</update>
+	
+	<update id="delete" parameterType="int">
+		UPDATE dadoc_challenge_comment
+		SET deleted='yes'
+		WHERE num=#{num}
+	</update>
 </mapper>

@@ -36,6 +36,16 @@ public class ChallengesCommentDaoImpl implements ChallengesCommentDao{
 	public int getSequence() {
 		return  session.selectOne("challengesComment.getSequence");
 	}
+
+	@Override
+	public void update(ChallengesCommentDto dto) {
+		session.update("challengesComment.update", dto);
+	}
+
+	@Override
+	public void delete(int num) {
+		session.delete("challengesComment.delete", num);
+	}
 	
 	
 	
