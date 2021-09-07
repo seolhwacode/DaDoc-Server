@@ -39,4 +39,7 @@ public interface ChallengeService {
 	public void updateComment(ChallengesCommentDto dto);
 	// 댓글 삭제하기
 	public void deleteComment(HttpServletRequest request);
+	// 댓글 더보기
+	public void moreCommentList(HttpServletRequest request);
+	
 }

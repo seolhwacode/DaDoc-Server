@@ -72,14 +72,6 @@ public class ChallengeController {
 		return mView;
 	}
 	
-	//새로운 댓글 저장 요청 처리
-	@RequestMapping("/challenge/private/comment_insert")
-	public ModelAndView commentInsert(HttpServletRequest request,
-				@RequestParam int ref_group, @RequestParam String title) {
-		service.saveComment(request);
-		return new ModelAndView("redirect:challenge/main");
-	}
-	
 	//댓글 수정 요청처리 (JSON 응답으로)
 	@RequestMapping("/challenge/private/comment_update")
 	@ResponseBody
@@ -100,6 +92,21 @@ public class ChallengeController {
 		map.put("isSuccess", true);
 		//{"isSuccess":true} 형식의 JSON 문자열이 응답되도록 한다.
 		return map;
+	}
+	
+	//새로운 댓글 저장 요청처리
+	@RequestMapping("/challenge/private/comment_insert")
+	public ModelAndView commentInsert(HttpServletRequest request,
+			@RequestParam int ref_group, @RequestParam String title){
+		service.saveComment(request);
+		return new ModelAndView("redirect:/challenge/private/detail.do?num="+ref_group+"&title="+title);
+	}
+	
+	//댓글 더보기 요청처리
+	@RequestMapping("/challenge/private/ajax_comment_list")
+	public String ajaxCommentList(HttpServletRequest request) {
+		service.moreCommentList(request);
+		return "challenge/private/ajax_comment_list";
 	}
 	
 	//챌린시 수정 폼 요청 처리
