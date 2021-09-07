@@ -93,6 +93,11 @@
 		 .form-hide{
 			display: none;
 		}
+		
+		/*댓글 더 보는 버튼 일단 숨기기 (댓글이 10개가 넘어가면 볼 수 있음)*/
+		#moreBtn{
+			display: none;
+		}
 	</style>
 
 
@@ -254,7 +259,7 @@
 		<!-- 댓글 개수 및 구분선 -->
 		<h4 class="mb-3">comments(33)</h4>
 		<!-- 댓글 목록 -->
-		<ul class="comments">
+		<ul class="comments-list">
 			<c:forEach var="tmp" items="${commentList }">
 				<c:choose>
 					<c:when test="${tmp.deleted eq 'yes' }">
@@ -280,10 +285,10 @@
 												@<i>${tmp.target_id }</i>
 											</c:if>
 										<span class="float-right">
-											<span> <a href="#"><i class="fas fa-reply"></i> Reply</a></span>
+											<span> <a data-num="${tmp.num }" href="javascript:" class="reply-link"><i class="fas fa-reply" id="reply-icon">Reply</i></a></span>
 											<c:if test="${tmp.writer eq id }">
-											<a data-num="${tmp.num }" class="update-link" href="javascript:"><i class="icon-pencil icons"></i> Edit</a>
-											<a data-num="${tmp.num }" class="delete-link" href="javascript:"><i class="icon-trash icons"></i> Delete</a>
+											<i class="icon-pencil icons edit-icons"><a data-num="${tmp.num }" class="update-link" href="javascript:">Edit</a></i> 
+											<i class="icon-trash icons"><a data-num="${tmp.num }" class="delete-link" href="javascript:">Delete</a></i>
 											</c:if>
 										</span>
 									</span>
@@ -314,10 +319,10 @@
 												@<i>${tmp.target_id }</i>
 											</c:if>
 											<span class="float-right">
-											<span> <a href="#"><i class="fas fa-reply"></i> Reply</a></span>
+											<span><i class="fas fa-reply"><a data-num="${tmp.num }" href="javascript:" class="reply-link">Reply</a></i></span>
 											<c:if test="${tmp.writer eq id }">
-												<a data-num="${tmp.num }" class="update-link" href="javascript:"><i class="icon-pencil icons"></i> Edit</a>
-												<a data-num="${tmp.num }" class="delete-link" href="javascript:"><i class="icon-trash icons"></i> Delete</a>
+												<i class="icon-pencil icons"><a data-num="${tmp.num }" class="update-link" href="javascript:">Edit</a></i> 
+												<i class="icon-trash icons"><a data-num="${tmp.num }" class="delete-link" href="javascript:">Delete</a></i>
 											</c:if>
 										</span>
 										<p id="pre${tmp.num }">${tmp.content }</p>
@@ -327,8 +332,9 @@
 							</li>
 						</c:if>
 				
-						<!-- 대댓글 폼 -->
-						<form id="reForm${tmp.num }" class="comment-form re-insert-form form-hide" action="comment_insert.do" method="post">
+						<!-- 답 댓글 폼 -->
+						<form id="reForm${tmp.num }" class="re-insert-form comment-form form-hide" action="comment_insert.do" method="post">
+							<input type="hidden" name="title" value="${dto.title }" />
 							<input type="hidden" name="ref_group" value="${dto.num }"/>
 							<input type="hidden" name="target_id" value="${tmp.writer }"/>
 							<input type="hidden" name="comment_group" value="${tmp.comment_group }"/>
@@ -350,7 +356,11 @@
 			</c:forEach>
 		</ul>
 	</div>
-
+	
+	<div class="comment-more">
+		<button href="javascript:" type="button" id="moreBtn" class="btn btn-outline btn-rounded btn-quaternary mb-2">더보기</button>
+	</div>
+	
 	<!-- comment 작성 창 -->
 		<div class="post-block mt-5 post-leave-comment">
 			<h4 class="mb-3">Leave a comment</h4>
@@ -372,12 +382,60 @@
 	<script src="${pageContext.request.contextPath}/resources/js/gura_util.js"></script>
 	<script>
 	
+	//[댓글 페이지네이션]
+	//댓글의 현재 페이지 번호를 관리할 변수를 만들고 초기값 1 대입하기
+	let currentPage=1;
+	//마지막 페이지는 totalPageCount다.
+	let lastPage=${totalPageCount};
+	//moreBtn의 참조값을 담아준다.
+	const moreBtn = document.querySelector("#moreBtn");
+	//전체 댓글 개수가 출력할 댓글의 수보다 많으면 더보기 버튼을 보이게 한다.
+	if(${totalRow} >= ${pageRowCount}){
+		moreBtn.style.display='block';
+	}
+	//더보기 버튼을 누르면
+	moreBtn.addEventListener("click",function(){
+		//현재 댓글 페이지를 1 증가 시키고
+		currentPage++;
+		//현재 페이지가 마지막 페이지보다 작거나 같을 때 댓글 페이지 출력하기
+		if(currentPage <= lastPage){
+			/*
+			해당 페이지의 내용을 ajax 요청을 통해서 받아온다.
+			"pageNum=xxx&num=xxx" 형식으로 GET 방식 파라미터를 전달한다. 
+			*/
+			ajaxPromise("ajax_comment_list.do", "post", "pageNum="+currentPage+"&num=${dto.num}")
+			.then(function(response){
+				return response.text();
+			})
+			.then(function(data){
+				//data 에는 html text 가 들어있다.
+				document.querySelector(".comments ul")
+				.insertAdjacentHTML("beforeend", data);
+				
+				//새로 추가된 댓글 li 요소 안에 있는 a 요소를 찾아서 이벤트 리스너 등록 하기 
+				addUpdateListener(".page-"+currentPage+" .update-link");
+				addDeleteListener(".page-"+currentPage+" .delete-link");
+				addReplyListener(".page-"+currentPage+" .reply-link");
+				//새로 추가된 댓글 li 요소 안에 있는 댓글 수정폼에 이벤트 리스너 등록하기
+				addUpdateFormListener(".page-"+currentPage+" .update-form");
+			});
+			
+			if(currentPage == lastPage){
+				moreBtn.style.display="none";
+			}
+		}
+	});
+	
+	
+	
+	
 	//detail.jsp 페이지 로딩 시점에 만들어진 1 페이지에 해당하는 댓글에 이벤트 리스너 등록하기
 	
 	addUpdateFormListener(".update-form");
 	addUpdateListener(".update-link");
 	addDeleteListener(".delete-link");
-
+	addReplyListener(".reply-link");
+	
 	//챌린지 삭제
 	function deleteChallenge(){
 		let isDelete = confirm("챌린지를 삭제하시겠습니까?");
@@ -446,7 +504,16 @@
 			updateLinks[i].addEventListener("click", function(){
 				//click 이벤트가 일어난 바로 그 요소의 data-num 속성의 value값을 읽어온다.
 				const num = this.getAttribute("data-num"); //댓글의 글 번호
-				document.querySelector("#updateForm"+num).style.display="block";
+				const form = document.querySelector("#updateForm"+num);
+				let current = this.innerText;
+				if(current=='Edit'){
+					form.style.display='block';
+					this.innerText='Cancel';
+				}else if(current=='Cancel'){
+					this.innerText='Edit';
+					form.style.display='none';
+				}
+				
 			});
 		}
 	}
@@ -507,6 +574,27 @@
 		}
 	}
 	
+	//답댓글 폼 열기
+	function addReplyListener(sel){
+		let replyLinks=document.querySelectorAll(sel);
+		//반복문 돌면서 모든 링크에 이벤트 리스너 함수 등록
+		for(let i=0; i<replyLinks.length; i++){
+			replyLinks[i].addEventListener("click", function(){
+				const num=this.getAttribute("data-num");
+				const form = document.querySelector("#reForm"+num);
+				let current = this.innerText;
+				if(current=='Reply'){
+					form.style.display='block';
+					this.innerText='Cancel';
+				}else if(current=='Cancel'){
+					this.innerText='Reply';
+					form.style.display='none';
+				}
+			});
+		}
+	}
+
+
 </script>
 
 </body>
