@@ -218,14 +218,18 @@ public class UsersController {
 	
 	//사용자 정보 수정 페이지로 이동 전에, 비밀번호를 입력하는 페이지로 이동
 	@RequestMapping(value = "/users/private/prove")
-	public ModelAndView prove() {
-		return new ModelAndView("users/private/prove");
+	public ModelAndView prove(@RequestParam String url) {
+		ModelAndView mView = new ModelAndView();
+		//원래 이동하려고 했던 url을 그대로 읽어옴
+		mView.addObject("url", url);
+		mView.setViewName("users/private/prove");
+		return mView;
 	}
 	
 	//입력한 비밀번호가 유효한지 체크
 	//유효하면 -> sessionScope 에 "auth" attribute 를 추가한다.
 	@RequestMapping(value = "/users/private/pwd_check")
-	public ModelAndView pwdCheck(UsersDto dto, ModelAndView mView, HttpSession session) {
+	public ModelAndView pwdCheck(UsersDto dto, @RequestParam String url, ModelAndView mView, HttpSession session) {
 		//id 에 맞는 pwd 가 일치하는지 확인한 후 -> boolean 으로 return 한다.
 		boolean isSuccess = service.pwdCheck(dto);
 		//유효할 때 -> requestScope 에 "auth" attribute 를 추가한다.
@@ -236,8 +240,12 @@ public class UsersController {
 			// 그렇기 때문에, session 에 넣고, 확인 후 삭제하는 형식으로 진행
 			session.setAttribute("auth", "true");
 		}
+		
+		//url 의 contextpath 를 잘라내기
+		url = url.replace("/dadoc", "");
+		
 		//이동할 페이지
-		mView.setViewName("redirect:/users/private/update_form.do");
+		mView.setViewName("redirect:" + url);
 		
 		return mView;
 	}
@@ -245,7 +253,7 @@ public class UsersController {
 	//수정 form 페이지로 이동
 	//ModelAndView authUsers*(..) => UsersUpdateAspct 에 걸린다. 
 	@RequestMapping(value = "/users/private/update_form")
-	public ModelAndView authUsersUpdateForm(HttpServletRequest request) {
+	public ModelAndView aspectUsersUpdateForm(HttpServletRequest request) {
 		ModelAndView mView = new ModelAndView();
 		//포워드 이동
 		mView.setViewName("users/private/update_form");
@@ -261,4 +269,25 @@ public class UsersController {
 		return mView;
 	}
 	
+	//비밀번호 수정 form 페이지로 이동
+	@RequestMapping(value = "/users/private/pwd_update_form")
+	public ModelAndView aspectUsersPwdUpdateForm(HttpServletRequest request) {
+		ModelAndView mView = new ModelAndView();
+		//포워드 이동
+		mView.setViewName("users/private/pwd_update_form");
+		return mView;
+	}
+	
+	//비밀번호 수정
+	@RequestMapping(value = "/users/private/pwd_update", method = RequestMethod.POST)
+	public ModelAndView pwdUpdate(UsersDto dto, ModelAndView mView, HttpSession session) {
+		//비밀번호 변경하기
+		boolean isSuccess = service.pwdUpdate(dto, session);
+				
+		//변경 성공 결과를 ModelAndView 에 담기
+		mView.addObject("isSuccess", isSuccess);
+		
+		mView.setViewName("users/private/pwd_update");
+		return mView;
+	}
 }

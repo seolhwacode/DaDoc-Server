@@ -244,7 +244,6 @@
 							(this.isEmailValid || this.isEmailNull) && this.isPwdAnswerValid;
 					//유효하지 X -> form 전송 막기
 					if(!isFormValid){
-						alert("큰일임");
 						//form 전송 막기
 						e.preventDefault();
 						//사용자 알림

@@ -15,10 +15,13 @@ public class UsersDto {
 	private String pwd_answer;	//사용자의 대답. 단답형
 	private int tos;	//광고 수신 동의 : 0(동의X), 1(동의O)
 	
+	//비밀번호 변경시에 사용
+	private String newPwd;	//새로운 비밀번호
+	
 	public UsersDto() {}
 
 	public UsersDto(String id, String pwd, String name, String nickname, String tel, String email, int sex, String birth,
-			String profile, String regdate, int pwd_question, String pwd_answer, int point, int tos) {
+			String profile, String regdate, int pwd_question, String pwd_answer, int point, int tos, String newPwd) {
 		super();
 		this.id = id;
 		this.pwd = pwd;
@@ -33,6 +36,7 @@ public class UsersDto {
 		this.pwd_question = pwd_question;
 		this.pwd_answer = pwd_answer;
 		this.tos = tos;
+		this.newPwd = newPwd;
 	}
 
 	public String getId() {
@@ -137,6 +141,14 @@ public class UsersDto {
 
 	public void setTos(int tos) {
 		this.tos = tos;
+	}
+
+	public String getNewPwd() {
+		return newPwd;
+	}
+
+	public void setNewPwd(String newPwd) {
+		this.newPwd = newPwd;
 	}
 	
 	

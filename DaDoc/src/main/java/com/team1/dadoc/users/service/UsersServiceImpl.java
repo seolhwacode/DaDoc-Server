@@ -281,6 +281,36 @@ public class UsersServiceImpl implements UsersService {
 		//사용자의 정보를 수정한다.
 		dao.updateUserData(dto);
 	}
+
+	@Override
+	public boolean pwdUpdate(UsersDto dto, HttpSession session) {
+		//id 로 현재 입력한 비밀번호가 실제로 일치하는지 확인		
+		if(!pwdCheck(dto)) {
+			//비밀번호가 일치하지 않음
+			return false;
+		}
+		
+		//변경할 비밀번호 암호화
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String encodedPwd = encoder.encode(dto.getNewPwd());
+		
+		//db update 를 위해 pwd 에 넣기
+		dto.setPwd(encodedPwd);
+		
+		//db update
+		try {
+			dao.updatePwd(dto);
+		}catch(Exception e) {
+			System.out.println("비밀번호 변경 오류");
+			return false;
+		}
+		//변경 후에 session id 삭제 -> 자동 로그아웃
+		session.removeAttribute("id");
+		
+		//변경 성공 -> true
+		return true;
+		
+	}
 	
 
 	

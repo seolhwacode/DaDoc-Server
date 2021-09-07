@@ -13,6 +13,7 @@
 		<div>
 			<form action="${pageContext.request.contextPath}/users/private/pwd_check.do" method="post">
 				<input type="hidden" name="id" value="${ sessionScope.id }" />
+				<input type="hidden" name="url" value="${ url }" />
 				<label for="pwd">비밀번호</label>
 				<input type="password" name="pwd" id="pwd" />
 				<button type="submit">확인</button>

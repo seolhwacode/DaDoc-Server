@@ -39,4 +39,6 @@ public interface UsersService {
 	public boolean pwdCheck(UsersDto dto);
 	//사용자 정보 update
 	public void update(UsersDto dto);
+	//비밀번호 update
+	public boolean pwdUpdate(UsersDto dto, HttpSession session);
 }
