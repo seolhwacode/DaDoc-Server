@@ -61,7 +61,7 @@ public class UsersServiceImpl implements UsersService {
 		
 		//기본 프로필 사진 random 으로 1~4 사이의 파일로 지정
 		Random random = new Random();
-		int randNum = random.nextInt(3) + 1;
+		int randNum = random.nextInt(4) + 1;
 		
 		//-> /resources/images/profile01 ~ 4
 		String profile = "/resources/images/profile0" + randNum + ".png";
@@ -311,7 +311,31 @@ public class UsersServiceImpl implements UsersService {
 		return true;
 		
 	}
-	
 
-	
+	//회원 탈퇴하기 : id 에 해당하는 사용자 정보 삭제 -> 사용자 id 삭제 된 것을 확인 -> 결과 boolean 값으로 리턴
+	@Override
+	public boolean leave(HttpSession session) {
+		//session id
+		String id = (String)session.getAttribute("id");
+		//id 에 해당하는 회원이 존재하는지 확인
+		if(!dao.isIdExist(id)) {
+			//아이디 존재 x -> false
+			return false;
+		}
+		//id 존재 -> db 에서 삭제
+		//db 에서 삭제
+		dao.deleteUser(id);
+		//로그아웃
+		session.removeAttribute("id");
+		
+		//id 에 해당하는 회원이 존재하는지 확인
+		if(!dao.isIdExist(id)) {
+			//아이디 존재 x -> 성공
+			return true;
+		}else {
+			//아이디 존재 o -> 실패
+			return false;
+		}
+	}
+
 }

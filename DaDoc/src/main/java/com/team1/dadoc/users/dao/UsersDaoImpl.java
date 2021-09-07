@@ -162,6 +162,18 @@ public class UsersDaoImpl implements UsersDao {
 	public void updateUserData(UsersDto dto) {
 		session.update("users.updateUserData", dto);		
 	}
+
+	/*
+	 * Mapper's namespace : users
+	 * sql's id : deleteUser
+	 * parameterType : String
+	 * resultType : X
+	 */
+	//id 에 해당하는 db 에서 삭제
+	@Override
+	public void deleteUser(String id) {
+		session.update("users.deleteUser", id);
+	}
 	
 	
 	

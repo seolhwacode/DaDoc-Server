@@ -68,4 +68,9 @@
 			tel = #{ tel, jdbcType=VARCHAR }, email = #{ email, jdbcType=VARCHAR }
 		WHERE id = #{ id }
 	</update>
+	<!-- 사용자 삭제 -->
+	<update id="deleteUser" parameterType="string">
+		DELETE FROM dadoc_users
+		WHERE id = #{ id }
+	</update>
 </mapper>
