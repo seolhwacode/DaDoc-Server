@@ -26,4 +26,6 @@ public interface UsersDao {
 	public void updateProfile(UsersDto dto);
 	//사용자의 정보를 수정한다.
 	public void updateUserData(UsersDto dto);
+	//id 에 해당하는 db 에서 삭제
+	public void deleteUser(String id);
 }

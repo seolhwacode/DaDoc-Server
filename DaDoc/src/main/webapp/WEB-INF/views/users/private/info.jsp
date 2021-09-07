@@ -6,7 +6,14 @@
 <head>
 <meta charset="UTF-8">
 <title>/users/private/info.do</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css" >
+<%-- <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css" >
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script> --%>
+
+<!-- Vendor CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/animate/animate.min.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/magnific-popup/magnific-popup.min.css">
+
 </head>
 <body>
 	<div id="usersInfo" class="container">
@@ -19,6 +26,7 @@
 				<li><a href="">좋아요 표기한 책 모아보기</a></li>
 				<li><a href="">작성한 댓글 모아보기</a></li>
 				<li><a href="">참여 중인 챌린지</a></li>
+				<li><a data-toggle="modal" data-target="#leaveModal" href="javascript:">탈퇴</a></li>
 			</ul>
 		</div>
 		<!-- 메인에 출력할 개인정보 data -->
@@ -44,10 +52,59 @@
 				<li>12. 광고 수신 동의 : {{userData.tos == 0 ? '동의하지 않음' : '동의함'}}</li>
 			</ul>
 		</div>
+		
+		<!-- 탈퇴 모달 -->
+		<!-- Modal -->
+		<div class="modal fade" id="leaveModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+		  	<div class="modal-dialog modal-md modal-dialog-centered">
+		    	<div class="modal-content">
+		      		<div class="modal-header">
+		        		<h5 class="modal-title">탈퇴 확인</h5>
+		        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		      		</div>
+		      		<div class="modal-body">
+		        		<div>
+		        			<div>
+		        				<p>정말로 탈퇴하시겠습니까?</p>
+		        				<p>탈퇴를 원하시면 아래 입력란에 <strong>탈퇴하기</strong>를 입력해주세요.</p>
+		        			</div>
+		        			<div>
+		        				<input type="text" v-model="leaveCheckInput" />
+		        			</div>
+		        		</div>
+		      		</div>
+		      		<div class="modal-footer">
+		        		<button @click="clearModalInput" type="button" 
+		        				class="btn btn-secondary" data-dismiss="modal">
+		        				취소
+		        		</button>
+		        		<button @click="clickLeave" type="button" 
+		        				class="btn btn-primary" data-dismiss="modal">
+		        				탈퇴
+		        		</button>
+		      		</div>
+		    	</div>
+		  	</div>
+		</div>
 	</div>
 	
+	<!-- Vendor -->
+	<script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendor/jquery.appear/jquery.appear.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendor/jquery.easing/jquery.easing.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendor/jquery.cookie/jquery.cookie.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendor/popper/umd/popper.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendor/jquery.validation/jquery.validate.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendor/jquery.gmap/jquery.gmap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendor/jquery.lazyload/jquery.lazyload.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendor/isotope/jquery.isotope.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendor/vide/jquery.vide.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/vendor/vivus/vivus.min.js"></script>
+	
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/js/gura_util.js"></script>
 	<script>
 		// webcontent 위치
 		const base_url = "http://localhost:8888/dadoc";
@@ -62,10 +119,32 @@
 				profilePath: '',
 				pwd_question: '',
 				sex: '',
-				update_profile_link: ''
+				update_profile_link: '',
+				
+				//탈퇴 체크
+				leaveCheckInput: '',
 			},
 			methods: {
-				
+				//모달의 내용 지우기
+				clearModalInput(){
+					this.leaveCheckInput = '';
+				},
+				//모달의 탈퇴 버튼 클릭
+				clickLeave(e){
+					//탈퇴하기를 제대로 입력 X
+					if(this.leaveCheckInput !== '탈퇴하기'){
+						//이벤트 막고
+						e.preventDefault();
+						//입력 틀림 알리기
+						alert("입력이 틀렸습니다.");
+						//모달 내용 지우기
+						this.clearModalInput();
+						//탈퇴 X
+						return;
+					}
+					//탈퇴 진행
+					location.href = this.base_url + "/users/private/leave.do";
+				}
 			},
 			created(){
 				//dadoc_users table 에서 기본 정보 가져오기

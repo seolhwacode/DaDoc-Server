@@ -290,4 +290,16 @@ public class UsersController {
 		mView.setViewName("users/private/pwd_update");
 		return mView;
 	}
+	
+	//탈퇴
+	@RequestMapping(value = "/users/private/leave")
+	public ModelAndView leave(HttpSession session, ModelAndView mView) {
+		//회원 탈퇴하기 : id 에 해당하는 사용자 정보 삭제 -> 사용자 id 삭제 된 것을 확인 -> 결과 boolean 값으로 리턴
+		boolean isSuccess = service.leave(session);
+		//ModelAndView 에 성공 여부 담기
+		mView.addObject("isSuccess", isSuccess);
+		//페이지 이동 : 완료 됨을 알려줌
+		mView.setViewName("users/private/leave");
+		return mView;
+	}
 }

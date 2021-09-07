@@ -41,4 +41,6 @@ public interface UsersService {
 	public void update(UsersDto dto);
 	//비밀번호 update
 	public boolean pwdUpdate(UsersDto dto, HttpSession session);
+	//회원 탈퇴하기 : id 에 해당하는 사용자 정보 삭제 -> 사용자 id 삭제 된 것을 확인 -> 결과 boolean 값으로 리턴
+	public boolean leave(HttpSession session);
 }
