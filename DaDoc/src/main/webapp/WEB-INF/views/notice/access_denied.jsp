@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/notice/no_access.do</title>
+<title>/notice/access_denied.do</title>
 </head>
 <body>
 	<script>

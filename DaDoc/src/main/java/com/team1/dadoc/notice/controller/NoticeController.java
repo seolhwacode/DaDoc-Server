@@ -63,16 +63,16 @@ public class NoticeController {
 		return new ModelAndView("notice/updateform");
 	}
 	//글 수정 요청처리
-	@RequestMapping(value = "/notice/update")
+	@RequestMapping(value = "/notice/update", method = RequestMethod.POST)
 	public ModelAndView authUpdate(NoticeDto dto, HttpServletRequest request) {
 		service.updateContent(dto);
 		return new ModelAndView("notice/update");
 	}
 	
 	//접근이 막혔으 때 오류 메시지를 띄우고, /notice/list.do 페이지로 보내는 페이지로 이동
-	@RequestMapping(value = "/notice/no_access")
+	@RequestMapping(value = "/notice/access_denied")
 	public ModelAndView noAccess() {
-		return new ModelAndView("notice/no_access");
+		return new ModelAndView("notice/access_denied");
 	}
 }
 

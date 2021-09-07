@@ -31,7 +31,7 @@ public class AuthAspect {
 						
 					//접근 불가 페이지로 redirect 할수 있는 ModelAndView 객체를 생성해서 
 					ModelAndView mView=new ModelAndView();
-					mView.setViewName("redirect:/notice/no_access.do");
+					mView.setViewName("redirect:/notice/access_denied.do");
 					//메소드를 여기서 리턴 시킨다. 
 					return mView;
 				}
