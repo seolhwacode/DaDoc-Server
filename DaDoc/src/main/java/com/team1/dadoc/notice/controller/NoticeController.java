@@ -51,9 +51,7 @@ public class NoticeController {
 	//글 삭제 요청처리
 	@RequestMapping("/notice/delete")
 	public ModelAndView authDelete(@RequestParam int num, HttpServletRequest request) {
-		
 		service.deleteContent(num, request);
-		
 		return new ModelAndView("redirect:/notice/list.do");
 	}
 	
@@ -65,10 +63,16 @@ public class NoticeController {
 		return new ModelAndView("notice/updateform");
 	}
 	//글 수정 요청처리
-	@RequestMapping(value = "/notice/update", method = RequestMethod.POST)
+	@RequestMapping(value = "/notice/update")
 	public ModelAndView authUpdate(NoticeDto dto, HttpServletRequest request) {
 		service.updateContent(dto);
 		return new ModelAndView("notice/update");
+	}
+	
+	//접근이 막혔으 때 오류 메시지를 띄우고, /notice/list.do 페이지로 보내는 페이지로 이동
+	@RequestMapping(value = "/notice/no_access")
+	public ModelAndView noAccess() {
+		return new ModelAndView("notice/no_access");
 	}
 }
 
