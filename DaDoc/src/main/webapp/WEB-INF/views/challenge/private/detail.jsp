@@ -89,7 +89,10 @@
 			background-color: #F9E0AE !important;
 		}
 		
-	
+		/* 댓글에 댓글을 다는 폼과 수정폼은 일단 숨긴다. */
+		 .form-hide{
+			display: none;
+		}
 	</style>
 
 
@@ -115,245 +118,265 @@
 			</div>
 		</section>
 	</div>
-		<!-- 페이지 메인 -->
-		<section class="section bg-color-grey section-height-3 border-0 mt-5 mb-0">
-					<div class="container">
-						<div class="row">
-							<div class="col">
-								<div class="row align-items-center pt-4 appear-animation" data-appear-animation="fadeInLeftShorter">
-									<div class="col-md-4 mb-4 mb-md-0">
-										<img class="img-fluid scale-2 pr-5 pr-md-0 my-4" src="${pageContext.request.contextPath }${dto.imagePath}" alt="layout styles" />
-									</div>
-									<div class="col-md-8 pl-md-5">
-										<h2 class="font-weight-normal text-6 mb-3"><strong class="font-weight-extra-bold">${dto.writer } 님의 </strong> ${dto.title }</h2>
-										<p class="text-4">${dto.description }</p>
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur imperdiet hendrerit volutpat. Sed in nunc nec ligula consectetur mollis in vel justo. Vestibulum ante ipsum primis in faucibus orci.</p>
-										<a><i class="icon-camera icons"></i><span class="name"> 인증 ${dto.period} 회 </span></a>
-										<br />
-										<span><i class="far fa-folder"></i> ${dto.type } > ${dto.category }</span> 
-										<br />
-										<span><i class="icon-calendar icons" > ${dto.startDate } ~ ${dto.endDate}</i></span>
-									</div>
-								</div>
-								<c:if test="${dto.writer eq id }">
-								<!-- 수정 -->
-								<a href="update_form.do?num=${dto.num }"><i class="icon-pencil icons"></i><span class="name">수정</span></a>
-								<!-- 삭제 -->
-								<a href="javascript:deleteChallenge();"><i class="icon-trash icons"></i><span class="name">삭제</span></a>
-								</c:if>
-								<hr class="solid my-5">
-							<!-- 공유하기 칸 -->
-							<div class="post-block mt-5 post-share">
-								<!-- 공유 api -->
-								<a class="icon" id="btnFacebook" href="javascript:shareFacebook();"><img
-									src="${pageContext.request.contextPath}/resources/images/icon-facebook.png" /></a>
-								<a class="icon" id="btnTwitter" href="javascript:shareTwitter();"><img
-									src="${pageContext.request.contextPath}/resources/images/icon-twitter.png" /></a>
-								<a class="icon" id="btnKakao" href="javascript:shareKakao();"><img
-									src="${pageContext.request.contextPath}/resources/images/icon-kakao.png" /></a>
-								<a class="icon" id="btnLink" href="javascript:shareLink();"><img id="linkImg"
-									src="${pageContext.request.contextPath}/resources/images/icon-link.png" /></a>
-							</div>
-							</div>
+	
+	<!-- 페이지 메인 -->
+	<section class="section bg-color-grey section-height-3 border-0 mt-5 mb-0">
+		<div class="container">
+			<div class="row">
+				<div class="col">
+					<div class="row align-items-center pt-4 appear-animation" data-appear-animation="fadeInLeftShorter">
+						<div class="col-md-4 mb-4 mb-md-0">
+							<img class="img-fluid scale-2 pr-5 pr-md-0 my-4" src="${pageContext.request.contextPath }${dto.imagePath}" alt="layout styles" />
+						</div>
+						<div class="col-md-8 pl-md-5">
+							<h2 class="font-weight-normal text-6 mb-3"><strong class="font-weight-extra-bold">${dto.writer } 님의 </strong> ${dto.title }</h2>
+							<p class="text-4">${dto.description }</p>
+							<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur imperdiet hendrerit volutpat. Sed in nunc nec ligula consectetur mollis in vel justo. Vestibulum ante ipsum primis in faucibus orci.</p>
+							<a><i class="icon-camera icons"></i><span class="name"> 인증 ${dto.period} 회 </span></a>
+							<br />
+							<span><i class="far fa-folder"></i> ${dto.type } > ${dto.category }</span> 
+							<br />
+							<span><i class="icon-calendar icons" > ${dto.startDate } ~ ${dto.endDate}</i></span>
 						</div>
 					</div>
-				</section>			
+					<c:if test="${dto.writer eq id }">
+						<!-- 수정 -->
+						<a href="update_form.do?num=${dto.num }"><i class="icon-pencil icons"></i><span class="name">수정</span></a>
+						<!-- 삭제 -->
+						<a href="javascript:deleteChallenge();"><i class="icon-trash icons"></i><span class="name">삭제</span></a>
+					</c:if>
+					
+					<!-- 구분선 -->
+					<hr class="solid my-5">
 				
-		<!-- 구분 선 -->
-		<hr class="solid my-5">
-		
-		<!-- 몇명이 참여했는지 출력하는 부분 -->
-				<div class="container pt-4">
-					<div class="row text-center pt-4 mt-5">
-						<div class="col">
-							<h2 class="font-weight-bold text-8 mb-2">
-								<span>지금까지 ${dto.title}에 참여한 다독인의 수는 </span>
-								<div class="row counters counters-text-dark">
-									<div class="counter">
-										<strong data-to="30000" data-append="+">0</strong>
-									</div>
-								</div>
-								<span> 명 입니다!</span>
-							</h2>
-							<h4 class="text-primary lead tall text-4">여러분의 도전을 DADOC이 응원합니다!</h4>
-						</div>
-					</div>
-					<!-- 참가자 인증샷 출력부분 -->
-					<div class="row text-center mt-5 pb-5 mb-5">
-						<div class="owl-carousel owl-theme carousel-center-active-item mb-0" data-plugin-options="{'responsive': {'0': {'items': 1}, '476': {'items': 1}, '768': {'items': 5}, '992': {'items': 7}, '1200': {'items': 7}}, 'autoplay': true, 'autoplayTimeout': 3000, 'dots': false}">
-							<c:forEach var="tmp" items="${photoList }">
-								<div>
-									<img class="img-fluid" src="${pageContext.request.contextPath }${tmp.imagePath}" alt="">
-								</div>
-							</c:forEach>
-						</div>
+					<!-- 공유하기 칸 -->
+					<div class="post-block mt-5 post-share">
+						<!-- 공유 api -->
+						<a class="icon" id="btnFacebook" href="javascript:shareFacebook();"><img
+							src="${pageContext.request.contextPath}/resources/images/icon-facebook.png" /></a>
+						<a class="icon" id="btnTwitter" href="javascript:shareTwitter();"><img
+							src="${pageContext.request.contextPath}/resources/images/icon-twitter.png" /></a>
+						<a class="icon" id="btnKakao" href="javascript:shareKakao();"><img
+							src="${pageContext.request.contextPath}/resources/images/icon-kakao.png" /></a>
+						<a class="icon" id="btnLink" href="javascript:shareLink();"><img id="linkImg"
+							src="${pageContext.request.contextPath}/resources/images/icon-link.png" /></a>
 					</div>
 				</div>
+			</div>
+		</div>
+	</section>			
+				
+	<!-- 구분 선 -->
+	<hr class="solid my-5">
 		
-		<!-- 구분 선 -->
-		<hr class="solid my-5">
-		
-		<!-- 챌린지 참여 버튼 -->
-		<section class="call-to-action call-to-action-strong-grey content-align-center call-to-action-in-footer">
-					<div class="container py-5">
-						<div class="row py-3">
-							<div class="col-md-9 col-lg-9">
-								<div class="call-to-action-content">
-									<h2 class="font-weight-normal text-7 mb-0"> 0000명이 <strong>${sessionScope.id }</strong>님과 함께 도전하고 싶어합니다.
-									<p class="mb-0">챌린지 신청을 해 더 멋진 다독인이 되어보세요.</p>
-								</div>
-							</div>
-							<div class="col-md-3 col-lg-3">
-								<!-- Button trigger modal -->
-								<button class="btn btn-modern btn-primary" data-toggle="modal" data-target="#defaultModal">
-										챌린지 신청하기
-								</button>
-							</div>
+	<!-- 몇명이 참여했는지 출력하는 부분 -->
+	<div class="container pt-4">
+		<div class="row text-center pt-4 mt-5">
+			<div class="col">
+				<h2 class="font-weight-bold text-8 mb-2">
+					<span>지금까지 ${dto.title}에 참여한 다독인의 수는 </span>
+					<div class="row counters counters-text-dark">
+						<div class="counter">
+							<strong data-to="30000" data-append="+">0</strong>
 						</div>
 					</div>
-					<!-- 챌린지 신청 모달 -->
-					<div class="modal fade" id="defaultModal" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<h4 class="modal-title" id="defaultModalLabel">Default Modal Title</h4>
-									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-								</div>
-								<div class="modal-body">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc <a href="#">vehicula</a> lacinia. Proin adipiscing porta tellus, ut feugiat nibh adipiscing sit amet. In eu justo a felis faucibus ornare vel id metus. Vestibulum ante ipsum primis in faucibus.</p>
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc <a href="#">vehicula</a> lacinia. Proin adipiscing porta tellus, ut feugiat nibh adipiscing sit amet. In eu justo a felis faucibus ornare vel id metus. Vestibulum ante ipsum primis in faucibus.</p>
-									<div class="btn-group-toggle" data-toggle="buttons">
-								  	<label class="btn btn-primary mb-2">
-								    	<input type="checkbox" checked autocomplete="off"> 모두 동의합니다.
-								  	</label>
-								  	</div>
-								</div>
-								<div class="modal-footer">
-									<form action="${pageContext.request.contextPath}/challenge/insertChallenger.do" method="post">
-										<input type="hidden" name="id" id="id" value="${sessionScope.id }" />
-										<input type="hidden" name="challengeTitle" id="challengeTitle" value="${dto.title}" /> 
-										<input type="hidden" name="period" id="period" value="${dto.period}" />
-										<button type="submit" class="btn btn-warning">신청하기</button>
-										<button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-									</form>
-								</div>
-							</div>
-						</div>
+					<span> 명 입니다!</span>
+				</h2>
+				<h4 class="text-primary lead tall text-4">여러분의 도전을 DADOC이 응원합니다!</h4>
+			</div>
+		</div>
+		<!-- 참가자 인증샷 출력부분 -->
+		<div class="row text-center mt-5 pb-5 mb-5">
+			<div class="owl-carousel owl-theme carousel-center-active-item mb-0" data-plugin-options="{'responsive': {'0': {'items': 1}, '476': {'items': 1}, '768': {'items': 5}, '992': {'items': 7}, '1200': {'items': 7}}, 'autoplay': true, 'autoplayTimeout': 3000, 'dots': false}">
+				<c:forEach var="tmp" items="${photoList }">
+					<div>
+						<img class="img-fluid" src="${pageContext.request.contextPath }${tmp.imagePath}" alt="">
 					</div>
-				</section>
-		
+				</c:forEach>
+			</div>
+		</div>
+	</div>
 	
-
-	
+	<!-- 구분 선 -->
+	<hr class="solid my-5">
 		
-		<!-- 댓글  목록-->
-		<div id="comments" class="post-block mt-5 post-comments">
-			<h4 class="mb-3">comments(32)</h4>
-				<!-- 원댓글 -->
-				<ul class="comments">
-				<c:forEach var="tmp" items="${commentList }">
-					<c:choose>
+	<!-- 챌린지 참여 버튼 -->
+	<section class="call-to-action call-to-action-strong-grey content-align-center call-to-action-in-footer">
+		<div class="container py-5">
+			<div class="row py-3">
+				<div class="col-md-9 col-lg-9">
+					<div class="call-to-action-content">
+						<h2 class="font-weight-normal text-7 mb-0"> 0000명이 <strong>${sessionScope.id }</strong>님과 함께 도전하고 싶어합니다.
+						<p class="mb-0">챌린지 신청을 해 더 멋진 다독인이 되어보세요.</p>
+					</div>
+				</div>
+				<div class="col-md-3 col-lg-3">
+					<!-- Button trigger modal -->
+					<button class="btn btn-modern btn-primary" data-toggle="modal" data-target="#defaultModal">
+							챌린지 신청하기
+					</button>
+				</div>
+			</div>
+		</div>
+		<!-- 챌린지 신청 모달 -->
+		<div class="modal fade" id="defaultModal" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title" id="defaultModalLabel">Default Modal Title</h4>
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					</div>
+					<div class="modal-body">
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc <a href="#">vehicula</a> lacinia. Proin adipiscing porta tellus, ut feugiat nibh adipiscing sit amet. In eu justo a felis faucibus ornare vel id metus. Vestibulum ante ipsum primis in faucibus.</p>
+						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc <a href="#">vehicula</a> lacinia. Proin adipiscing porta tellus, ut feugiat nibh adipiscing sit amet. In eu justo a felis faucibus ornare vel id metus. Vestibulum ante ipsum primis in faucibus.</p>
+						<div class="btn-group-toggle" data-toggle="buttons">
+					  	<label class="btn btn-primary mb-2">
+					    	<input type="checkbox" checked autocomplete="off"> 모두 동의합니다.
+					  	</label>
+					  	</div>
+					</div>
+					<div class="modal-footer">
+						<form action="${pageContext.request.contextPath}/challenge/insertChallenger.do" method="post">
+							<input type="hidden" name="id" id="id" value="${sessionScope.id }" />
+							<input type="hidden" name="challengeTitle" id="challengeTitle" value="${dto.title}" /> 
+							<input type="hidden" name="period" id="period" value="${dto.period}" />
+							<button type="submit" class="btn btn-warning">신청하기</button>
+							<button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+			
+	<!-- 댓글  목록-->
+	<div id="comments" class="post-block mt-5 post-comments comments">
+		<!-- 댓글 개수 및 구분선 -->
+		<h4 class="mb-3">comments(33)</h4>
+		<!-- 댓글 목록 -->
+		<ul class="comments">
+			<c:forEach var="tmp" items="${commentList }">
+				<c:choose>
 					<c:when test="${tmp.deleted eq 'yes' }">
 						<li>삭제된 댓글입니다.</li>
 					</c:when>
 					<c:otherwise>
 						<c:if test="${tmp.num eq tmp.comment_group }">
 							<li id="reli${tmp.num }">
-							<div class="comment">
-						<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
-							<c:if test="${empty tmp.profile }">
-							<img class="avatar" alt="" src="img/avatars/avatar-2.jpg">
-							</c:if>
-							<c:if test="${not empty tmp.profile }">
-								<img class="profile-image" src="${pageContext.request.contextPath}${tmp.profile }"/>
-							</c:if>
-						</div>
-						<div class="comment-block">
-							<div class="comment-arrow"></div>
-							<span class="comment-by">
-								<strong>${tmp.writer }</strong>
-								<c:if test="${tmp.num ne tmp.comment_group }">
-									@<i>${tmp.target_id }</i>
-								</c:if>
-								<span class="float-right">
-								<!-- 이건 뭐지? -->
-									<span> <a href="#"><i class="fas fa-reply"></i> Reply</a></span>
-								</span>
-							</span>
-							<p id="pre${tmp.num }">${tmp.content }</p>
-							<span class="date float-right">${tmp.regdate }</span>
-						</div>
-					</div>
-						</li>												
-						</c:if>
-				<!-- 대댓글 -->
-				<c:if test="${tmp.num ne tmp.comment_group }">
-						<li id="reli${tmp.num }">
-							<div class="comment">
-								<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
-									<c:if test="${empty tmp.profile }">
+								<div class="comment">
+									<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
+										<c:if test="${empty tmp.profile }">
 										<img class="avatar" alt="" src="img/avatars/avatar-2.jpg">
-									</c:if>
-									<c:if test="${not empty tmp.profile }">
-										<img class="profile-image" src="${pageContext.request.contextPath}${tmp.profile }"/>
-									</c:if>								
-								</div>
+										</c:if>
+										<c:if test="${not empty tmp.profile }">
+											<img class="profile-image" src="${pageContext.request.contextPath}${tmp.profile }"/>
+										</c:if>
+									</div>
 								<div class="comment-block">
 									<div class="comment-arrow"></div>
 									<span class="comment-by">
 										<strong>${tmp.writer }</strong>
-										<c:if test="${tmp.num ne tmp.comment_group }">
-											@<i>${tmp.target_id }</i>
-										</c:if>
+											<c:if test="${tmp.num ne tmp.comment_group }">
+												@<i>${tmp.target_id }</i>
+											</c:if>
 										<span class="float-right">
 											<span> <a href="#"><i class="fas fa-reply"></i> Reply</a></span>
+											<c:if test="${tmp.writer eq id }">
+											<a data-num="${tmp.num }" class="update-link" href="javascript:"><i class="icon-pencil icons"></i> Edit</a>
+											<a data-num="${tmp.num }" class="delete-link" href="javascript:"><i class="icon-trash icons"></i> Delete</a>
+											</c:if>
 										</span>
 									</span>
-									<p id="pre${tmp.num }">${tmp.content }</p>
-									<span class="date float-right">${tmp.regdate }</span>
-										</div>
+										<p id="pre${tmp.num }">${tmp.content }</p>
+										<span class="date float-right">${tmp.regdate }</span>
+								</div>
+								</div>
+							</li>												
+						</c:if>
+					
+						<!-- 대댓글 -->
+						<c:if test="${tmp.num ne tmp.comment_group }">
+							<li id="reli${tmp.num }">
+								<div class="comment">
+									<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
+										<c:if test="${empty tmp.profile }">
+											<img class="avatar" alt="" src="img/avatars/avatar-2.jpg">
+										</c:if>
+										<c:if test="${not empty tmp.profile }">
+											<img class="profile-image" src="${pageContext.request.contextPath}${tmp.profile }"/>
+										</c:if>								
 									</div>
-								</li>
-							</c:if>
-						</c:otherwise>
-					</c:choose>	
-				</c:forEach>
-			</ul>
+									<div class="comment-block">
+										<div class="comment-arrow"></div>
+										<span class="comment-by">
+											<strong>${tmp.writer }</strong>
+											<c:if test="${tmp.num ne tmp.comment_group }">
+												@<i>${tmp.target_id }</i>
+											</c:if>
+											<span class="float-right">
+											<span> <a href="#"><i class="fas fa-reply"></i> Reply</a></span>
+											<c:if test="${tmp.writer eq id }">
+												<a data-num="${tmp.num }" class="update-link" href="javascript:"><i class="icon-pencil icons"></i> Edit</a>
+												<a data-num="${tmp.num }" class="delete-link" href="javascript:"><i class="icon-trash icons"></i> Delete</a>
+											</c:if>
+										</span>
+										<p id="pre${tmp.num }">${tmp.content }</p>
+										<span class="date float-right">${tmp.regdate }</span>
+									</div>
+								</div>
+							</li>
+						</c:if>
+				
+						<!-- 대댓글 폼 -->
+						<form id="reForm${tmp.num }" class="comment-form re-insert-form form-hide" action="comment_insert.do" method="post">
+							<input type="hidden" name="ref_group" value="${dto.num }"/>
+							<input type="hidden" name="target_id" value="${tmp.writer }"/>
+							<input type="hidden" name="comment_group" value="${tmp.comment_group }"/>
+							<textarea name="content"></textarea>
+							<button type="submit">등록</button>
+						</form>
+						
+						<!-- 수정 폼 -->
+						<c:if test="${tmp.writer eq id }">
+						<form id="updateForm${tmp.num }" class="update-form comment-form form-hide" action="comment_update.do" method="post">
+							<input type="hidden" name="num" value="${tmp.num }" />
+							<textarea name="content">${tmp.content }</textarea>
+							<button type="submit">수정</button>
+						</form>
+						</c:if>
+						
+					</c:otherwise>
+				</c:choose>	
+			</c:forEach>
+		</ul>
+	</div>
+
+	<!-- comment 작성 창 -->
+		<div class="post-block mt-5 post-leave-comment">
+			<h4 class="mb-3">Leave a comment</h4>
+				<!-- 원글에 댓글을 작성할 폼 -->
+				<form class="comment-form insert-form" action="comment_insert.do" method="post">
+					<!-- 원글의 글번호가 댓글의 ref_group 번호가 된다. -->
+					<input type="hidden" name="ref_group" value="${dto.num }"/>
+					<!--  원글의 title도 보내준다. -->
+					<input type="hidden" name="title" value="${dto.title }" />
+					<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
+					<input type="hidden" name="target_id" value="${dto.writer }"/>		
+					<input type="text" name="content" id="content" />											
+					<button type="submit">등록</button>
+				</form>
 		</div>
-									<!-- comment 작성 창 -->
-										<div class="post-block mt-5 post-leave-comment">
-											<h4 class="mb-3">Leave a comment</h4>
-												<!-- 원글에 댓글을 작성할 폼 -->
-												<form class="comment-form insert-form" action="comment_insert.do" method="post">
-													<!-- 원글의 글번호가 댓글의 ref_group 번호가 된다. -->
-													<input type="hidden" name="ref_group" value="${dto.num }"/>
-													<!--  원글의 title도 보내준다. -->
-													<input type="hidden" name="title" value="${dto.title }" />
-													<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
-													<input type="hidden" name="target_id" value="${dto.writer }"/>		
-													<input type="text" name="content" id="content" />											
-													<button type="submit">등록</button>
-												</form>
-										</div>
 							
-									</div>
-								</article>
-							
-							</div>
-						</div>
-					</div>
 
-				</div>
-
-			</div>	
-	
-
-	
-
-	<script
-		src="${pageContext.request.contextPath}/resources/js/gura_util.js"></script>
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/gura_util.js"></script>
 	<script>
+	
+	//detail.jsp 페이지 로딩 시점에 만들어진 1 페이지에 해당하는 댓글에 이벤트 리스너 등록하기
+	
+	addUpdateFormListener(".update-form");
+	addUpdateListener(".update-link");
+	addDeleteListener(".delete-link");
 
 	//챌린지 삭제
 	function deleteChallenge(){
@@ -410,7 +433,81 @@
 		alert("복사 되었습니다.");
 	}
 
-	</script>
+	
+	
+	//[인자로 전달되는 선택자를 이용해서 이벤트 리스너를 등록하는 함수들]
+	
+	//댓글 수정 폼 열기
+	function addUpdateListener(sel){
+		//댓글 수정 링크의 참조값을 배열에 담아오기
+		//sel은 '.page-xxx .update-link' 형식의 내용이다.
+		let updateLinks=document.querySelectorAll(sel);
+		for(let i=0; i<updateLinks.length; i++){
+			updateLinks[i].addEventListener("click", function(){
+				//click 이벤트가 일어난 바로 그 요소의 data-num 속성의 value값을 읽어온다.
+				const num = this.getAttribute("data-num"); //댓글의 글 번호
+				document.querySelector("#updateForm"+num).style.display="block";
+			});
+		}
+	}
+	
+	//댓글 수정하기
+	function addUpdateFormListener(sel){
+		//댓글 수정 폼의 참조값을 배열에 담아오기
+		let updateForms=document.querySelectorAll(sel);
+		for(let i=0; i<updateForms.length; i++){
+			//폼에 submit 이벤트가 일어났을 때 호출되는 함수 등록
+			updateForms[i].addEventListener("submit", function(e){
+				//submit이벤트가 일어난 form의 참조값을 form이라는 변수에 담기
+				const form=this;
+				//폼 제출을 막는다.
+				e.preventDefault();
+				//이벤트가 일어난 폼을 ajax 전송하도록 한다.
+				ajaxFormPromise(form)
+				.then(function(response){
+					return response.json();
+				})
+				.then(function(data){
+					if(data.isSuccess){
+						const num=form.querySelector("input[name=num]").value;
+						const content=form.querySelector("textarea[name=content]").value;
+						//수정폼에 입력한 value 값을 pre 요소에도 출력하기
+						document.querySelector("#pre"+num).innerText=content;
+						form.style.display="none";
+					}
+				});
+			});
+		}
+	}
+	
+	//댓글 삭제
+	function addDeleteListener(sel){
+		//댓글 삭제 링크의 참조값을 배열에 담아오기
+		let deleteLinks=document.querySelectorAll(sel);
+		for(let i=0; i<deleteLinks.length; i++){
+			deleteLinks[i].addEventListener("click", function(){
+				//click 이벤트가 일어난 바로 그 요소의 data-num 속성의 value 값을 읽어온다.
+				const num = this.getAttribute("data-num"); //댓글의 글 번호
+				const isDelete=confirm("댓글을 삭제하시겠습니까?");
+				if(isDelete){
+					//gura_util.js에 있는 함수를 이용해서 ajax요청
+					ajaxPromise("comment_delete.do", "post", "num="+num)
+					.then(function(response){
+						return response.json();
+					})
+					.then(function(data){
+						//만일 삭제 성공이면
+						if(data.isSuccess){
+							//댓글이 있는 곳에 삭제된 댓글입니다를 출력해준다.
+							document.querySelector("#reli"+num).innerText='삭제된 댓글입니다.';
+						}
+					});
+				}
+			});
+		}
+	}
+	
+</script>
 
 </body>
 </html>
