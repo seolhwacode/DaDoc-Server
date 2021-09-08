@@ -18,7 +18,7 @@ public interface ChallengeService {
 	// 새로운 챌린지 등록하기
 	public void register(ChallengesDto dto, HttpServletRequest request);
 	// 이미지 추가 - 이미지 업로드 & db 저장
-	public void saveImage(ChallengesDto dto, HttpServletRequest request);
+	public Map<String,Object> saveImage(HttpServletRequest request, MultipartFile mFile);
 	// 챌린지 목록을 리턴하기
 	public void getList(HttpServletRequest request);
 	// 상세 목록 가져오기

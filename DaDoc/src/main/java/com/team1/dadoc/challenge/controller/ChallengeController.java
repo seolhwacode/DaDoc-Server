@@ -46,13 +46,21 @@ public class ChallengeController {
 	@RequestMapping(value="/challenge/private/register")
 	public ModelAndView register(ChallengesDto dto, ModelAndView mView, HttpServletRequest request) {		
 		// form에서 dto로 데이터 받아오고
-		// dto: challenge 정보와 MultipartFile image 정보를 가지고 있다.
+		// dto: challenge 정보와image 정보를 가지고 있다.
 		// request : imagePath 만드는데 사용, session 영역의 id 가져오기
-		service.saveImage(dto, request);
+		service.register(dto, request);
 		mView.setViewName("redirect:/challenge/main.do");
 		
 		return mView;
 		
+	}
+	
+	//ajax 프로필 사진 업로드 요청처리
+	@RequestMapping(value="/challenge/private/ajax_image_upload", method=RequestMethod.POST)
+	@ResponseBody
+	public Map<String, Object> ajaxProfileUpload(HttpServletRequest request, @RequestParam MultipartFile preImage){
+		//서비스를 이용해서 이미지를 upload 폴더에 저장하고 리턴되는 Map을 json 문자열로 리턴하기
+		return service.saveImage(request, preImage);
 	}
 	
 	// 챌린지 상세보기 (detail 페이지)

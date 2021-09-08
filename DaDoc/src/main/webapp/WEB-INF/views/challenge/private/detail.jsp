@@ -131,7 +131,7 @@
 				<div class="col">
 					<div class="row align-items-center pt-4 appear-animation" data-appear-animation="fadeInLeftShorter">
 						<div class="col-md-4 mb-4 mb-md-0">
-							<img class="img-fluid scale-2 pr-5 pr-md-0 my-4" src="${pageContext.request.contextPath }${dto.imagePath}" alt="layout styles" />
+							<img class="img-fluid scale-2 pr-5 pr-md-0 my-4" src="${pageContext.request.contextPath }${dto.image}" alt="layout styles" />
 						</div>
 						<div class="col-md-8 pl-md-5">
 							<h2 class="font-weight-normal text-6 mb-3"><strong class="font-weight-extra-bold">${dto.writer } 님의 </strong> ${dto.title }</h2>
@@ -195,7 +195,7 @@
 			<div class="owl-carousel owl-theme carousel-center-active-item mb-0" data-plugin-options="{'responsive': {'0': {'items': 1}, '476': {'items': 1}, '768': {'items': 5}, '992': {'items': 7}, '1200': {'items': 7}}, 'autoplay': true, 'autoplayTimeout': 3000, 'dots': false}">
 				<c:forEach var="tmp" items="${photoList }">
 					<div>
-						<img class="img-fluid" src="${pageContext.request.contextPath }${tmp.imagePath}" alt="">
+						<img class="img-fluid" src="${pageContext.request.contextPath }${tmp.image}" alt="">
 					</div>
 				</c:forEach>
 			</div>

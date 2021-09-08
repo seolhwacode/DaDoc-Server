@@ -1,7 +1,5 @@
 package com.team1.dadoc.challenges.dto;
 
-import org.springframework.web.multipart.MultipartFile;
-
 public class ChallengesDto {
 
 	private int num;
@@ -9,7 +7,7 @@ public class ChallengesDto {
 	private String writer;
 	private String title;
 	private String category;
-	private String imagePath;
+	private String image;
 	private String description;
 	private int period;
 	private String startDate;
@@ -19,21 +17,20 @@ public class ChallengesDto {
 	private int endRowNum;
 	private int prevNum;
 	private int nextNum;
-	private MultipartFile image; // 이미지 파일 업로드 처리를 위한 필드
 	
 	//디폴트 생성자
 	public ChallengesDto() {}
 
-	public ChallengesDto(int num, String type, String writer, String title, String category, String imagePath,
+	public ChallengesDto(int num, String type, String writer, String title, String category, String image,
 			String description, int period, String startDate, String endDate, String regdate, int startRowNum,
-			int endRowNum, int prevNum, int nextNum, MultipartFile image) {
+			int endRowNum, int prevNum, int nextNum) {
 		super();
 		this.num = num;
 		this.type = type;
 		this.writer = writer;
 		this.title = title;
 		this.category = category;
-		this.imagePath = imagePath;
+		this.image = image;
 		this.description = description;
 		this.period = period;
 		this.startDate = startDate;
@@ -43,7 +40,6 @@ public class ChallengesDto {
 		this.endRowNum = endRowNum;
 		this.prevNum = prevNum;
 		this.nextNum = nextNum;
-		this.image = image;
 	}
 
 	public int getNum() {
@@ -86,12 +82,12 @@ public class ChallengesDto {
 		this.category = category;
 	}
 
-	public String getImagePath() {
-		return imagePath;
+	public String getImage() {
+		return image;
 	}
 
-	public void setImagePath(String imagePath) {
-		this.imagePath = imagePath;
+	public void setImage(String image) {
+		this.image = image;
 	}
 
 	public String getDescription() {
@@ -166,18 +162,6 @@ public class ChallengesDto {
 		this.nextNum = nextNum;
 	}
 
-	public MultipartFile getImage() {
-		return image;
-	}
-
-	public void setImage(MultipartFile image) {
-		this.image = image;
-	}
-
-	
-
-	
-	
 	
 	
 }

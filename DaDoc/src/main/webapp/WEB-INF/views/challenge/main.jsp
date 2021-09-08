@@ -197,7 +197,7 @@
 									<div class="post-image">
 										<img
 											class="img-fluid img-thumbnail img-thumbnail-no-borders rounded-0"
-											src="${pageContext.request.contextPath }${tmp.imagePath}" />
+											src="${pageContext.request.contextPath }${tmp.image}" />
 									</div>
 
 									<div class="post-content">
