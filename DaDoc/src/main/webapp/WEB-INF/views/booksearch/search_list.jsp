@@ -99,7 +99,8 @@
 		<div>
 			<div v-for="(item, index) in searchList" v-bind:key="index" >
 				<!-- 컴포넌트로 리스트를 출력 -->
-				<list-component v-bind:list-item="item"></list-component>
+				<list-component v-bind:list-item="item"
+							v-bind:base_url="base_url"></list-component>
 			</div>
 		</div>
 		
@@ -172,6 +173,7 @@
 		    }
 		});
 	
+		//책 하나의 출력 리스트
 		Vue.component("list-component", {
 			template: `
 				<div>
@@ -199,13 +201,52 @@
 					<div>
 						출간일 : <span v-html="listItem.pubdate"></span>
 					</div>
+					<div>
+						좋아요 : {{isGood}}
+					</div>
 				</div>
 			`,
 			//listItem : 출력할 리스트의 하나의 오브젝트 
 			// -> image, title, link, author, price, isbn, description, datetime 가 들어있다.
-			props: ["listItem"],
+			// fetch 를 위해서 base_url 을 부모로부터 가져옴
+			props: ["listItem", "base_url"],
+			data(){
+				return {
+					//좋아요 인지 아닌지
+					isGood: false
+				};
+			},
 			methods: {
-				
+				//해당 책을 사용자가 좋아요를 눌렀는지 ajax 로 true / false 로 가져옴
+				getIsGood(){
+					//vue 의 참조값 가져옴
+					const self = this;
+					
+					//1. 사용자가 로그인 상태인지 검사
+					if(${ !empty id }){
+						//로그인 O
+						//2. 사용자가 로그인 상태 -> ajax 로 테이블에서 좋아요 인지 아닌지 읽어옴
+						fetch(self.base_url + '/booksearch/ajax_book_good.do?isbn=' + self.listItem.isbn)
+						.then(function(response){
+							return response.json();
+						})
+						.then(function(data){
+							//data => { isGood: true/false }
+							self.isGood = data.isGood;
+						});
+						
+					}else{
+						//3. 사용자 로그인 상태 X -> isGood = false
+						this.isGood = false;
+					}
+					
+					
+					
+					
+				}
+			},
+			created(){
+				this.getIsGood();
 			}
 		});
 		

@@ -5,18 +5,25 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONObject;
 import org.json.XML;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.team1.dadoc.book.good.dao.BookGoodDao;
+import com.team1.dadoc.book.good.dto.BookGoodDto;
 import com.team1.dadoc.book.search.dto.BookSearchDto;
 
 @Service
 public class BookSearchServiceImpl implements BookSearchService {
 
+	//책의 좋아요 DB 와 연결을 위한 dao
+	@Autowired
+	private BookGoodDao dao;
 	//애플리케이션 클라이언트 아이디값
 	private String clientId = "tPLcDAdvKX1Enb22c25W";
 	//애플리케이션 클라이언트 시크릿값
@@ -176,6 +183,17 @@ public class BookSearchServiceImpl implements BookSearchService {
         }
 		//없으면 null 리턴
 		return null;
+	}
+
+	//해당 id 와 isbn 에 해당하는 값이 좋아요 리스트에 있는지 확인하고, 그 값을 boolean 값으로 josn return
+	@Override
+	public Map<String, Object> getIsBookGood(BookGoodDto dto) {
+		//해당 id 와 isbn 에 해당하는 값이 좋아요 리스트에 있는지 확인하고, 그 값을 boolean 값으로 return
+		boolean isGood = dao.getIsGood(dto);
+		//결과값을 Map 에 넣고 return
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("isGood", isGood);
+		return map;
 	}
 	
 }
