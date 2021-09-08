@@ -18,8 +18,8 @@
 	
 	<insert id="insert" parameterType="challengesDto">
 		INSERT INTO dadoc_challenges
-		(num, writer, type, title, category, description, period, startdate, enddate, regdate, imagePath)
-		VALUES(challenges_seq.NEXTVAL, #{writer}, #{type}, #{title}, #{category}, #{description}, #{period}, #{startDate}, #{endDate}, SYSDATE, #{imagePath})
+		(num, writer, type, title, category, description, period, startdate, enddate, regdate, image)
+		VALUES(challenges_seq.NEXTVAL, #{writer}, #{type}, #{title}, #{category}, #{description}, #{period}, #{startDate}, #{endDate}, SYSDATE, #{image})
 	</insert>
 	
 	<select id="getList" parameterType="challengesDto" resultType="challengesDto">
@@ -48,7 +48,7 @@
 	<select id="getData" resultType="challengesDto">
 	SELECT *
 		FROM
-			(SELECT num, writer, type, title, category, imagePath, description, period, startdate, enddate, regdate
+			(SELECT num, writer, type, title, category, image, description, period, startdate, enddate, regdate
 			FROM dadoc_challenges
 			ORDER BY num DESC)
 		WHERE num = #{num}
@@ -62,7 +62,7 @@
 	<update id="update" parameterType="challengesDto">
 		UPDATE dadoc_challenges
 		SET title=#{title}, category=#{category}, description=#{description}, 
-		period=#{period}, startDate=#{startDate}, endDate=#{endDate}
+		period=#{period}, startDate=#{startDate}, endDate=#{endDate}, image=#{image}
 		WHERE num = #{num}
 	</update>
 </mapper>

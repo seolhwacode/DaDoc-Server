@@ -139,38 +139,34 @@ public class ChallengeServiceImpl implements ChallengeService {
 	}
 	
 	@Override
-	public void saveImage(ChallengesDto dto, HttpServletRequest request) {
-		//업로드된 파일의 정보를 가지고 있는 MultipartFile 객체의 참조값 가져오기
-		MultipartFile image = dto.getImage();
+	public Map<String,Object> saveImage(HttpServletRequest request, MultipartFile mFile) {
 		//원본 파일명 -> 저장할 파일 이름 만들기 위해서 사용됨
-		String orgFileName = image.getOriginalFilename();
-		//파일 크기 -> 다운로드가 없으므로, 여기서는 필요없다.
-		long fileSize = image.getSize();
+		String orgFileName = mFile.getOriginalFilename();
+		//upload폴더에 저장할 파일명을 직접 구성한다.
+		//1234123424343xxx.jpg
+		String saveFileName=System.currentTimeMillis()+orgFileName;
 		
 		// webapp/uplaod 폴더까지의 실제 경로(서버의 파일 시스템 상에서의 경로)
 		String realPath = request.getServletContext().getRealPath("/upload");
-		// db에 저장할 파일의 상세 경로
-		String filePath = realPath + File.separator;
 		//디렉토리를 만들 파일 객체 생성
-		File upload = new File(filePath);
+		File upload = new File(realPath);
 		if(!upload.exists()) {
 			//만약 디렉토리가 존재하지 않는다면
 			upload.mkdir(); // 폴더 생성
-		}
-		//저장할 파일의 이름을 구성한다.
-		String saveFileName = System.currentTimeMillis()+orgFileName;
-		
+		}		
 		try{
-			//upload 폴더에 파일을 저장한다.
-			image.transferTo(new File(filePath+saveFileName));
+			//파일을 저장할 전체 경로를 구성한다.  
+			String savePath=realPath+File.separator+saveFileName;
+			//임시폴더에 업로드된 파일을 원하는 파일을 저장할 경로에 전송한다.
+			mFile.transferTo(new File(savePath));
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		// json 문자열을 출력하기 위한 Map 객체 생성하고 정보 담기 
+		Map<String, Object> map=new HashMap<String, Object>();
+		map.put("imagePath", "/upload/"+saveFileName);
 		
-		dto.setImagePath("/upload/"+saveFileName);
-		
-		//ChallengeschallengesDao를 이용해서 DB에 저장하기
-		challengesDao.register(dto);
+		return map;
 	}
 
 	// 챌린지 detail 페이지에 필요한 data를 ModelAndView에 저장
