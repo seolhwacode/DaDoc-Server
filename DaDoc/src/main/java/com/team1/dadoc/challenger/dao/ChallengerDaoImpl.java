@@ -21,7 +21,8 @@ public class ChallengerDaoImpl implements ChallengerDao{
 
 	@Override
 	public int getChallengers(String title) {
-		return session.selectOne("challenger.getChallenger"); 
+		int count = session.selectOne("challenger.getChallengers",title); 
+		return count;
 	}
 
 }

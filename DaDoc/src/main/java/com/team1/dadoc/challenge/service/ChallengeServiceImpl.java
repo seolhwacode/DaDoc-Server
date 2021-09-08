@@ -178,7 +178,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 	public void getDetail(ModelAndView mView, int num) {
 		//challengesDao로 해당 게시글 num에 해당하는 데이터를 가져온다.
 		ChallengesDto dto = challengesDao.getData(num);
-		
+				
 		//[댓글 관련 로직]
 		
 		//한 페이지에 몇개씩 표시할 것인지
@@ -360,6 +360,12 @@ public class ChallengeServiceImpl implements ChallengeService {
 		request.setAttribute("num", num); //원글의 글번호
 		request.setAttribute("pageNum", pageNum); //댓글의 페이지 번호
 		
+	}
+
+	@Override
+	public void getChallenger(ModelAndView mView, String title) {
+		int challengers = challengerDao.getChallengers(title);
+		mView.addObject("challengers", challengers);
 	}
 
 

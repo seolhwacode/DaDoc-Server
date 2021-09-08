@@ -7,11 +7,10 @@
 		VALUES(challenger_seq.NEXTVAL, #{id}, #{challengeTitle}, #{period}, 0, 'false')
 	</insert>
 	
-	<select id="getChallenger" parameterType="int">
-			SELECT countnum
-				(SELECT challengeTitle, count(1) as countnum
-				FROM dadoc_challenger
-				GROUP BY challengeTitle)
-			WHERE challengeTitle = #{title}
+	<select id="getChallengers" parameterType="string" resultType="int">
+				SELECT NVL(count(1),0) as countnum
+					FROM dadoc_challenger
+				WHERE challengeTitle = #{title}
+			
 	</select>
 </mapper>
