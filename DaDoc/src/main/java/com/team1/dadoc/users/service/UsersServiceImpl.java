@@ -97,6 +97,8 @@ public class UsersServiceImpl implements UsersService {
 		if(isValid) {
 			//유효하다 : 비밀번호가 일치
 			session.setAttribute("id", dto.getId());
+			//navbar 에 넣을 사용자 사진을 session 에 저장
+			session.setAttribute("userProfile", result.getProfile());
 		}
 	}
 
