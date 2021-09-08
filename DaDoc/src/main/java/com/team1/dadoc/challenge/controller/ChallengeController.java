@@ -62,6 +62,7 @@ public class ChallengeController {
 		//detail 페이지에 필요한 data를 num을 통해 가져와서 ModelAndView에 저장
 		
 		service.getDetail(mView,num);
+		service.getChallenger(mView, title);
 		String id = request.getSession().getId();
 		PhotoShotDto dto = new PhotoShotDto();
 		dto.setId(id);

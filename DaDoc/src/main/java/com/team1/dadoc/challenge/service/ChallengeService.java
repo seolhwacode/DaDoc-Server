@@ -41,5 +41,7 @@ public interface ChallengeService {
 	public void deleteComment(HttpServletRequest request);
 	// 댓글 더보기
 	public void moreCommentList(HttpServletRequest request);
+	// 참가자 수 가져오기
+	public void getChallenger(ModelAndView mView, String title);
 	
 }

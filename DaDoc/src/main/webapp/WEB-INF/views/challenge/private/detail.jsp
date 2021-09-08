@@ -182,10 +182,10 @@
 					<span>지금까지 ${dto.title}에 참여한 다독인의 수는 </span>
 					<div class="row counters counters-text-dark">
 						<div class="counter">
-							<strong data-to="30000" data-append="+">0</strong>
+							<strong data-to="${challengers }" data-append="+">0</strong>
 						</div>
 					</div>
-					<span> 명 입니다!</span>
+					<span> ${challengers }명 입니다!</span>
 				</h2>
 				<h4 class="text-primary lead tall text-4">여러분의 도전을 DADOC이 응원합니다!</h4>
 			</div>
@@ -211,7 +211,7 @@
 			<div class="row py-3">
 				<div class="col-md-9 col-lg-9">
 					<div class="call-to-action-content">
-						<h2 class="font-weight-normal text-7 mb-0"> 0000명이 <strong>${sessionScope.id }</strong>님과 함께 도전하고 싶어합니다.
+						<h2 class="font-weight-normal text-7 mb-0"> ${challengers }명이 <strong>${sessionScope.id }</strong>님과 함께 도전하고 싶어합니다.
 						<p class="mb-0">챌린지 신청을 해 더 멋진 다독인이 되어보세요.</p>
 					</div>
 				</div>
