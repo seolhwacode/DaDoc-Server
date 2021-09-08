@@ -22,6 +22,13 @@ CREATE TABLE users_pwd_question(
 	question VARCHAR2(200) NOT NULL	-- 질문 내용
 );
 
+-- 책의 좋아요 리스트를 저장하는 table
+CREATE TABLE dadoc_book_good(
+	id VARCHAR2(100),	-- 아이디
+	isbn VARCHAR2(100),	-- 책의 isbn
+	PRIMARY KEY(id, isbn)
+)
+
 -- 챌린지 정보를 저장할 테이블
 CREATE TABLE dadoc_challenges(
 	num NUMBER PRIMARY KEY, -- 등록된 챌린지 순서
