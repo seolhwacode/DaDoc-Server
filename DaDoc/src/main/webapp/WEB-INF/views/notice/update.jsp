@@ -8,8 +8,9 @@
 <title>/views/notice/update.jsp</title>
 </head>
 <body>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 	<script>
-		alert("${id} 님 글을 수정 했습니다.");
+		swal("${id} 님 글을 수정 했습니다.");
 		location.href="${pageContext.request.contextPath}/notice/detail.do?num=${param.num}";
 	</script>
 </body>

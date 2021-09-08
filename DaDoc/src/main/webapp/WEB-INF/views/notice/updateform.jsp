@@ -5,28 +5,80 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Poor+Story&display=swap" rel="stylesheet">
 <title>/views/notice/updateform.jsp</title>
+<style>
+
+.container{
+	background-color: #F9E0AE;
+	text-align: center;
+	margin-top: 140px;
+	padding-bottom:80px;
+	font-family: 'East Sea Dokdo', cursive;
+	font-size: 25px;
+	
+}
+
+#submitBtn{
+	font-size: 20px;
+}
+
+#resetBtn{
+	font-size: 20px;
+}
+
+ 
+
+</style>
+<jsp:include page="/resources/template.jsp"></jsp:include>
 </head>
 <body>
 <div class="container">
-	<h1>글 수정 폼 입니다.</h1>
-	<form action="update.do" method="post">
+	<h1>공지 수정</h1>
+	<form action="update.do" method="post" id="updateForm">
 		<input type="hidden" name="num" value="${dto.num }" />
-		<div>
-			<label for="writer">작성자</label>
+		<div id="writer" class="mb-3">
+			<label class="form-label" for="writer">작성자</label>
 			<input type="text" id="writer" value="${dto.writer }" disabled/>
 		</div>
-		<div>
-			<label for="title">제목</label>
-			<input type="text" name="title" id="title" value="${dto.title }"/>
+		<div id="title" class="mb-3">
+			<label class="form-label" for="title">제목</label>
+			<input data-msg-required="please enter your message." type="text" name="title" id="title"  value="${dto.title }" required/>
 		</div>
-		<div>
-			<label for="content">내용</label>
-			<textarea name="content" id="content">${dto.content }</textarea>
+		<div id="content" class="mb-3">
+			<label class="form-label" for="content">내용</label>
+			<textarea data-msg-required="please enter your message." rows="15" name="content" id="content" required>${dto.content }</textarea>
 		</div>
-		<button type="submit" onclick="submitContents(this);">수정확인</button>
-		<button type="reset">취소</button>
+		<button class="btn btn-primary" id="submitBtn" type="submit" onclick="submitContents(this);">수정</button>
+		<button class="btn btn-primary" id="resetBtn" type="reset" onclick="javascript:resetConfirm()">취소</button>
 	</form>
 </div>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+
+
+
+function resetConfirm(){
+	//취소할지 물어봄
+	swal({
+		title: "수정을 취소하시겠습니까?",
+		text: "게시판으로 돌아갑니다.",
+		icon: "warning",
+		button: true,
+		dangerMode: true
+	})
+	
+	.then(function(isReset){
+		if (isReset) {
+			location.href = "list.do";				
+		}
+	});
+	
+}
+</script>
+
 </body>
 </html>
