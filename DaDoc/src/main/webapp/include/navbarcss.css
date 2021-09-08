@@ -1,0 +1,101 @@
+@charset "UTF-8";
+
+/* nav-header 내부 css*/
+
+/* nav-header 크기 & 정렬  */
+.nav-header{
+	height: 280px;
+	padding: 30px;
+	
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: column;
+}
+.nav-header .left{
+	position: relative;
+	left: -200px;
+}
+
+.nav-header .cen{
+	position: relative;
+	top: 20px;
+}
+
+.nav-header .right{
+	position: relative;
+	top: 20px;
+	right: -180px;
+}
+
+/* '다' 글씨 */
+.nav-header .da{
+	font-weight: 100;
+	font-size: 80px;
+}
+
+
+/* Style the navbar */
+#navbar {
+	/* overflow의 값을 hidden으로 설정하면, 부모요소의 범위를 넘어가는 자식요소의 부분은 보이지 않도록 처리한다. */
+  	overflow: hidden;
+  	background-color: #682C0E;
+  	/* 자꾸 캐로세일이 navbar 위로 지나간다. */
+  	z-index: 1;
+}
+
+/* Navbar links */
+#navbar a {
+  	float: left;
+  	display: block;
+  	color: #f2f2f2;
+  	text-align: center;
+  	padding: 14px;
+  	/* 밑줄 없애기 */
+  	text-decoration: none;
+}
+
+/* 로그인, 회원가입, 개인정보는 오른쪽에 고정 */
+#navbar .nav-users{
+	float: right;
+}
+
+#navbar .nav-profile{
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	margin-top: 7px;
+    margin-bottom: 7px;
+	background-color: white;
+}
+
+/* 마우스가 올라갈 때 */
+#navbar a:hover {
+	background-color: #CDB30C;
+	color: black;
+}
+
+/* 선택되었을 때 */
+#navbar a.active {
+	background-color: #CDB30C;
+	color: black;
+}
+
+/* The sticky class is added to the navbar with JS when it reaches its scroll position */
+/* JS 로 스크롤이 내려가면 navbar 를 맨 위의 위치에 fixed 되도록 .sticky 클래스를 추가한다. */
+.sticky {
+  	position: fixed;
+  	top: 0;
+  	width: 100%;
+}
+
+/* ? */
+/* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
+.sticky + .content {
+  	padding-top: 60px;
+}
+
+/* 캐로세일이 뒤로가게 */
+.owl-carousel{
+	z-index: 0;
+}
