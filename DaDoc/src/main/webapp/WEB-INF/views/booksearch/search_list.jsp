@@ -36,13 +36,18 @@
 					<input v-model="query" type="text" name="query" id="query" />
 				</div>
 				<div>
+					<button type="reset">검색 조건 리셋</button>
 					<button type="submit">검색</button>
 				</div>
 			</form>
 		</div>
 		<!-- 상세 검색 form -->
 		<div>
+			<div>
+				<p>상세 검색은 책 제목(d_titl), 저자명(d_auth), 목차(d_cont), ISBN(d_isbn), 출판사(d_publ) 5개 항목 중에서 1개 이상 값을 입력해야 함.</p>
+			</div>
 			<form @submit.prevent="submitDetailSearch" ref="detailSearchForm" 
+					@reset="resetDetailSearchForm"
 					action="${pageContext.request.contextPath}/booksearch/ajax_detail_search.do" method="get">
 				<!-- 들고 올 총 개수 / 시작 row 번호 / 정렬 방법 -->
 				<input type="hidden" name="display" v-bind:value="display" />
@@ -50,37 +55,38 @@
 				<input type="hidden" name="sort" value="sim" ref="d_inputSort" />
 				<div>
 					<label for="d_titl">책 제목</label>
-					<input type="text" name="d_titl" id="d_titl" />
+					<input v-model="d_titl" type="text" name="d_titl" id="d_titl" />
 				</div>
 				<div>
 					<label for="d_auth">저자명</label>
-					<input type="text" name="d_auth" id="d_auth" />
+					<input v-model="d_auth" type="text" name="d_auth" id="d_auth" />
 				</div>
 				<div>
 					<label for="d_cont">목차</label>
-					<input type="text" name="d_cont" id="d_cont" />
+					<input v-model="d_cont" type="text" name="d_cont" id="d_cont" />
 				</div>
 				<div>
 					<label for="d_isbn">ISBN</label>
-					<input type="text" name="d_isbn" id="d_isbn" />
+					<input v-model="d_isbn" type="text" name="d_isbn" id="d_isbn" />
 				</div>
 				<div>
 					<label for="d_publ">출판사</label>
-					<input type="text" name="d_publ" id="d_publ" />
+					<input v-model="d_publ" type="text" name="d_publ" id="d_publ" />
 				</div>
 				<div>
 					<label for="d_dafr">출간 시작일</label>
-					<input type="text" name="d_dafr" id="d_dafr" />
+					<input v-model="d_dafr" type="text" name="d_dafr" id="d_dafr" placeholder="ex) 20000203" />
 				</div>
 				<div>
-					<label for="d_dat">출간 종료일</label>
-					<input type="text" name="d_dat" id="d_dat" />
+					<label for="d_dato">출간 종료일</label>
+					<input v-model="d_dato" type="text" name="d_dato" id="d_dato" placeholder="ex) 20000203" />
 				</div>
 				<div>
 					<label for="d_catg">카테고리</label>
-					<input type="text" name="d_catg" id="d_catg" />
+					<input v-model="d_catg" type="text" name="d_catg" id="d_catg" />
 				</div>
 				<div>
+					<button type="reset">검색 조건 리셋</button>
 					<button type="submit">검색</button>
 				</div>
 			</form>
@@ -163,7 +169,6 @@
 					다시 호출되는 함수(next, prev 누르면 된다.)
 		        */
 		        updatePageNums(){
-		            //alert("computed : updatePageNums 호출됨");
 		            const nums = [];
 		            for(let i = this.paging_data.startPageNum; i <= this.paging_data.endPageNum; i++){
 		                nums.push(i);
@@ -246,7 +251,6 @@
 					.then(function(data){
 						//data = { isSuccess: true/false } -> 반영 성공
 						if(data.isSuccess){
-							alert("좋아요 추가");
 							//성공 -> 좋아요 O -> isGood = true
 							self.isGood = true;
 						}
@@ -264,7 +268,6 @@
 					.then(function(data){
 						//data = { isSuccess: true/false } -> 반영 성공
 						if(data.isSuccess){
-							alert("좋아요 삭제");
 							//성공 -> 좋아요 X -> isGood = false
 							self.isGood = false;
 						}
@@ -365,6 +368,28 @@
 	            isCountSort: false	//판매량순
 			},
 			methods: {
+				//리셋 버튼 누름 => 상세검색 form 리셋
+				resetDetailSearchForm(){
+					this.d_titl = '';	//제목
+					this.d_auth = '';	//저자명
+					this.d_cont = '';	//목차
+					this.d_isbn = '';	//isbn
+					this.d_publ = '';	//출판사
+					this.d_dafr = '';	//출간 시작일
+					this.d_dato = '';	//출간 종료일
+					this.d_catg = '';	//카테고리
+				},
+				//이전에 검색되어 나온 것을 전부 reset
+				resetResults(){
+					//-> 이전 검색했던 리스트 삭제
+            		this.searchList = [];
+            		//-> 페이징도 초기화
+            		this.total = 0;	//검색하고 나면 나오는 총 책의 개수	
+					this.paging_data.pageNum = 1;
+					this.paging_data.startPageNum = 1;
+					this.paging_data.endPageNum = 1;
+					this.paging_data.tatalPageCount = 1;
+				},
 				//정렬 방법 변경 및 화면 ajax 로 변경하기
 				changeSort(sort){
 					//기본 & 상세 검색 form 의 정렬방법 변경하기
@@ -392,16 +417,42 @@
 					//어떤 검색인지에 따라서 ajax 하는 form 이 달라진다.
 					if(this.isDetailSearch){
 	                	//상세검색
-	                	alert("상세검색");
 	                	this.detailSearch();
 	                }else{
-	                	alert("기본 검색");
 	                	//bastic 검색
 		            	this.basicSearch();
 	                }
 				},
 				//네이버 상세검색 버튼을 눌러서 검색할 때 이벤트처리
 				submitDetailSearch(){
+					//입력란의 input이 trim 해서 처음과 끝 빈칸 삭제하고 -> 빈칸이면 검색 X
+					//d_titl / d_auth / d_cont / d_isbn / d_publ / d_dafr / d_dato / d_catg
+					//상세 검색은 책 제목(d_titl), 저자명(d_auth), 목차(d_cont), ISBN(d_isbn), 출판사(d_publ) 5개 항목 중에서 1개 이상 값을 입력해야 함.
+					//모든 칸이 빈칸이면 검색 X
+	            	if(this.d_titl.trim() === '' && this.d_auth.trim() === '' && this.d_cont.trim() === ''
+	            			&& this.d_isbn.trim() === '' && this.d_publ.trim() === ''){
+	            		alert('검색어를 입력해주세요.');
+	            		
+	            		//이전에 검색되어 나온 것을 전부 reset
+	    				this.resetResults();
+	            		
+						//종료
+	            		return;
+	            	}
+					
+					//출간 시작/종료일 -> 숫자만 허용
+					let number_reg =  /^[0-9]*$/;
+					if(!number_reg.test(this.d_dafr) || !number_reg.test(this.d_dato)){
+						//숫자 X 다른 문자
+						alert('잘못 입력하셨습니다.');
+						
+						//이전에 검색되어 나온 것을 전부 reset
+	    				this.resetResults();
+						
+						//종료
+	            		return;
+					}
+					
 					//검색버튼을 누른다 -> input 값 직접 변경(input hidden 은 v-model 이 통하지 X)
 					this.$refs.d_inputStart.value = 1;
 					
@@ -444,6 +495,13 @@
 						console.log(data);
 						//우리는 data 의 items object 를 사용한다.
 						//data : 내부에 개개 책의 정보가 담긴 object 를 담고 있는 array 이다.
+						
+						//오류 쿼리가 넘어올 때
+						if(data.result != null){
+							//잘못된 검색
+							alert('잘못된 검색입니다.');
+							return;
+						}
 						
 						//오류 : 검색되는 결과가 1개일 때, array 가 아닌 단일 object 로 넘어온다.
 						//-> object 를 array 에 넣어서 this.searchList 에 담는다.
@@ -490,6 +548,12 @@
 	            },
 	 	        //네이버 기본 검색버튼을 눌러서 검색할 때 이벤트처리
 	            submitBasicSearch(){
+	            	//입력란의 input이 trim 해서 처음과 끝 빈칸 삭제하고 -> 빈칸이면 검색 X
+	            	if(this.query.trim() === ''){
+	            		alert('검색어를 입력해주세요.');
+	            		return;
+	            	}
+	            	
 	            	//검색버튼을 누른다 -> input 값 직접 변경(input hidden 은 v-model 이 통하지 X)
 	            	this.$refs.inputStart.value = 1;
 	            	
