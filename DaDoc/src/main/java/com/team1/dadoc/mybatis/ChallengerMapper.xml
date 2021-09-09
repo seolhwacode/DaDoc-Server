@@ -20,4 +20,10 @@
 		ON dadoc_challenger.challengeTitle=dadoc_challenges.title
 		WHERE id =#{id}
 	</select>
+	
+	<select id="getRegisterUser" parameterType="challengerDto" resultType="string">
+				SELECT id
+				FROM dadoc_challenger
+				WHERE id= #{id} and challengeTitle =#{challengeTitle}
+	</select>
 </mapper>
