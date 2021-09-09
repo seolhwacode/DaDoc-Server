@@ -5,7 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
+<!-- navbar css 추가 -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/include/navbarcss.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Poor+Story&display=swap" rel="stylesheet">
@@ -15,7 +16,7 @@
 .container{
 	background-color: #F9E0AE;
 	text-align: center;
-	margin-top: 140px;
+	margin-top: 10px;
 	padding-bottom:80px;
 	font-family: 'East Sea Dokdo', cursive;
 	font-size: 25px;
@@ -42,7 +43,10 @@ h1{
 <jsp:include page="/resources/template.jsp"></jsp:include>
 </head>
 <body>
-
+	<!-- navbar 추가 -->
+	<jsp:include page="/include/navbar.jsp">
+		<jsp:param value="notice" name="thisPage"/>
+	</jsp:include>
 <div class="container">
 	<!-- admin만 글쓰기 버튼 활성화 -->
 	<c:if test="${sessionScope.id eq 'admin' }">
@@ -128,5 +132,7 @@ h1{
 	</c:if>
 
 </div>
+<!-- 네비게이션 바 js -->
+	<script src="${pageContext.request.contextPath}/include/navbarjs.js"></script>
 </body>
 </html>
