@@ -7,7 +7,6 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -44,13 +43,35 @@ public class BookSearchController {
 	}
 	
 	//해당 id 와 isbn 에 해당하는 값이 좋아요 리스트에 있는지 확인하고, 그 값을 boolean 값으로 josn return
-	@RequestMapping(value = "/booksearch/ajax_book_good")
+	@RequestMapping(value = "/bookgood/ajax_isExist")
 	@ResponseBody
-	public Map<String, Object> ajaxBookGood(BookGoodDto dto, HttpSession session){
+	public Map<String, Object> ajaxIsExist(BookGoodDto dto, HttpSession session){
 		//session 에서 id 가져와서 dto 에 넣기
 		dto.setId((String)session.getAttribute("id"));
 		
 		//해당 id 와 isbn 에 해당하는 값이 좋아요 리스트에 있는지 확인하고, 그 값을 boolean 값으로 josn return
 		return service.getIsBookGood(dto);
+	}
+	
+	//책 좋아요 추가 : 해당 id 와 isbn 을 db 에 추가한다.
+	@RequestMapping(value = "/booksearch/ajax_add")
+	@ResponseBody
+	public Map<String, Object> ajaxAdd(BookGoodDto dto, HttpSession session){
+		//session 에서 id 가져와서 dto 에 넣기
+		dto.setId((String)session.getAttribute("id"));
+		
+		//id 와 isbn 을 db 에 추가 후, 결과를 Map 에 담아 가져온다.
+		return service.goodAdd(dto);
+	}
+	
+	//책 좋아요 취소(삭제) : 해당 id 와 isbn 에 해당하는 row 를 삭제
+	@RequestMapping(value = "/booksearch/ajax_cancel")
+	@ResponseBody
+	public Map<String, Object> ajaxCancel(BookGoodDto dto, HttpSession session){
+		//session 에서 id 가져와서 dto 에 넣기
+		dto.setId((String)session.getAttribute("id"));
+		
+		//id 와 isbn 에 해당하는 row db 에서 삭제 후, 결과를 Map 에 담아 가져온다.
+		return service.goodCancel(dto);
 	}
 }
