@@ -17,4 +17,6 @@ public interface ChallengesDao {
 	public void delete(int num);
 	//챌린지 업데이트
 	public void update(ChallengesDto dto);
+	//내가 만든 챌린지 가져오기
+	public List<ChallengesDto> getMyList(String id);
 }

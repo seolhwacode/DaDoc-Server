@@ -71,11 +71,6 @@ public class ChallengeController {
 		
 		service.getDetail(mView,num);
 		service.getChallenger(mView, title);
-		String id = request.getSession().getId();
-		PhotoShotDto dto = new PhotoShotDto();
-		dto.setId(id);
-		dto.setChallengeTitle(title);
-		service.getPhotoShot(mView, dto);
 		mView.setViewName("challenge/private/detail");
 		
 		return mView;
@@ -159,6 +154,13 @@ public class ChallengeController {
 		return mView;
 	}
 	
+	// 나의 챌린지 확인하기
+	@RequestMapping(value="/challenge/private/my_challenge")
+	public String checkChallenge(HttpServletRequest request) {
+		service.checkChallenge(request);
+		return "challenge/private/my_challenge";
+		
+	}
 	//인증샷 업로드 요청 처리 
 	@RequestMapping(value="/challenge/photoShot_upload.do")
 	public ModelAndView uploadPhotoShot(PhotoShotDto dto, ModelAndView mView,HttpServletRequest request) {
@@ -166,9 +168,7 @@ public class ChallengeController {
 		// dto: 인증샷 정보와 MultipartFile image 정보를 가지고 있다.
 		// request : imagePath 만드는데 사용, session 영역의 id 가져오기
 		service.savePhotoShot(dto, request);
-		// 상세 정보글의 번호 담아주기
-		int detailNum = dto.getNum();
-		mView.setViewName("redirect:/challenge/private/detail.do?num="+detailNum); //detail 페이지에 다시 데려오기
+		mView.setViewName("redirect:/challenge/private/my_challenge");
 		
 		return mView;
 	}

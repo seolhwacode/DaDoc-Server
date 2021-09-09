@@ -25,4 +25,9 @@ public class ChallengerDaoImpl implements ChallengerDao{
 		return count;
 	}
 
+	@Override
+	public List<ChallengerDto> getMyChallenge(String id) {
+		return session.selectList("challenger.getMyChallenge", id);
+	}
+
 }
