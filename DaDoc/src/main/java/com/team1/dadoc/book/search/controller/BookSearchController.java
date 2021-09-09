@@ -54,7 +54,7 @@ public class BookSearchController {
 	}
 	
 	//책 좋아요 추가 : 해당 id 와 isbn 을 db 에 추가한다.
-	@RequestMapping(value = "/booksearch/ajax_add")
+	@RequestMapping(value = "/bookgood/ajax_add")
 	@ResponseBody
 	public Map<String, Object> ajaxAdd(BookGoodDto dto, HttpSession session){
 		//session 에서 id 가져와서 dto 에 넣기
@@ -65,7 +65,7 @@ public class BookSearchController {
 	}
 	
 	//책 좋아요 취소(삭제) : 해당 id 와 isbn 에 해당하는 row 를 삭제
-	@RequestMapping(value = "/booksearch/ajax_cancel")
+	@RequestMapping(value = "/bookgood/ajax_cancel")
 	@ResponseBody
 	public Map<String, Object> ajaxCancel(BookGoodDto dto, HttpSession session){
 		//session 에서 id 가져와서 dto 에 넣기

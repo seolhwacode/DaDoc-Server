@@ -244,7 +244,7 @@
 					//vue 객체
 					const self = this;
 					//ajax 로 db 에 좋아요 추가
-					fetch(this.base_url + '/booksearch/ajax_add.do?isbn=' + this.listItem.isbn)
+					fetch(this.base_url + '/bookgood/ajax_add.do?isbn=' + this.listItem.isbn)
 					.then(function(response){
 						return response.json();
 					})
@@ -261,7 +261,7 @@
 					//vue 객체
 					const self = this;
 					//ajax 로 db 에 좋아요 취소(삭제)
-					fetch(this.base_url + '/booksearch/ajax_cancel.do?isbn=' + this.listItem.isbn)
+					fetch(this.base_url + '/bookgood/ajax_cancel.do?isbn=' + this.listItem.isbn)
 					.then(function(response){
 						return response.json();
 					})
@@ -275,6 +275,18 @@
 				},
 				//좋아요 버튼은 토글이다. -> isGood 이 true / false 인지에 따라 ajax 로 좋아요 추가 / 삭제 이루어진다.
 				goodToggle(){
+					//로그인 상태인지 검사
+					if(${ empty id }){
+						//-> id 가 비었다 -> 로그인 상태 X -> comfirm 으로 로그인 할 것인지 물어보기
+						let isOk = confirm('로그인이 필요한 기능입니다. 로그인 하시겠습니까?');
+						//-> 로그인 하러감
+						if(isOk){
+							location.href = this.base_url + '/users/login_form.do?url=' + this.base_url + '/booksearch/search_list.do';
+						}
+						//-> 로그인 x -> 아무 일도 안일어남
+						return;
+					}
+					
 					if(!this.isGood){
 						//좋아요 false -> db 에 좋아요 추가
 						this.addGood();
