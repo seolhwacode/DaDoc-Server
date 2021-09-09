@@ -75,3 +75,12 @@ CREATE TABLE dadoc_challenge_comment(
 );
 
 CREATE SEQUENCE dadoc_challenge_comment_seq;
+
+CREATE TABLE notice_board(
+	NUM NUMBER PRIMARY KEY,
+	WRITER VARCHAR2(100) NOT NULL,
+	TITLE VARCHAR2(100) NOT NULL,
+	CONTENT CLOB,
+	REGDATE DATE,
+);
+CREATE SEQUENCE notice_board_seq;

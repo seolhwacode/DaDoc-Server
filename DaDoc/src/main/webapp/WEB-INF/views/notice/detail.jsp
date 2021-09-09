@@ -5,6 +5,8 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<!-- navbar css 추가 -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/include/navbarcss.css">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Poor+Story&display=swap" rel="stylesheet">
@@ -14,7 +16,7 @@
 .container{
 	background-color: #F9E0AE ;
 	text-align: center;
-	margin-top: 140px;
+	margin-top: 10px;
 	padding-bottom:80px;
 	font-family: 'East Sea Dokdo', cursive;
 	font-size: 25px;
@@ -34,6 +36,10 @@ h1{
 <jsp:include page="/resources/template.jsp"></jsp:include>
 </head>
 <body>
+	<!-- navbar 추가 -->
+	<jsp:include page="/include/navbar.jsp">
+		<jsp:param value="notice" name="thisPage"/>
+	</jsp:include>
 <div class="container">
 	<c:if test="${dto.prevNum ne 0 }">
 		<a href="detail.do?num=${dto.prevNum }&keyword=${encodedK }&condition=${condition }">이전글</a>
@@ -77,6 +83,7 @@ h1{
 	</ul>
 	
 </div>
+<script src="${pageContext.request.contextPath}/include/navbarjs.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 function deleteConfirm(){
