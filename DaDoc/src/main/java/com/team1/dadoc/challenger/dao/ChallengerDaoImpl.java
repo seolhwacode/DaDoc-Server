@@ -30,4 +30,9 @@ public class ChallengerDaoImpl implements ChallengerDao{
 		return session.selectList("challenger.getMyChallenge", id);
 	}
 
+	@Override
+	public String getRegisterUser(ChallengerDto dto) {
+		return session.selectOne("challenger.getRegisterUser",dto);
+	}
+
 }

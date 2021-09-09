@@ -98,6 +98,12 @@
 		#moreBtn{
 			display: none;
 		}
+		
+		/*삽입한 이미지 크기 수정*/
+		#previewImage{
+		width: 150px;
+		height: 150px;
+	}	
 	</style>
 
 
@@ -187,7 +193,7 @@
 					</div>
 					<span> ${challengers }명 입니다!</span>
 				</h2>
-				<h4 class="text-primary lead tall text-4">여러분의 도전을 DADOC이 응원합니다!</h4>
+				<h4 class="text-primary lead tall text-4">여러분의 도전을 DADOC이 응원합니다! ${startTime } / ${nowTime }</h4>
 			</div>
 		</div>
 		<!-- 참가자 인증샷 출력부분 -->
@@ -206,54 +212,145 @@
 	<hr class="solid my-5">
 		
 	<!-- 챌린지 참여 버튼 -->
-	<section class="call-to-action call-to-action-strong-grey content-align-center call-to-action-in-footer">
-		<div class="container py-5">
-			<div class="row py-3">
-				<div class="col-md-9 col-lg-9">
-					<div class="call-to-action-content">
-						<h2 class="font-weight-normal text-7 mb-0"> ${challengers }명이 <strong>${sessionScope.id }</strong>님과 함께 도전하고 싶어합니다.
-						<p class="mb-0">챌린지 신청을 해 더 멋진 다독인이 되어보세요.</p>
+	<c:choose>
+	<%-- 시작 전 --%>
+		<c:when test="${startTime gt nowTime }">
+			<c:if test="${empty registerUser}">
+				<section class="call-to-action call-to-action-strong-grey content-align-center call-to-action-in-footer">
+					<div class="container py-5">
+						<div class="row py-3">
+							<div class="col-md-9 col-lg-9">
+								<div class="call-to-action-content">
+									<h2 class="font-weight-normal text-7 mb-0"> ${challengers }명이 <strong>${sessionScope.id }</strong>님과 함께 도전하고 싶어합니다.
+									<p class="mb-0">챌린지 신청을 해 더 멋진 다독인이 되어보세요. ${registerUser }</p>
+								</div>
+							</div>
+							<div class="col-md-3 col-lg-3">
+								<!-- Button trigger modal -->
+								<button class="btn btn-modern btn-primary" data-toggle="modal" data-target="#defaultModal">
+										챌린지 신청하기
+								</button>
+							</div>
+						</div>
 					</div>
-				</div>
-				<div class="col-md-3 col-lg-3">
-					<!-- Button trigger modal -->
+					<%-- 챌린지 신청 모달 --%>
+					<div class="modal fade" id="defaultModal" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h4 class="modal-title" id="defaultModalLabel">Default Modal Title</h4>
+									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+								</div>
+								<div class="modal-body">
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc <a href="#">vehicula</a> lacinia. Proin adipiscing porta tellus, ut feugiat nibh adipiscing sit amet. In eu justo a felis faucibus ornare vel id metus. Vestibulum ante ipsum primis in faucibus.</p>
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc <a href="#">vehicula</a> lacinia. Proin adipiscing porta tellus, ut feugiat nibh adipiscing sit amet. In eu justo a felis faucibus ornare vel id metus. Vestibulum ante ipsum primis in faucibus.</p>
+									<div class="btn-group-toggle" data-toggle="buttons">
+								  	<label class="btn btn-primary mb-2">
+								    	<input type="checkbox" checked autocomplete="off"> 모두 동의합니다.
+								  	</label>
+								  	</div>
+								</div>
+								<div class="modal-footer">
+									<form action="${pageContext.request.contextPath}/challenge/insertChallenger.do" method="post">
+										<input type="hidden" name="id" id="id" value="${sessionScope.id }" />
+										<input type="hidden" name="challengeTitle" id="challengeTitle" value="${dto.title}" /> 
+										<input type="hidden" name="period" id="period" value="${dto.period}" />
+										<button type="submit" class="btn btn-warning">신청하기</button>
+										<button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</c:if>
+			<c:if test="${not empty registerUser }">
+				<section class="call-to-action call-to-action-strong-grey content-align-center call-to-action-in-footer">
+					<div class="container py-5">
+						<div class="row py-3">
+							<div class="col-md-9 col-lg-9">
+								<div class="call-to-action-content">
+									<h2 class="font-weight-normal text-7 mb-0"> <strong>${sessionScope.id }</strong>님의 챌린지 신청이 완료되었습니다.
+									<p class="mb-0">${startTime - nowTime}일 후에 챌린지가 시작해요!</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</c:if>
+		</c:when>
+		<%-- 시작 후 --%>
+		<c:otherwise>
+			<c:if test="${not empty registerUser }">
+				<section class="call-to-action call-to-action-strong-grey content-align-center call-to-action-in-footer">
+					<div class="container py-5">
+						<div class="row py-3">
+							<div class="col-md-9 col-lg-9">
+								<div class="call-to-action-content">
+									<h2 class="font-weight-normal text-7 mb-0"> <strong>${sessionScope.id }</strong>님의 챌린지를 응원합니다!
+									<p class="mb-0">인증을 통해 목표를 달성하세요!</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+				<div class="col-sm-9">
 					<button class="btn btn-modern btn-primary" data-toggle="modal" data-target="#defaultModal">
-							챌린지 신청하기
+						인증하기
 					</button>
+	
+				<div class="modal fade" id="defaultModal" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
+					<div class="modal-dialog">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title" id="defaultModalLabel">Default Modal Title</h4>
+								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+							</div>
+							
+							<div class="modal-body">
+								<a id="imageLink" href="javascript:">
+								<img id="previewImage" src="${pageContext.request.contextPath}/resources/images/photoshot.png" />
+								</a>
+								<form name="imgForm" action="${pageContext.request.contextPath}/challenge/private/ajax_image_upload.do" method="post" 
+										id="imageForm" enctype="multipart/form-data">
+									<input type="file" name="preImage" id="preImage" 
+										accept=".jpg, .jpeg, .png, .JPG, .JPEG, .gif"/>
+								</form>
+								<form action="${pageContext.request.contextPath}/challenge/photoShot_upload.do" method="post" id="photoShotForm" enctype="multipart/form-data">
+									<input type="hidden" name="imagePath" id="imagePath" accept=".jpg, .jpeg, .png, .JPG, .JPEG, .gif" />
+									<input type="hidden" name="id" id="id" value="${sessionScope.id }" />
+									<input type="hidden" name="challengeTitle" id="challengeTitle" value="${dto.title}" /> 
+									<input type="hidden" name="num" id="num" value="${dto.num }" /> 
+									<input type="hidden" name="period" id="period" value="${dto.period }" />
+									<button type="submit" class="btn btn-primary">인증샷 업로드</button>
+							</form>
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
-		</div>
-		<!-- 챌린지 신청 모달 -->
-		<div class="modal fade" id="defaultModal" tabindex="-1" role="dialog" aria-labelledby="defaultModalLabel" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title" id="defaultModalLabel">Default Modal Title</h4>
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-					</div>
-					<div class="modal-body">
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc <a href="#">vehicula</a> lacinia. Proin adipiscing porta tellus, ut feugiat nibh adipiscing sit amet. In eu justo a felis faucibus ornare vel id metus. Vestibulum ante ipsum primis in faucibus.</p>
-						<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur pellentesque neque eget diam posuere porta. Quisque ut nulla at nunc <a href="#">vehicula</a> lacinia. Proin adipiscing porta tellus, ut feugiat nibh adipiscing sit amet. In eu justo a felis faucibus ornare vel id metus. Vestibulum ante ipsum primis in faucibus.</p>
-						<div class="btn-group-toggle" data-toggle="buttons">
-					  	<label class="btn btn-primary mb-2">
-					    	<input type="checkbox" checked autocomplete="off"> 모두 동의합니다.
-					  	</label>
-					  	</div>
-					</div>
-					<div class="modal-footer">
-						<form action="${pageContext.request.contextPath}/challenge/insertChallenger.do" method="post">
-							<input type="hidden" name="id" id="id" value="${sessionScope.id }" />
-							<input type="hidden" name="challengeTitle" id="challengeTitle" value="${dto.title}" /> 
-							<input type="hidden" name="period" id="period" value="${dto.period}" />
-							<button type="submit" class="btn btn-warning">신청하기</button>
-							<button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
-						</form>
+		</c:if>
+		<c:if test="${empty registerUser }">
+			<section class="call-to-action call-to-action-strong-grey content-align-center call-to-action-in-footer">
+				<div class="container py-5">
+					<div class="row py-3">
+						<div class="col-md-9 col-lg-9">
+							<div class="call-to-action-content">
+								<h2 class="font-weight-normal text-7 mb-0"> <strong>이미 시작한 챌린지입니다.</strong>
+								<p class="mb-0">다음 챌린지 신청을 기대해보세요!</p>
+							</div>
+						</div>
 					</div>
 				</div>
-			</div>
-		</div>
-	</section>
-			
+			</section>
+		</c:if>
+	</c:otherwise>
+	</c:choose>
+
+
 	<!-- 댓글  목록-->
 	<div id="comments" class="post-block mt-5 post-comments comments">
 		<!-- 댓글 개수 및 구분선 -->
@@ -382,6 +479,28 @@
 	<script src="${pageContext.request.contextPath}/resources/js/gura_util.js"></script>
 	<script>
 	
+	//프로필 이미지 링크를 클릭하면
+	document.querySelector("#imageLink").addEventListener("click",function(){
+		//input type = "file"을 강제로 클릭
+		document.querySelector("#preImage").click();
+	});
+	//이미지를 선택했을 때 실행할 함수 등록
+	document.querySelector("#preImage").addEventListener("change",function(){
+		let form=document.querySelector("#imageForm");
+		
+		//ajax로 폼 전송
+		ajaxFormPromise(form)
+		.then(function(response){
+			return response.json();
+		})
+		.then(function(data){
+			// data 는 {imagePath:"/upload/xxx.jpg"} 형식의 object 이다.
+			let img=`<img id="previewImage" src="${pageContext.request.contextPath}\${data.imagePath}"/>`;
+			document.querySelector("#imageLink").innerHTML=img;
+			//input name="image"요소의 value값으로 이미지 경로 넣어주기
+			document.querySelector("input[name=imagePath]").value=data.imagePath;
+		});
+	});
 	//[댓글 페이지네이션]
 	//댓글의 현재 페이지 번호를 관리할 변수를 만들고 초기값 1 대입하기
 	let currentPage=1;

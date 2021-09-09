@@ -69,8 +69,15 @@ public class ChallengeController {
 	public ModelAndView detail(HttpServletRequest request, ModelAndView mView, @RequestParam int num, @RequestParam String title) {
 		//detail 페이지에 필요한 data를 num을 통해 가져와서 ModelAndView에 저장
 		
-		service.getDetail(mView,num);
+		//해당 챌린지 정보 가져오기
+		service.getDetail(request,num);
+		//해당 챌린지의 참가자 수 가져오기
 		service.getChallenger(mView, title);
+		String id = (String)request.getSession().getAttribute("id");
+		PhotoShotDto dto = new PhotoShotDto();
+		dto.setId(id);
+		dto.setChallengeTitle(title);
+		service.getPhotoShot(mView, dto);
 		mView.setViewName("challenge/private/detail");
 		
 		return mView;
@@ -113,17 +120,16 @@ public class ChallengeController {
 		return "challenge/private/ajax_comment_list";
 	}
 	
-	//챌린시 수정 폼 요청 처리
-	@RequestMapping("/challenge/private/update_form")
-	public ModelAndView updateForm(HttpServletRequest request, ModelAndView mView,
-				@RequestParam int num) {
+	//챌린지 수정 폼 요청 처리
+		@RequestMapping("/challenge/private/update_form")
+		public String updateForm(HttpServletRequest request, @RequestParam int num) {
+			
+			//getData를 통해 수정 요청한 해당 정보를 가져온다.
+			service.getDetail(request, num);
+			
+			return "challenge/private/update_form";
+		}
 		
-		//getData를 통해 수정 요청한 해당 정보를 가져온다.
-		service.getDetail(mView, num);
-		
-		mView.setViewName("challenge/private/update_form");
-		return mView;
-	}
 	
 	//챌린지 수정 하기
 	@RequestMapping(value="/challenge/private/update", method= RequestMethod.POST)
@@ -168,7 +174,9 @@ public class ChallengeController {
 		// dto: 인증샷 정보와 MultipartFile image 정보를 가지고 있다.
 		// request : imagePath 만드는데 사용, session 영역의 id 가져오기
 		service.savePhotoShot(dto, request);
-		mView.setViewName("redirect:/challenge/private/my_challenge");
+		int num = dto.getNum();
+		String title = dto.getChallengeTitle();
+		mView.setViewName("redirect:/challenge/private/detail.do?num="+num+"&title="+title);
 		
 		return mView;
 	}

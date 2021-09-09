@@ -36,10 +36,7 @@ CREATE TABLE dadoc_challenges(
 	writer VARCHAR2(100), -- 등록자
 	title VARCHAR2(100) NOT NULL, -- 챌린지명
 	category VARCHAR2(100) NOT NULL, -- 챌린지 종류 구분
-	imagePath VARCHAR2(100), -- 이미지 경로
-	orgFileName VARCHAR2(100), -- 원본 파일명
-	saveFileName VARCHAR2(100), -- 서버에 실제로 저장된 파일명
-	fileSize NUMBER, -- 파일의 크기 
+	image VARCHAR2(100), -- 이미지 경로
 	description CLOB NOT NULL, -- 챌린지 설명
 	period NUMBER NOT NULL, -- 인증 주기 몇회?
 	startdate VARCHAR2(100), -- 챌린지 시작일

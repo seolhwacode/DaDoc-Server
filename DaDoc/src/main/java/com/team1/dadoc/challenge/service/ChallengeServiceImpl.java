@@ -2,6 +2,10 @@ package com.team1.dadoc.challenge.service;
 
 import java.io.File;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -169,46 +173,73 @@ public class ChallengeServiceImpl implements ChallengeService {
 		return map;
 	}
 
-	// 챌린지 detail 페이지에 필요한 data를 ModelAndView에 저장
-	@Override
-	public void getDetail(ModelAndView mView, int num) {
-		//challengesDao로 해당 게시글 num에 해당하는 데이터를 가져온다.
-		ChallengesDto dto = challengesDao.getData(num);
-				
-		//[댓글 관련 로직]
-		
-		//한 페이지에 몇개씩 표시할 것인지
-		final int PAGE_ROW_COUNT = 10;
-		//detail 페이지에서는 항상 1페이지의 댓글 내용만 출력한다.
-		int pageNum=1;
-		//보여줄 페이지의 시작 ROWNUM
-		int startRowNum=1+(pageNum-1)*PAGE_ROW_COUNT;
-		//보여줄 페이지의 끝 ROWNUM
-		int endRowNum=pageNum*PAGE_ROW_COUNT;
-		
-		//원글의 글번호를 이용해서 해당글에 달린 댓글 목록을 얻어온다.
-		ChallengesCommentDto commentDto = new ChallengesCommentDto();
-		commentDto.setRef_group(num);
-		//1페이지에 해당하는 startRowNum과 endRowNum을 dto에 담아서
-		commentDto.setStartRowNum(startRowNum);
-		commentDto.setEndRowNum(endRowNum);
-		
-		//1페이지에 해당하는 댓글 목록만 select 되도록 한다.
-		List<ChallengesCommentDto> commentList = commentDao.getList(commentDto);
-		
-		
-		//원글의 글 번호를 이용해서 댓글 전체 갯수 얻어오기
-		int totalRow = commentDao.getCount(num);
-		//댓글 전체 페이지 갯수
-		int totalPageCount=(int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
-		
-		//view에 필요한 값 담아주기
-		mView.addObject("dto", dto);
-		mView.addObject("commentList", commentList);
-		mView.addObject("totalPageCount", totalPageCount);
-		mView.addObject("pageRowCount", PAGE_ROW_COUNT);
-		mView.addObject("totalRow", totalRow);
-	}
+	// 챌린지 detail 페이지에 필요한 data를 request에 저장
+		@Override
+		public void getDetail(HttpServletRequest request, int num) {
+			//challengesDao로 해당 게시글 num에 해당하는 데이터를 가져온다.-> detail페이지에 출력
+			ChallengesDto dto = challengesDao.getData(num);
+			
+			//challengerDao로 해당 게시글의 참가자에 사용자가 있는지 확인
+			//dto에서 제목과 아이디를 가져오고
+			String challengeTitle = dto.getTitle();
+			String id = (String)request.getSession().getAttribute("id");
+			//challengerDto에 넣어준다.
+			ChallengerDto challengerdto = new ChallengerDto();
+			challengerdto.setId(id);
+			challengerdto.setChallengeTitle(challengeTitle);
+			//challengerDao를 통해 해당 챌린지에 사용자 아이디가 있는지 확인-> 있으면 사용자 아이디를 가져오고 없으면 null
+			String registerUser = challengerDao.getRegisterUser(challengerdto);
+
+			//[날짜 관련 로직]
+			//현재 날짜 구하기
+			Date now = Calendar.getInstance().getTime();
+			//현재 날짜를 앞서 만든 포맷에 넣어주고 'yyyymmdd'형태로 나오게 한 다음 숫자형으로 변환
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+			//포맷팅 적용
+			String formatedNow = formatter.format(now);
+			int nowTime = Integer.parseInt(formatedNow.replace("-", ""));
+			System.out.println(nowTime);
+			//시작 날짜를 dto에서 가져오기
+			String startDate = dto.getStartDate();
+			//시작 날짜에서 '-'를 빼고 'yyyymmdd'형태로 만든 다음에 숫자형으로 변환
+			int startTime = Integer.parseInt(startDate.replace("-", ""));
+			//[댓글 관련 로직]
+			
+			//한 페이지에 몇개씩 표시할 것인지
+			final int PAGE_ROW_COUNT = 10;
+			//detail 페이지에서는 항상 1페이지의 댓글 내용만 출력한다.
+			int pageNum=1;
+			//보여줄 페이지의 시작 ROWNUM
+			int startRowNum=1+(pageNum-1)*PAGE_ROW_COUNT;
+			//보여줄 페이지의 끝 ROWNUM
+			int endRowNum=pageNum*PAGE_ROW_COUNT;
+			
+			//원글의 글번호를 이용해서 해당글에 달린 댓글 목록을 얻어온다.
+			ChallengesCommentDto commentDto = new ChallengesCommentDto();
+			commentDto.setRef_group(num);
+			//1페이지에 해당하는 startRowNum과 endRowNum을 dto에 담아서
+			commentDto.setStartRowNum(startRowNum);
+			commentDto.setEndRowNum(endRowNum);
+			
+			//1페이지에 해당하는 댓글 목록만 select 되도록 한다.
+			List<ChallengesCommentDto> commentList = commentDao.getList(commentDto);
+			
+			
+			//원글의 글 번호를 이용해서 댓글 전체 갯수 얻어오기
+			int totalRow = commentDao.getCount(num);
+			//댓글 전체 페이지 갯수
+			int totalPageCount=(int)Math.ceil(totalRow/(double)PAGE_ROW_COUNT);
+			
+			//view에 필요한 값 담아주기
+			request.setAttribute("dto", dto);
+			request.setAttribute("nowTime", nowTime);
+			request.setAttribute("startTime", startTime);
+			request.setAttribute("registerUser", registerUser);
+			request.setAttribute("commentList", commentList);
+			request.setAttribute("totalPageCount", totalPageCount);
+			request.setAttribute("pageRowCount", PAGE_ROW_COUNT);
+			request.setAttribute("totalRow", totalRow);
+		}
 
 	@Override
 	public void saveChallenger(ChallengerDto dto, HttpServletRequest request) {
@@ -216,36 +247,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 	}
 
 	@Override
-	public void savePhotoShot(PhotoShotDto dto, HttpServletRequest request) {
-		//업로드된 파일의 정보를 가지고 있는 MultipartFile 객체의 참조값 가져오기
-		MultipartFile image = dto.getImage();
-		//원본 파일명 -> 저장할 파일 이름 만들기 위해서 사용됨
-		String orgFileName = image.getOriginalFilename();
-		//파일 크기 -> 다운로드가 없으므로, 여기서는 필요없다.
-		long fileSize = image.getSize();
-				
-		// webapp/uplaod 폴더까지의 실제 경로(서버의 파일 시스템 상에서의 경로)
-		String realPath = request.getServletContext().getRealPath("/upload");
-		// db에 저장할 파일의 상세 경로
-		String filePath = realPath + File.separator;
-		//디렉토리를 만들 파일 객체 생성
-		File upload = new File(filePath);
-		if(!upload.exists()) {
-			//만약 디렉토리가 존재하지 않는다면
-			upload.mkdir(); // 폴더 생성
-			}
-			//저장할 파일의 이름을 구성한다.
-			String saveFileName = System.currentTimeMillis()+orgFileName;
-			
-			try{
-				//upload 폴더에 파일을 저장한다.
-				image.transferTo(new File(filePath+saveFileName));
-			}catch(Exception e) {
-				e.printStackTrace();
-			}
-				
-			dto.setImagePath("/upload/"+saveFileName);
-				
+	public void savePhotoShot(PhotoShotDto dto, HttpServletRequest request) {	
 			//ChallengeschallengesDao를 이용해서 DB에 저장하기
 			photoShotDao.insert(dto);	
 	}

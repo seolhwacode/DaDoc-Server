@@ -210,7 +210,7 @@
 											<span><i class="far fa-user"></i> By ${tmp.writer }</span> 
 											<span><i class="far fa-folder"></i> ${tmp.type },${tmp.category }</span> 
 											<span><i class="icon-calendar icons" > ${tmp.startDate } ~ ${tmp.endDate}</i></span>
-											<button type="button" data-class="${tmp.startDate }" class="detailBtn btn btn-rounded btn-warning mb-2" onclick="location.href='${pageContext.request.contextPath}/challenge/private/detail.do?num=${tmp.num}&title=${tmp.title}'">자세히 보기</button>
+											<button type="button" data-class="${tmp.endDate }" class="detailBtn btn btn-rounded btn-warning mb-2" onclick="location.href='${pageContext.request.contextPath}/challenge/private/detail.do?num=${tmp.num}&title=${tmp.title}'">자세히 보기</button>
 										</div>
 									</div>
 								</article>
@@ -301,8 +301,6 @@
 </div>
 
 <script>
-
-
 //모든 상세보기 버튼을 기간 체크를 해본다.
 challengeExpired(".detailBtn");
 
@@ -312,13 +310,13 @@ function challengeExpired(sel){
 	let detailBtns = document.querySelectorAll(sel);
 	for(let i=0; i< detailBtns.length; i++){
 			//챌린지에 배정된 시작날짜를 불러온다.
-			const startDateValue = detailBtns[i].getAttribute("data-class");
+			const endDateValue = detailBtns[i].getAttribute("data-class");
 			//시작날짜 문자열 -> 숫자형으로 변환
-			const startDate = getStartDate(startDateValue);
+			const endDate = getEndDate(endDateValue);
 			//현재날짜를 숫자형으로 구한다.
 			const nowDate = getNowDate(new Date());
 			//만약 시작날짜보다 현재날짜가 더 크다면 
-			if(startDate<nowDate){
+			if(endDate<nowDate){
 				//해당 버튼을 비활성화 시킨다.
 				detailBtns[i].disabled=true;
 				//해당 버튼을 dsiabled-class를 넣고 CSS를 적용한다.
@@ -328,6 +326,7 @@ function challengeExpired(sel){
 			}
 	}
 }
+
 
 //현재 날짜를 구하고 숫자로 변형하는 함수
 function getNowDate(date){
@@ -344,7 +343,7 @@ function getNowDate(date){
 	}
 
 //신청 날짜를 구하고 숫자로 변형하는 함수
-function getStartDate(date){
+function getEndDate(date){
   return Number(date.replace(/-/gi,'')); 
 }
 </script>

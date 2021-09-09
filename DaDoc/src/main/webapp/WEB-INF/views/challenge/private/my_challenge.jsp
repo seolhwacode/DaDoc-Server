@@ -129,7 +129,7 @@
 		</div>
 		<div class="col-sm-3 col-lg-3">
 			<div class="call-to-action-btn">
-				<a data-class="${list.startDate }" href="${pageContext.request.contextPath}/challenge/private/detail.do?num=${list.num}&title=${list.title}" target="_blank" class="btn btn-rounded btn-warning box-shadow-2 mb-2 detailBtn">자세히 보기</a>
+				<a data-class="${list.endDate }" href="${pageContext.request.contextPath}/challenge/private/detail.do?num=${list.num}&title=${list.title}" target="_blank" class="btn btn-rounded btn-warning box-shadow-2 mb-2 detailBtn">자세히 보기</a>
 			</div>
 		</div>
 	</section>
@@ -170,13 +170,13 @@
 		let detailBtns = document.querySelectorAll(sel);
 		for(let i=0; i< detailBtns.length; i++){
 				//챌린지에 배정된 시작날짜를 불러온다.
-				const startDateValue = detailBtns[i].getAttribute("data-class");
+				const endDateValue = detailBtns[i].getAttribute("data-class");
 				//시작날짜 문자열 -> 숫자형으로 변환
-				const startDate = getStartDate(startDateValue);
+				const endDate = getEndDate(endDateValue);
 				//현재날짜를 숫자형으로 구한다.
 				const nowDate = getNowDate(new Date());
 				//만약 시작날짜보다 현재날짜가 더 크다면 
-				if(startDate<nowDate){
+				if(endDate<nowDate){
 					//해당 버튼을 비활성화 시킨다.
 					detailBtns[i].removeAttribute('href');
 					//해당 버튼을 dsiabled-class를 넣고 CSS를 적용한다.
@@ -202,7 +202,7 @@
 		}
 	
 	//신청 날짜를 구하고 숫자로 변형하는 함수
-	function getStartDate(date){
+	function getEndDate(date){
 	return Number(date.replace(/-/gi,'')); 
 	}
 

@@ -22,7 +22,7 @@ public interface ChallengeService {
 	// 챌린지 목록을 리턴하기
 	public void getList(HttpServletRequest request);
 	// 상세 목록 가져오기
-	public void getDetail(ModelAndView mView, int num);
+	public void getDetail(HttpServletRequest request, int num);
 	// 챌린지 참가 신청 하기
 	public void saveChallenger(ChallengerDto dto, HttpServletRequest request);
 	// 챌린지 인증샷 업로드
