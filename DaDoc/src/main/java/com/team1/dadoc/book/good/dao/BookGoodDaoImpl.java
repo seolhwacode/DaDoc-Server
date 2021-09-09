@@ -25,13 +25,51 @@ public class BookGoodDaoImpl implements BookGoodDao {
 	public boolean getIsGood(BookGoodDto dto) {
 		String isbn = session.selectOne("bookGood.isExist", dto);
 		
-		System.out.println(isbn);
-		
 		//select 한 값이 null -> 존재 X -> false
 		if(isbn == null) {
 			return false;
 		}
 		//값이 존재 -> true
+		return true;
+	}
+
+	/*
+	 * Mapper's namespace : bookGood
+	 * sql's id : insertGood
+	 * parameterType : BookGoodDto
+	 * resultType : x
+	 */
+	//id 와 isbn 을 db 에 추가 -> 결과를 boolean 값으로 받아옴
+	@Override
+	public boolean insertGood(BookGoodDto dto) {
+		try {
+			session.insert("bookGood.insertGood", dto);
+		}catch (Exception e) {
+			System.err.println(e);
+			//실패
+			return false;
+		}
+		//성공
+		return true;
+	}
+
+	/*
+	 * Mapper's namespace : bookGood
+	 * sql's id : deleteGood
+	 * parameterType : BookGoodDto
+	 * resultType : x
+	 */
+	//id 와 isbn 이 일치하는 row 를 db 에서 삭제 -> 결과를 boolean 값으로 받아옴
+	@Override
+	public boolean deleteGood(BookGoodDto dto) {
+		try {
+			session.update("bookGood.deleteGood", dto);
+		}catch (Exception e) {
+			System.err.println(e);
+			//실패
+			return false;
+		}
+		//성공
 		return true;
 	}
 	

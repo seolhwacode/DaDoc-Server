@@ -195,5 +195,31 @@ public class BookSearchServiceImpl implements BookSearchService {
 		map.put("isGood", isGood);
 		return map;
 	}
+
+	//id 와 isbn 을 db 에 추가 후, 결과를 Map 에 담아 가져온다.
+	@Override
+	public Map<String, Object> goodAdd(BookGoodDto dto) {
+		//id 와 isbn 을 db 에 추가 -> 결과를 boolean 값으로 받아옴
+		boolean isSuccess = dao.insertGood(dto);
+		
+		//결과값을 Map 에 넣고 return
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("isSuccess", isSuccess);
+		
+		return map;
+	}
+
+	//id 와 isbn 에 해당하는 row db 에서 삭제 후, 결과를 Map 에 담아 가져온다.
+	@Override
+	public Map<String, Object> goodCancel(BookGoodDto dto) {
+		//id 와 isbn 이 일치하는 row 를 db 에서 삭제 -> 결과를 boolean 값으로 받아옴
+		boolean isSuccess = dao.deleteGood(dto);
+		
+		//결과값을 Map 에 넣고 return
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("isSuccess", isSuccess);
+		
+		return map;
+	}
 	
 }

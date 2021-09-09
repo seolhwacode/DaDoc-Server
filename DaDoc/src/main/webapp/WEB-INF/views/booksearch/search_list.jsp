@@ -92,12 +92,12 @@
 		<a @click="changeSort('date')" v-bind:class="{'sort-selected': isDateSort}" href="javascript:">출간일순</a>
 		<a @click="changeSort('count')" v-bind:class="{'sort-selected': isCountSort}" href="javascript:">판매량순</a>
 		
-		<br />
+		<br />		
 		
 		<h1>검색 리스트 출력</h1>
 		<!-- 검색 리스트 출력 -->
 		<div>
-			<div v-for="(item, index) in searchList" v-bind:key="index" >
+			<div v-for="(item, index) in searchList" v-bind:key="item.isbn" >
 				<!-- 컴포넌트로 리스트를 출력 -->
 				<list-component v-bind:list-item="item"
 							v-bind:base_url="base_url"></list-component>
@@ -202,7 +202,10 @@
 						출간일 : <span v-html="listItem.pubdate"></span>
 					</div>
 					<div>
-						좋아요 : {{isGood}}
+						좋아요 : 
+						<a @click="goodToggle" href="javascript:">
+							<span v-html="printHeart"></span>
+						</a>
 					</div>
 				</div>
 			`,
@@ -213,10 +216,70 @@
 			data(){
 				return {
 					//좋아요 인지 아닌지
-					isGood: false
+					isGood: false,
+					//빈 하트
+					blankHeart: `
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-suit-heart" viewBox="0 0 16 16">
+						  <path d="m8 6.236-.894-1.789c-.222-.443-.607-1.08-1.152-1.595C5.418 2.345 4.776 2 4 2 2.324 2 1 3.326 1 4.92c0 1.211.554 2.066 1.868 3.37.337.334.721.695 1.146 1.093C5.122 10.423 6.5 11.717 8 13.447c1.5-1.73 2.878-3.024 3.986-4.064.425-.398.81-.76 1.146-1.093C14.446 6.986 15 6.131 15 4.92 15 3.326 13.676 2 12 2c-.777 0-1.418.345-1.954.852-.545.515-.93 1.152-1.152 1.595L8 6.236zm.392 8.292a.513.513 0 0 1-.784 0c-1.601-1.902-3.05-3.262-4.243-4.381C1.3 8.208 0 6.989 0 4.92 0 2.755 1.79 1 4 1c1.6 0 2.719 1.05 3.404 2.008.26.365.458.716.596.992a7.55 7.55 0 0 1 .596-.992C9.281 2.049 10.4 1 12 1c2.21 0 4 1.755 4 3.92 0 2.069-1.3 3.288-3.365 5.227-1.193 1.12-2.642 2.48-4.243 4.38z"/>
+						</svg>
+					`,
+					//꽉 찬 하트
+					fullHeart: `
+						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-suit-heart-fill" viewBox="0 0 16 16">
+						  <path d="M4 1c2.21 0 4 1.755 4 3.92C8 2.755 9.79 1 12 1s4 1.755 4 3.92c0 3.263-3.234 4.414-7.608 9.608a.513.513 0 0 1-.784 0C3.234 9.334 0 8.183 0 4.92 0 2.755 1.79 1 4 1z"/>
+						</svg>
+					`,
+					//출력할 하트 -> isGood true(fullHeart), false(blankHeart) 로 내용물을 변경한다.
+					//printHeart: ''
 				};
 			},
 			methods: {
+				//db 에서 좋아요를 추가
+				addGood(){
+					//vue 객체
+					const self = this;
+					//ajax 로 db 에 좋아요 추가
+					fetch(this.base_url + '/booksearch/ajax_add.do?isbn=' + this.listItem.isbn)
+					.then(function(response){
+						return response.json();
+					})
+					.then(function(data){
+						//data = { isSuccess: true/false } -> 반영 성공
+						if(data.isSuccess){
+							alert("좋아요 추가");
+							//성공 -> 좋아요 O -> isGood = true
+							self.isGood = true;
+						}
+					});
+				},
+				//db 에서 좋아요를 삭제
+				cancelGood(){
+					//vue 객체
+					const self = this;
+					//ajax 로 db 에 좋아요 취소(삭제)
+					fetch(this.base_url + '/booksearch/ajax_cancel.do?isbn=' + this.listItem.isbn)
+					.then(function(response){
+						return response.json();
+					})
+					.then(function(data){
+						//data = { isSuccess: true/false } -> 반영 성공
+						if(data.isSuccess){
+							alert("좋아요 삭제");
+							//성공 -> 좋아요 X -> isGood = false
+							self.isGood = false;
+						}
+					});
+				},
+				//좋아요 버튼은 토글이다. -> isGood 이 true / false 인지에 따라 ajax 로 좋아요 추가 / 삭제 이루어진다.
+				goodToggle(){
+					if(!this.isGood){
+						//좋아요 false -> db 에 좋아요 추가
+						this.addGood();
+					}else{
+						//좋아요 true -> 취소 -> db 에서 좋아요 삭제
+						this.cancelGood();
+					}
+				},
 				//해당 책을 사용자가 좋아요를 눌렀는지 ajax 로 true / false 로 가져옴
 				getIsGood(){
 					//vue 의 참조값 가져옴
@@ -226,27 +289,39 @@
 					if(${ !empty id }){
 						//로그인 O
 						//2. 사용자가 로그인 상태 -> ajax 로 테이블에서 좋아요 인지 아닌지 읽어옴
-						fetch(self.base_url + '/booksearch/ajax_book_good.do?isbn=' + self.listItem.isbn)
+						fetch(self.base_url + '/bookgood/ajax_isExist.do?isbn=' + self.listItem.isbn)
 						.then(function(response){
 							return response.json();
 						})
 						.then(function(data){
 							//data => { isGood: true/false }
 							self.isGood = data.isGood;
+							//computed 로 인해서 자동으로 하트 모양이 바뀜
 						});
-						
+
 					}else{
 						//3. 사용자 로그인 상태 X -> isGood = false
 						this.isGood = false;
 					}
-					
-					
-					
-					
 				}
 			},
 			created(){
+				//사용자가 로그인 상태인지 체크 & 좋아요 눌렀는지 체크 -> isGood 변경
 				this.getIsGood();
+				//처음 만들어질 때, 기본으로는 빈 하트이다.
+			},
+			computed: {
+				//isGood 이 변하면 자동으로 다른 값을 리턴해준다.
+				// true -> fullHeart / false -> blankHeart
+				printHeart(){
+					if(this.isGood){
+						//좋아요 O
+						return this.fullHeart;
+					}else{
+						//좋아요 X
+						return this.blankHeart;
+					}
+				}
 			}
 		});
 		
