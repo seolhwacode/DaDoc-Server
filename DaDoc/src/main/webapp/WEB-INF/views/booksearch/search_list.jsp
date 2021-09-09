@@ -500,6 +500,8 @@
 						if(data.result != null){
 							//잘못된 검색
 							alert('잘못된 검색입니다.');
+							
+							self.resetResults();
 							return;
 						}
 						
@@ -551,6 +553,10 @@
 	            	//입력란의 input이 trim 해서 처음과 끝 빈칸 삭제하고 -> 빈칸이면 검색 X
 	            	if(this.query.trim() === ''){
 	            		alert('검색어를 입력해주세요.');
+	            		
+	            		//이전에 검색되어 나온 것을 전부 reset
+	    				this.resetResults();
+	            		
 	            		return;
 	            	}
 	            	
