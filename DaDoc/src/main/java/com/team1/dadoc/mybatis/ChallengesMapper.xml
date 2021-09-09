@@ -65,4 +65,10 @@
 		period=#{period}, startDate=#{startDate}, endDate=#{endDate}, image=#{image}
 		WHERE num = #{num}
 	</update>
+	
+	<select id="getMyList" parameterType="string" resultType="challengesDto">
+		SELECT *
+		FROM dadoc_challenges
+		WHERE writer =#{id}
+	</select>
 </mapper>

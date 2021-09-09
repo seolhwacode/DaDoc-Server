@@ -109,7 +109,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 		if(!category_name.equals("")) {
 			dto.setCategory(category_name);
 		}
-		//ChallengesDto 객체를 이용해서 회원 목록을 얻어온다.
+		//ChallengesDto 객체를 이용해서 챌린지 목록을 얻어온다.
 		List<ChallengesDto> list = challengesDao.getList(dto);
 				
 		//하단 시작 페이지 번호 
@@ -362,6 +362,19 @@ public class ChallengeServiceImpl implements ChallengeService {
 	public void getChallenger(ModelAndView mView, String title) {
 		int challengers = challengerDao.getChallengers(title);
 		mView.addObject("challengers", challengers);
+	}
+
+	@Override
+	public void checkChallenge(HttpServletRequest request) {
+		//Session에서 id 가져오기
+		String id = (String)request.getSession().getAttribute("id");
+		//ChallengesDto 객체를 이용해서 내가 만든 챌린지 목록을 얻어온다.
+		List<ChallengesDto> myList = challengesDao.getMyList(id);
+		//ChallengerDto 객체를 이용해서 내가 참여한 챌린지 목록을 얻어온다.
+		List<ChallengerDto> myChallenge = challengerDao.getMyChallenge(id);
+		//request 영역에 담아주기
+		request.setAttribute("myList", myList);
+		request.setAttribute("myChallenge", myChallenge);
 	}
 
 

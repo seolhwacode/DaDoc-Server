@@ -9,13 +9,13 @@ public class ChallengerDto {
 	private int stamp;
 	private String success;
 	private int countNum;
+	private String startDate;
+	private String endDate;
 	
 	public ChallengerDto() {}
-	
 
-
-	public ChallengerDto(int num, String id, String challengeTitle, int period, int stamp, String success,
-			int countNum) {
+	public ChallengerDto(int num, String id, String challengeTitle, int period, int stamp, String success, int countNum,
+			String startDate, String endDate) {
 		super();
 		this.num = num;
 		this.id = id;
@@ -24,9 +24,9 @@ public class ChallengerDto {
 		this.stamp = stamp;
 		this.success = success;
 		this.countNum = countNum;
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
-
-
 
 	public int getNum() {
 		return num;
@@ -83,6 +83,25 @@ public class ChallengerDto {
 	public void setCountNum(int countNum) {
 		this.countNum = countNum;
 	}
+
+	public String getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+
+	public String getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
+	}
+	
+
+	
 	
 	
 	

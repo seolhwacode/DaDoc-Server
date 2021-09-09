@@ -25,7 +25,7 @@
 				<li><a href="${pageContext.request.contextPath}/users/private/pwd_update_form.do">비밀번호 수정</a></li>
 				<li><a href="">좋아요 표기한 책 모아보기</a></li>
 				<li><a href="">작성한 댓글 모아보기</a></li>
-				<li><a href="">참여 중인 챌린지</a></li>
+				<li><a href="${pageContext.request.contextPath}/challenge/private/my_challenge.do">나의 챌린지</a></li>
 				<li><a data-toggle="modal" data-target="#leaveModal" href="javascript:">탈퇴</a></li>
 			</ul>
 		</div>

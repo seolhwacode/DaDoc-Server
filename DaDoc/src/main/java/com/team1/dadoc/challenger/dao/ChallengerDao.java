@@ -9,4 +9,6 @@ public interface ChallengerDao {
 	public void insert(ChallengerDto dto);
 	//챌린지 별 참가자 수 구하기
 	public int getChallengers(String title);
+	//내가 참가한 챌린지 가져오기
+	public List<ChallengerDto> getMyChallenge(String id);
 }

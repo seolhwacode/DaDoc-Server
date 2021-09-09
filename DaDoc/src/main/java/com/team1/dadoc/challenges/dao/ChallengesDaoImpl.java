@@ -68,4 +68,9 @@ public class ChallengesDaoImpl implements ChallengesDao {
 		session.update("challenges.update",dto);
 	}
 
+	@Override
+	public List<ChallengesDto> getMyList(String id) {
+		return session.selectList("challenges.getMyList", id);
+	}
+
 }
