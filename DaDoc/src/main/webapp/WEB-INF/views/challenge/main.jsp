@@ -51,9 +51,8 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css_porto/theme-shop.css">
 
-<!-- Demo CSS -->
-
-
+<!-- navbar css 추가 -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/include/navbarcss.css">
 <!-- Skin CSS -->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css_porto/skins/default.css">
@@ -151,9 +150,15 @@
 	background-color: #C8C2BC; !important
 	
 }
+
 </style>
 </head>
 <body>
+<!-- navbar 추가 -->
+	<jsp:include page="/include/navbar.jsp">
+		<jsp:param value="challenge" name="thisPage"/>
+	</jsp:include>
+	
 	<div role="main" class="main">
 		<!-- 페이지 헤더 -->
 		<section class="page-header page-header-modern page-header-md">
@@ -299,7 +304,7 @@
 		</ul>
 	</nav>
 </div>
-
+	<jsp:include page="/include/footer.jsp"></jsp:include>
 <script>
 //모든 상세보기 버튼을 기간 체크를 해본다.
 challengeExpired(".detailBtn");
