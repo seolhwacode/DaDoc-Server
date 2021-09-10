@@ -31,7 +31,7 @@
 	
 	/* 내부 로그인 form + head 중앙정렬 */
 	.login-container{
-	    max-width: 60%;
+	    max-width: 600px;
 	    display: flex;
 	    justify-content: center;
 	    align-items: center;
@@ -52,7 +52,7 @@
 	}
 	
 	/* 로그인 아래 밑줄 */
-	.login-form-head{
+	.login-form-head > h1{
 		border-bottom: solid;
 	    border-color: #682C0E;
 	}
@@ -76,7 +76,7 @@
 	.dodoc-login-form-container .btn{
 	    width: -webkit-fill-available;
 	    background-color: #C24914;
-	    color: wheat;
+	    color: #f9e0ae;
 	    font-weight: bold;
 	    font-size: 1.2rem;
 	}
@@ -182,6 +182,10 @@
 			</div>
 		</div>
 	</div>
+	
+	<!-- footer -->
+	<jsp:include page="/include/footer.jsp"></jsp:include>
+	
 	
 	<!-- 외부에서 가져오는 js 파일 -->
 	<jsp:include page="/include/resources_js.jsp"></jsp:include>
