@@ -19,11 +19,16 @@
 		z-index: 0;
 	}
 	
+	/* 전체 메인 컨텐츠 */
+	.root-container{
+		margin-bottom: 15%;
+		margin-top: 10%;
+	}
+	
 	/* 중앙정렬 & 아래 여백 추가 */
 	.content-container{
 		max-width: 600px;
 		margin: 0 auto;
-		margin-bottom: 100px;
 	}
 	
 	/* tos 사항들 사이 거리 띄우기 - bottom margin */
@@ -150,7 +155,7 @@
 	</section>
 	
 	<!-- main content -->
-	<div class="container">
+	<div class="container root-container">
 		<!-- 
 			[ 나중에 css 추가할 때 할 것 ]
 			1. 해당 check box 와 label 위에 마우스를 올리면(hover) 마우스가 손 모양으로 바뀌게
