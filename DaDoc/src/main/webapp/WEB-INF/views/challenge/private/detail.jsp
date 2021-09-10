@@ -10,73 +10,11 @@
 
 	<title>DETAIL</title>	
 
-	<meta name="keywords" content="HTML5 Template" />
-	<meta name="description" content="Porto - Responsive HTML5 Template">
-	<meta name="author" content="okler.net">
-
-	<!-- Favicon -->
-	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
-	
-
 	<!-- Mobile Metas -->
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
 
-	<!-- Web Fonts  -->
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800%7CShadows+Into+Light" rel="stylesheet" type="text/css">
+	<jsp:include page="/include/resources_head.jsp"></jsp:include>
 
-	<!-- Vendor CSS -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/animate/animate.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/simple-line-icons/css/simple-line-icons.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/owl.carousel/assets/owl.carousel.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/owl.carousel/assets/owl.theme.default.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/magnific-popup/magnific-popup.min.css">
-
-	<!-- Theme CSS -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/theme.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/theme-elements.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/theme-blog.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/theme-shop.css">
-	
-	<!-- Demo CSS -->
-
-
-	<!-- Skin CSS -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/skins/default.css"> 
-
-	<!-- Theme Custom CSS -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/custom.css">
-
-	<!-- Head Libs -->
-	<script src="${pageContext.request.contextPath}/resources/vendor/modernizr/modernizr.min.js"></script>
-	
-	<!-- Vendor -->
-	<script src="${pageContext.request.contextPath}/resources/vendor/jquery/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendor/jquery.appear/jquery.appear.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendor/jquery.easing/jquery.easing.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendor/jquery.cookie/jquery.cookie.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendor/popper/umd/popper.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendor/bootstrap/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendor/common/common.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendor/jquery.validation/jquery.validate.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendor/jquery.gmap/jquery.gmap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendor/jquery.lazyload/jquery.lazyload.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendor/isotope/jquery.isotope.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendor/owl.carousel/owl.carousel.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendor/vide/jquery.vide.min.js"></script>
-	<script src="${pageContext.request.contextPath}/resources/vendor/vivus/vivus.min.js"></script>
-	
-	<!-- Theme Base, Components and Settings -->
-	<script src="${pageContext.request.contextPath}/resources/js/theme.js"></script>
-	
-	<!-- Theme Custom -->
-	<script src="${pageContext.request.contextPath}/resources/js/custom.js"></script>
-	
-	<!-- Theme Initialization Files -->
-	<script src="${pageContext.request.contextPath}/resources/js/theme.init.js"></script>
 	
 	<style>
 		#linkImg {
@@ -103,9 +41,63 @@
 		#previewImage{
 		width: 150px;
 		height: 150px;
-	}	
+		}	
+		
+		/*수정, 삭제 버튼 위치 조정*/
+		.edit{
+			text-align: right;
+		}
+		
+		/*SNS 공유 버튼 위치 조정*/
+		.share{
+			text-align: right;
+		}
+		
+		/*counters 크기와 위치 조정*/
+		.counter #countNum{
+			font-size: 100px;
+			margin: 25px 465px;
+			
+		}
+		
+		/*챌린지 정보를 나타내는 문구 정렬*/
+		.challenge-info{
+			text-align: center;
+			margin: 10px 0px;
+		}
+		
+		/*챌린지 정보 내 버튼*/
+		.challenge-info #photoBtn{
+			text-align: center;
+			position: relative;
+			left: 180px;
+		}
+		
+		/*챌린지 정보 내 버튼*/
+		.challenge-info #registerBtn{
+			text-align: center;
+			position: relative;
+			left: 410px;
+			margin: 10px 0px;
+		}
+		
+		/*댓글 사진 크기 조절*/
+		.profile-image{
+			width: 48px;
+			height: 48px;
+		}
+		
+		.comment-line{
+			margin-left: 20px;
+		}
+		
+		.counter-div{
+			background-image: url(../../resources/images/dadoc_back.png);
+			background-size: 1150px 370px;
+			padding: 0px; !important
+		}
 	</style>
-
+	
 
 <body>
 	<div role="main" class="main">
@@ -151,17 +143,19 @@
 						</div>
 					</div>
 					<c:if test="${dto.writer eq id }">
-						<!-- 수정 -->
-						<a href="update_form.do?num=${dto.num }"><i class="icon-pencil icons"></i><span class="name">수정</span></a>
-						<!-- 삭제 -->
-						<a href="javascript:deleteChallenge();"><i class="icon-trash icons"></i><span class="name">삭제</span></a>
+						<div class="edit">
+							<!-- 수정 -->
+							<a href="update_form.do?num=${dto.num }"><i class="icon-pencil icons"></i><span class="name">수정</span></a>
+							<!-- 삭제 -->
+							<a href="javascript:deleteChallenge();"><i class="icon-trash icons"></i><span class="name">삭제</span></a>
+						</div>
 					</c:if>
 					
 					<!-- 구분선 -->
 					<hr class="solid my-5">
 				
 					<!-- 공유하기 칸 -->
-					<div class="post-block mt-5 post-share">
+					<div class="share">
 						<!-- 공유 api -->
 						<a class="icon" id="btnFacebook" href="javascript:shareFacebook();"><img
 							src="${pageContext.request.contextPath}/resources/images/icon-facebook.png" /></a>
@@ -181,19 +175,19 @@
 	<hr class="solid my-5">
 		
 	<!-- 몇명이 참여했는지 출력하는 부분 -->
-	<div class="container pt-4">
+	<div class="container counter-div">
 		<div class="row text-center pt-4 mt-5">
 			<div class="col">
 				<h2 class="font-weight-bold text-8 mb-2">
-					<span>지금까지 ${dto.title}에 참여한 다독인의 수는 </span>
+					<span>${dto.title}에 참여한</span><br />
+					<span>다독인은 몇명일까요?</span>
 					<div class="row counters counters-text-dark">
 						<div class="counter">
-							<strong data-to="${challengers }" data-append="+">0</strong>
+							<strong id="countNum" data-to="${challengers*128 }" data-append="+">0</strong>
 						</div>
 					</div>
-					<span> ${challengers }명 입니다!</span>
 				</h2>
-				<h4 class="text-primary lead tall text-4">여러분의 도전을 DADOC이 응원합니다! ${startTime } / ${nowTime }</h4>
+				<h4 class="text-primary lead tall text-4">여러분의 도전을 DADOC이 응원합니다!</h4>
 			</div>
 		</div>
 		<!-- 참가자 인증샷 출력부분 -->
@@ -211,25 +205,24 @@
 	<!-- 구분 선 -->
 	<hr class="solid my-5">
 		
+		
+			
 	<!-- 챌린지 참여 버튼 -->
 	<c:choose>
 	<%-- 시작 전 --%>
 		<c:when test="${startTime gt nowTime }">
 			<c:if test="${empty registerUser}">
-				<section class="call-to-action call-to-action-strong-grey content-align-center call-to-action-in-footer">
-					<div class="container py-5">
-						<div class="row py-3">
-							<div class="col-md-9 col-lg-9">
-								<div class="call-to-action-content">
-									<h2 class="font-weight-normal text-7 mb-0"> ${challengers }명이 <strong>${sessionScope.id }</strong>님과 함께 도전하고 싶어합니다.
-									<p class="mb-0">챌린지 신청을 해 더 멋진 다독인이 되어보세요. ${registerUser }</p>
-								</div>
-							</div>
-							<div class="col-md-3 col-lg-3">
-								<!-- Button trigger modal -->
-								<button class="btn btn-modern btn-primary" data-toggle="modal" data-target="#defaultModal">
+				<section class="section section-default challenge-info">
+					<div class="container">
+						<div class="row">
+							<div class="col">
+								<h4 class="mb-0">${challengers }명이 <strong>${sessionScope.id }</strong>님과 함께 도전하고 싶어합니다.</h4>
+								<p class="mb-0">챌린지 신청을 통해 더 멋진 다독인이 되어보세요.</p>
+								<div class="col-md-3 col-lg-3">
+								<button id="registerBtn" class="btn btn-outline btn-rounded btn-warning mb-2" data-toggle="modal" data-target="#defaultModal">
 										챌린지 신청하기
 								</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -265,14 +258,12 @@
 				</section>
 			</c:if>
 			<c:if test="${not empty registerUser }">
-				<section class="call-to-action call-to-action-strong-grey content-align-center call-to-action-in-footer">
-					<div class="container py-5">
-						<div class="row py-3">
-							<div class="col-md-9 col-lg-9">
-								<div class="call-to-action-content">
-									<h2 class="font-weight-normal text-7 mb-0"> <strong>${sessionScope.id }</strong>님의 챌린지 신청이 완료되었습니다.
-									<p class="mb-0">${startTime - nowTime}일 후에 챌린지가 시작해요!</p>
-								</div>
+				<section class="section section-default challenge-info">
+					<div class="container">
+						<div class="row">
+							<div class="col">
+								<h4 class="mb-0"> <strong>${sessionScope.id }</strong>님의 챌린지 신청이 완료되었습니다.</h4>
+								<p class="mb-0">${startTime - nowTime}일 후에 챌린지가 시작해요!</p>
 							</div>
 						</div>
 					</div>
@@ -282,28 +273,25 @@
 		<%-- 시작 후 --%>
 		<c:otherwise>
 			<c:if test="${not empty registerUser }">
-				<section class="call-to-action call-to-action-strong-grey content-align-center5!
-				 call-to-action-in-footer">
-					<div class="container py-5">
-						<div class="row py-3">
-							<div class="col-md-9 col-lg-9">
-								<div class="call-to-action-content">
-									<h2 class="font-weight-normal text-7 mb-0"> <strong>${sessionScope.id }</strong>님의 챌린지를 응원합니다!
-									<p>인증 횟수:${shotNum }/${dto.period }</p>
-									<c:if test="${shotNum lt dto.period }">
+			<section class="section section-default challenge-info">
+					<div class="container">
+						<div class="row">
+							<div class="col">
+								<h4 class="mb-0"><strong>${sessionScope.id }</strong>님의 챌린지를 응원합니다!</h4>
+								<p class="mb-0">인증 횟수:${shotNum }/${dto.period }</p>
+								<c:if test="${shotNum lt dto.period }">
 									<p class="mb-0">인증을 통해 목표를 달성하세요!</p>
-									</c:if>
-									<c:if test="${shotNum ge dto.period }">
+								</c:if>
+								<c:if test="${shotNum ge dto.period }">
 									<p class="mb-0">인증을 완료했습니다.</p>
-									</c:if>
-								</div>
+								</c:if>
 							</div>
 						</div>
 					</div>
-				</section>
+				
 				<c:if test="${shotNum lt dto.period }">
-				<div class="col-sm-9">
-					<button class="btn btn-modern btn-primary" data-toggle="modal" data-target="#defaultModal">
+				<div class="col-sm-9 challenge-info">
+					<button id="photoBtn" class="btn btn-outline btn-rounded btn-warning mb-2" data-toggle="modal" data-target="#defaultModal">
 						인증하기
 					</button>
 	
@@ -311,7 +299,7 @@
 					<div class="modal-dialog">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h4 class="modal-title" id="defaultModalLabel">Default Modal Title</h4>
+								<h4 class="modal-title" id="defaultModalLabel">챌린지 인증하기</h4>
 								<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 							</div>
 							
@@ -334,50 +322,52 @@
 							</form>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+								<button type="button" class="btn btn-light" data-dismiss="modal">닫기</button>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+			</section>
 			</c:if>
 		</c:if>
 		<c:if test="${empty registerUser }">
-			<section class="call-to-action call-to-action-strong-grey content-align-center call-to-action-in-footer">
-				<div class="container py-5">
-					<div class="row py-3">
-						<div class="col-md-9 col-lg-9">
-							<div class="call-to-action-content">
-								<h2 class="font-weight-normal text-7 mb-0"> <strong>이미 시작한 챌린지입니다.</strong>
+				<section class="section section-default challenge-info">
+					<div class="container">
+						<div class="row">
+							<div class="col">
+								<h4 class="mb-0"><strong>이미 시작한 챌린지입니다.</strong></h4>
 								<p class="mb-0">다음 챌린지 신청을 기대해보세요!</p>
 							</div>
 						</div>
 					</div>
-				</div>
-			</section>
+				</section>
 		</c:if>
 	</c:otherwise>
 	</c:choose>
 
 
 	<!-- 댓글  목록-->
-	<div id="comments" class="post-block mt-5 post-comments comments">
+	<div id="comments" class="post-block mt-5 post-comments">
 		<!-- 댓글 개수 및 구분선 -->
-		<h4 class="mb-3">comments(33)</h4>
+		<h4 class="comment-line">  comments</h4>
+		<!-- 구분선 -->
+		<hr class="solid my-5">
 		<!-- 댓글 목록 -->
-		<ul class="comments-list">
+		<ul class="comments">
 			<c:forEach var="tmp" items="${commentList }">
 				<c:choose>
 					<c:when test="${tmp.deleted eq 'yes' }">
 						<li>삭제된 댓글입니다.</li>
 					</c:when>
 					<c:otherwise>
+					<li>
 						<c:if test="${tmp.num eq tmp.comment_group }">
 							<li id="reli${tmp.num }">
 								<div class="comment">
 									<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
 										<c:if test="${empty tmp.profile }">
-										<img class="avatar" alt="" src="img/avatars/avatar-2.jpg">
+										<img src="${pageContext.request.contextPath}/resources/images/DADOC.png">
 										</c:if>
 										<c:if test="${not empty tmp.profile }">
 											<img class="profile-image" src="${pageContext.request.contextPath}${tmp.profile }"/>
@@ -404,14 +394,15 @@
 								</div>
 							</li>												
 						</c:if>
-					
+						
+						<ul class="comments reply">
 						<!-- 대댓글 -->
 						<c:if test="${tmp.num ne tmp.comment_group }">
 							<li id="reli${tmp.num }">
 								<div class="comment">
 									<div class="img-thumbnail img-thumbnail-no-borders d-none d-sm-block">
 										<c:if test="${empty tmp.profile }">
-											<img class="avatar" alt="" src="img/avatars/avatar-2.jpg">
+											<img src="${pageContext.request.contextPath}/resources/images/DADOC.png">
 										</c:if>
 										<c:if test="${not empty tmp.profile }">
 											<img class="profile-image" src="${pageContext.request.contextPath}${tmp.profile }"/>
@@ -437,24 +428,46 @@
 								</div>
 							</li>
 						</c:if>
-				
+					</ul>
+				</li>
 						<!-- 답 댓글 폼 -->
-						<form id="reForm${tmp.num }" class="re-insert-form comment-form form-hide" action="comment_insert.do" method="post">
-							<input type="hidden" name="title" value="${dto.title }" />
-							<input type="hidden" name="ref_group" value="${dto.num }"/>
-							<input type="hidden" name="target_id" value="${tmp.writer }"/>
-							<input type="hidden" name="comment_group" value="${tmp.comment_group }"/>
-							<textarea name="content"></textarea>
-							<button type="submit">등록</button>
-						</form>
-						
+							<div class="post-block post-leave-comment">
+								<form id="reForm${tmp.num }" class="contact-form p-4 re-insert-form form-hide" action="comment_insert.do" method="POST">			
+									<div class="form-row">
+										<div class="form-group col-lg-6">
+											<label class="required font-weight-bold text-dark">댓글 작성</label>
+											<input type="text" value="" data-msg-required="댓글을 작성해주세요." maxlength="200" class="form-control" name="content" id="content" required>
+											<input type="hidden" name="title" value="${dto.title }" />
+											<input type="hidden" name="ref_group" value="${dto.num }"/>
+											<input type="hidden" name="target_id" value="${tmp.writer }"/>
+											<input type="hidden" name="comment_group" value="${tmp.comment_group }"/>
+										</div>
+									</div>
+									<div class="form-row">
+										<div class="form-group col mb-0">
+											<input type="submit" value="등록" class="btn btn-outline btn-rounded btn-quaternary mb-2" data-loading-text="Loading...">
+										</div>
+									</div>
+								</form>
+							</div>
 						<!-- 수정 폼 -->
 						<c:if test="${tmp.writer eq id }">
-						<form id="updateForm${tmp.num }" class="update-form comment-form form-hide" action="comment_update.do" method="post">
-							<input type="hidden" name="num" value="${tmp.num }" />
-							<textarea name="content">${tmp.content }</textarea>
-							<button type="submit">수정</button>
-						</form>
+							<div class="post-block post-leave-comment">
+								<form id="updateForm${tmp.num }" class="contact-form p-4 form-hide" action="comment_update.do" method="POST">			
+										<div class="form-row">
+											<div class="form-group col-lg-6">
+												<label class="required font-weight-bold text-dark">댓글 작성</label>
+												<input type="text" value="${tmp.content }" data-msg-required="댓글을 작성해주세요." maxlength="200" class="form-control" name="content" id="content" required>
+												<input type="hidden" name="num" value="${tmp.num }" />
+											</div>
+										</div>
+										<div class="form-row">
+											<div class="form-group col mb-0">
+												<input type="submit" value="수정" class="btn btn-outline btn-rounded btn-quaternary mb-2" data-loading-text="Loading...">
+											</div>
+										</div>
+								</form>
+							</div>
 						</c:if>
 						
 					</c:otherwise>
@@ -466,23 +479,36 @@
 	<div class="comment-more">
 		<button href="javascript:" type="button" id="moreBtn" class="btn btn-outline btn-rounded btn-quaternary mb-2">더보기</button>
 	</div>
+			
+	<div class="post-block post-leave-comment">
+		<form id="contactForm" class="contact-form p-4" action="comment_insert.do" method="POST">			
+				<div class="form-row">
+					<div class="form-group col-lg-6">
+						<label class="required font-weight-bold text-dark">댓글 작성</label>
+						<input type="text" value="" data-msg-required="댓글을 작성해주세요." maxlength="200" class="form-control" name="content" id="content" required>
+						<!-- 원글의 글번호가 댓글의 ref_group 번호가 된다. -->
+						<input type="hidden" name="ref_group" value="${dto.num }"/>
+						<!--  원글의 title도 보내준다. -->
+						<input type="hidden" name="title" value="${dto.title }" />
+						<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
+						<input type="hidden" name="target_id" value="${dto.writer }"/>	
+					</div>
+				</div>
+
+				<div class="form-row">
+					<div class="form-group col mb-0">
+						<input type="submit" value="등록" class="btn btn-outline btn-rounded btn-quaternary mb-2" data-loading-text="Loading...">
+					</div>
+				</div>
+		</form>
+	</div>
 	
-	<!-- comment 작성 창 -->
-		<div class="post-block mt-5 post-leave-comment">
-			<h4 class="mb-3">Leave a comment</h4>
-				<!-- 원글에 댓글을 작성할 폼 -->
-				<form class="comment-form insert-form" action="comment_insert.do" method="post">
-					<!-- 원글의 글번호가 댓글의 ref_group 번호가 된다. -->
-					<input type="hidden" name="ref_group" value="${dto.num }"/>
-					<!--  원글의 title도 보내준다. -->
-					<input type="hidden" name="title" value="${dto.title }" />
-					<!-- 원글의 작성자가 댓글의 대상자가 된다. -->
-					<input type="hidden" name="target_id" value="${dto.writer }"/>		
-					<input type="text" name="content" id="content" />											
-					<button type="submit">등록</button>
-				</form>
-		</div>
-							
+	<!-- footer -->
+<jsp:include page="/include/footer.jsp"></jsp:include>
+<!-- 외부에서 가져오는 js 파일 -->
+<jsp:include page="/include/resources_js.jsp"></jsp:include>
+<!-- 네비게이션 바 js -->
+<script src="${pageContext.request.contextPath}/include/navbarjs.js"></script>						
 
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/gura_util.js"></script>
@@ -553,8 +579,6 @@
 			}
 		}
 	});
-	
-	
 	
 	
 	//detail.jsp 페이지 로딩 시점에 만들어진 1 페이지에 해당하는 댓글에 이벤트 리스너 등록하기

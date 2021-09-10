@@ -24,6 +24,13 @@
 <!-- Skin CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/skins/default.css"> 
 
+
+<!-- Theme Custom CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/custom.css">
+
+<!-- Head Libs -->
+<script src="${pageContext.request.contextPath}/resources/vendor/modernizr/modernizr.min.js"></script>
+
 <!-- navbar css 추가 -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/include/navbarcss.css">
 
