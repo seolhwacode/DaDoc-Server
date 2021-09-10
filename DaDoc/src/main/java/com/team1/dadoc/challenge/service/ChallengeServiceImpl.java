@@ -203,6 +203,14 @@ public class ChallengeServiceImpl implements ChallengeService {
 			String startDate = dto.getStartDate();
 			//시작 날짜에서 '-'를 빼고 'yyyymmdd'형태로 만든 다음에 숫자형으로 변환
 			int startTime = Integer.parseInt(startDate.replace("-", ""));
+			
+			//몇번 인증했는지 알아보기
+			PhotoShotDto photoDto = new PhotoShotDto();
+			//사용자와 해당 챌린지 제목을 dto에 담아간다.
+			photoDto.setId(id);
+			photoDto.setChallengeTitle(challengeTitle);
+			int shotNum=photoShotDao.getPeriod(photoDto);
+			
 			//[댓글 관련 로직]
 			
 			//한 페이지에 몇개씩 표시할 것인지
@@ -232,6 +240,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 			
 			//view에 필요한 값 담아주기
 			request.setAttribute("dto", dto);
+			request.setAttribute("shotNum", shotNum);
 			request.setAttribute("nowTime", nowTime);
 			request.setAttribute("startTime", startTime);
 			request.setAttribute("registerUser", registerUser);
@@ -253,11 +262,13 @@ public class ChallengeServiceImpl implements ChallengeService {
 	}
 
 	@Override
-	public void getPhotoShot(ModelAndView mView, PhotoShotDto dto) {
+	public void getPhotoShot(HttpServletRequest request) {
+		//request를 통해 session을 얻어내고 거기서 id를 가져온다
+		String id = (String)request.getSession().getAttribute("id");
 		//PhotoShotDao로 해당 게시글 num에 해당하는 데이터를 가져온다.
-		List<PhotoShotDto> photoList = photoShotDao.getPhotoShot(dto);
+		List<PhotoShotDto> photoList = photoShotDao.getPhotoShot(id);
 		//ModelAndView에 가져온 Dto를 담는다.
-		mView.addObject("photoList", photoList);		
+		request.setAttribute("photoList", photoList);		
 	}
 
 	@Override

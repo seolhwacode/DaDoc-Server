@@ -11,11 +11,12 @@ public class ChallengerDto {
 	private int countNum;
 	private String startDate;
 	private String endDate;
+	private String image;
 	
 	public ChallengerDto() {}
 
 	public ChallengerDto(int num, String id, String challengeTitle, int period, int stamp, String success, int countNum,
-			String startDate, String endDate) {
+			String startDate, String endDate, String image) {
 		super();
 		this.num = num;
 		this.id = id;
@@ -26,6 +27,7 @@ public class ChallengerDto {
 		this.countNum = countNum;
 		this.startDate = startDate;
 		this.endDate = endDate;
+		this.image = image;
 	}
 
 	public int getNum() {
@@ -99,10 +101,15 @@ public class ChallengerDto {
 	public void setEndDate(String endDate) {
 		this.endDate = endDate;
 	}
-	
 
-	
-	
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
 	
 	
 }

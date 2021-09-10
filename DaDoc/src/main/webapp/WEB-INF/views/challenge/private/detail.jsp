@@ -282,18 +282,26 @@
 		<%-- 시작 후 --%>
 		<c:otherwise>
 			<c:if test="${not empty registerUser }">
-				<section class="call-to-action call-to-action-strong-grey content-align-center call-to-action-in-footer">
+				<section class="call-to-action call-to-action-strong-grey content-align-center5!
+				 call-to-action-in-footer">
 					<div class="container py-5">
 						<div class="row py-3">
 							<div class="col-md-9 col-lg-9">
 								<div class="call-to-action-content">
 									<h2 class="font-weight-normal text-7 mb-0"> <strong>${sessionScope.id }</strong>님의 챌린지를 응원합니다!
+									<p>인증 횟수:${shotNum }/${dto.period }</p>
+									<c:if test="${shotNum lt dto.period }">
 									<p class="mb-0">인증을 통해 목표를 달성하세요!</p>
+									</c:if>
+									<c:if test="${shotNum ge dto.period }">
+									<p class="mb-0">인증을 완료했습니다.</p>
+									</c:if>
 								</div>
 							</div>
 						</div>
 					</div>
 				</section>
+				<c:if test="${shotNum lt dto.period }">
 				<div class="col-sm-9">
 					<button class="btn btn-modern btn-primary" data-toggle="modal" data-target="#defaultModal">
 						인증하기
@@ -332,6 +340,7 @@
 					</div>
 				</div>
 			</div>
+			</c:if>
 		</c:if>
 		<c:if test="${empty registerUser }">
 			<section class="call-to-action call-to-action-strong-grey content-align-center call-to-action-in-footer">

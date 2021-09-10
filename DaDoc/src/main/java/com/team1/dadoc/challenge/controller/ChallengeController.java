@@ -73,11 +73,7 @@ public class ChallengeController {
 		service.getDetail(request,num);
 		//해당 챌린지의 참가자 수 가져오기
 		service.getChallenger(mView, title);
-		String id = (String)request.getSession().getAttribute("id");
 		PhotoShotDto dto = new PhotoShotDto();
-		dto.setId(id);
-		dto.setChallengeTitle(title);
-		service.getPhotoShot(mView, dto);
 		mView.setViewName("challenge/private/detail");
 		
 		return mView;
@@ -164,6 +160,7 @@ public class ChallengeController {
 	@RequestMapping(value="/challenge/private/my_challenge")
 	public String checkChallenge(HttpServletRequest request) {
 		service.checkChallenge(request);
+		service.getPhotoShot(request);
 		return "challenge/private/my_challenge";
 		
 	}
