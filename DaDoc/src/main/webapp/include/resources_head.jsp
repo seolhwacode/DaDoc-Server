@@ -23,3 +23,10 @@
 
 <!-- Skin CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/skins/default.css"> 
+
+<!-- navbar css 추가 -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/include/navbarcss.css">
+
+<!-- sweet alert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+

@@ -9,9 +9,6 @@
 
 <jsp:include page="/include/resources_head.jsp"></jsp:include>
 
-<!-- navbar css 추가 -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/include/navbarcss.css">
-
 <style>
 	.container{
 		transition: all 1s linear;
@@ -188,8 +185,6 @@
 	
 	<!-- 외부에서 가져오는 js 파일 -->
 	<jsp:include page="/include/resources_js.jsp"></jsp:include>
-	<!-- 네비게이션 바 js -->
-	<script src="${pageContext.request.contextPath}/include/navbarjs.js"></script>
 	<!-- vue -->
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 	<!-- gura_util.js -->

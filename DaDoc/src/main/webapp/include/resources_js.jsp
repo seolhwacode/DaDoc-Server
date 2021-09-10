@@ -18,3 +18,7 @@
 <script src="${pageContext.request.contextPath}/resources/vendor/magnific-popup/jquery.magnific-popup.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/vide/jquery.vide.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/vivus/vivus.min.js"></script>
+
+
+<!-- 네비게이션 바 js -->
+<script src="${pageContext.request.contextPath}/include/navbarjs.js"></script>
