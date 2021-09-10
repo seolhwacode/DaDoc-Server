@@ -71,19 +71,19 @@
 
 /* 마우스가 올라갈 때 */
 #navbar a:hover {
-	background-color: #CDB30C;
+	background-color: #F9E0AE;
 	color: black;
 }
 
 /* 선택되었을 때 */
 #navbar a.active {
-	background-color: #CDB30C;
+	background-color: #F9E0AE;
 	color: black;
 }
 
 /* The sticky class is added to the navbar with JS when it reaches its scroll position */
 /* JS 로 스크롤이 내려가면 navbar 를 맨 위의 위치에 fixed 되도록 .sticky 클래스를 추가한다. */
-.sticky {
+.nav-sticky {
   	position: fixed;
   	top: 0;
   	width: 100%;
@@ -91,7 +91,7 @@
 
 /* ? */
 /* Add some top padding to the page content to prevent sudden quick movement (as the navigation bar gets a new position at the top of the page (position:fixed and top:0) */
-.sticky + .content {
+.nav-sticky + .content {
   	padding-top: 60px;
 }
 
