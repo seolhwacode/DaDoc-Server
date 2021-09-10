@@ -88,22 +88,32 @@ public class UsersController {
 		return new ModelAndView("users/login_form");
 	}
 	
-	//로그인 처리
+	//로그인 처리 -> ajax 로 수정
 	//dto : id, pwd 가 들어있다.
 	@RequestMapping(value = "/users/login")
-	public ModelAndView login(ModelAndView mView, UsersDto dto,
+	@ResponseBody
+	public Map<String, Object> login(ModelAndView mView, UsersDto dto,
 						@RequestParam String url, HttpSession session) {
 		//db 에서 실제 id/pwd 가 일치하는지 확인 & 로그인처하는 서비스
-		service.loginProcess(dto, session);
+		boolean isSuccess = service.loginProcess(dto, session);
 		
-		//parameter 로 넘어온 url 을 인코딩하여 request 영역에 추가한다.
-		String encodeUrl = URLEncoder.encode(url);
+		//map 생성하여 결과 담기
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("isSuccess", isSuccess);
+		map.put("url", url);
+		
+		return map;
+	}
+	
+	//로그인 성공 -> 결과 페이지로 이동
+	@RequestMapping(value = "/users/login_result.do")
+	public ModelAndView loginResult(@RequestParam String url, ModelAndView mView) {
+		//ModelAndView 에 url 담기 -> 이동할 것
 		mView.addObject("url", url);
-		mView.addObject("encodeUrl", encodeUrl);
-		
-		//경로 설정
+		//결과 페이지 담기
 		mView.setViewName("users/login");
 		
+		//로그인 성공 -> 결과 페이지로 이동
 		return mView;
 	}
 	
