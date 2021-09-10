@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css" >
 </head>
 <body>
-	<div class="container">
+<%-- 	<div class="container">
 		<h1>로그인 결과 페이지</h1>
 		<c:choose>
 			<c:when test="${not empty sessionScope.id }">
@@ -29,6 +29,24 @@
 				</div>
 			</c:otherwise>
 		</c:choose>
-	</div>
+	</div> --%>
+	<script>
+		//url 있고 session 에 id 존재하면 -> 로그인 ok
+		if( ${ !empty url and !empty id} ){
+			let go = confirm("어느 페이지로 이동하시겠습니까?");
+			if(go){
+				//이전 페이지로 이동
+				location.href = "${requestScope.url }";
+			}else{
+				//홈으로 이동
+				location.href = "${pageContext.request.contextPath}/home.do";
+			}
+		}else{
+			//뭔가 잘못된 접근
+			alert('잘못된 접근입니다.');
+			location.href = "${pageContext.request.contextPath}/";
+		}
+		
+	</script>
 </body>
 </html>

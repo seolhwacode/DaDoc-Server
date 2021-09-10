@@ -9,9 +9,6 @@
 
 <jsp:include page="/include/resources_head.jsp"></jsp:include>
 
-<!-- navbar css 추가 -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/include/navbarcss.css">
-
 <style>
 	.container{
 		transition: all 1s linear;
@@ -84,6 +81,11 @@
 	    font-size: 1.2rem;
 	}
 	
+	/* form 로그인 버튼 - hover 될 때 색 변경 */
+	.dodoc-login-form-container .btn:hover{
+		background-color: #8c3712;
+	}
+	
 	/* 회원가입, 비밀번호 찾기 링크 부분 */
 	.login-form-footer{
 		display: flex;
@@ -91,15 +93,18 @@
 	    margin-top: 10px;
 	}
 	
+	/* 회원가입, 비밀번호 찾기 링크 부분 - padding 추가 & 글씨 크기 조절*/
 	.login-form-footer div{
 		padding: 10px;
 		font-size: 1.2rem;
 	}
 	
+	/* 회원가입, 비밀번호 찾기 링크 부분 기본 색 */
 	.login-form-footer a{
 		color: #929292;
 	}
 	
+	/* 회원가입, 비밀번호 찾기 링크 부분 - hover 되었을 때 색 */
 	.login-form-footer a:hover{
 		color: #682c0e;
 	}
@@ -135,14 +140,16 @@
 	</section>
 	
 	<!-- main content -->
-	<div class="container">
+	<div id="login_container" class="container">
 		<div class="login-container">
 			<div class="login-box">
 				<div class="login-form-head">
 					<h1>로그인</h1>
 				</div>
 				<div class="dodoc-login-form-container">
-					<form action="${pageContext.request.contextPath}/users/login.do" method="post">
+					<form @submit.prevent="submitForm" 
+							action="${pageContext.request.contextPath}/users/login.do" 
+							 ref="login_form" method="post">
 						<%-- 로그인 후에 이동할 목적지 정보를 url 이라는 파라미터 명으로 전송될 수 있도록 한다. --%>
 						<c:choose>
 							<c:when test="${empty param.url }">
@@ -178,7 +185,49 @@
 	
 	<!-- 외부에서 가져오는 js 파일 -->
 	<jsp:include page="/include/resources_js.jsp"></jsp:include>
-	<!-- 네비게이션 바 js -->
-	<script src="${pageContext.request.contextPath}/include/navbarjs.js"></script>
+	<!-- vue -->
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<!-- gura_util.js -->
+	<script src="${pageContext.request.contextPath}/resources/js/gura_util.js"></script>
+	
+	<script>
+		// webcontent 위치
+		const base_url = "http://localhost:8888/dadoc";
+		
+		let login_container = new Vue({
+			el: "#login_container",
+			data: {
+				base_url,
+				
+			},
+			methods: {
+				//login form 을 submit 할 때 실행할 함수
+				//-> ajax 로 로그인 & 결과 검사
+				submitForm(){
+					//form 의 객체를 가져옴
+					const form = this.$refs.login_form;
+					
+					//vue 객체
+					const self = this;
+					
+					//form ajax 전송 - gura_util 활용
+					ajaxFormPromise(form)
+					.then(function(response){
+						return response.json();
+					})
+					.then(function(data){
+						//data = { isSuccess: true/false, url: url }
+						//로그인 성공 결과
+						if(data.isSuccess){
+							//성공
+							location.href = self.base_url + '/users/login_result.do?url=' + data.url;
+						}else{
+							alert('로그인 실패');
+						}
+					});
+				}
+			}
+		});
+	</script>
 </body>
 </html>

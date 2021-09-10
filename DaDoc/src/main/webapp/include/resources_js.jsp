@@ -19,11 +19,16 @@
 <script src="${pageContext.request.contextPath}/resources/vendor/vide/jquery.vide.min.js"></script>
 <script src="${pageContext.request.contextPath}/resources/vendor/vivus/vivus.min.js"></script>
 
+
 <!-- Theme Base, Components and Settings -->
-	<script src="${pageContext.request.contextPath}/resources/js/theme.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/theme.js"></script>
 	
-	<!-- Theme Custom -->
-	<script src="${pageContext.request.contextPath}/resources/js/custom.js"></script>
-	
-	<!-- Theme Initialization Files -->
-	<script src="${pageContext.request.contextPath}/resources/js/theme.init.js"></script>
+<!-- Theme Custom -->
+<script src="${pageContext.request.contextPath}/resources/js/custom.js"></script>
+
+<!-- Theme Initialization Files -->
+<script src="${pageContext.request.contextPath}/resources/js/theme.init.js"></script>
+
+<!-- 네비게이션 바 js -->
+<script src="${pageContext.request.contextPath}/include/navbarjs.js"></script>
+

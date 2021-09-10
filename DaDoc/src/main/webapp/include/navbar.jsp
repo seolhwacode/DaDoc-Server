@@ -31,19 +31,21 @@
 <!-- navbar -->
 <div>
 	<div id="navbar">
-		<a class="${ param.thisPage eq 'home' ? 'active' : '' }" href="${pageContext.request.contextPath}/">홈</a>
-		<a class="${ param.thisPage eq 'challenge' ? 'active' : '' }" href="${pageContext.request.contextPath}/challenge/main.do">챌린지</a>
-	  	<a class="${ param.thisPage eq 'notice' ? 'active' : '' }" href="${pageContext.request.contextPath}/notice/list.do">공지</a>
-	  	<a class="${ param.thisPage eq 'booksearch' ? 'active' : '' }" href="${pageContext.request.contextPath}/booksearch/search_list.do">책 검색</a>
+		<a class="nav-item" class="${ param.thisPage eq 'home' ? 'active' : '' }" href="${pageContext.request.contextPath}/">홈</a>
+		<a class="nav-item" class="${ param.thisPage eq 'challenge' ? 'active' : '' }" href="${pageContext.request.contextPath}/challenge/main.do">챌린지</a>
+	  	<a class="nav-item" class="${ param.thisPage eq 'notice' ? 'active' : '' }" href="${pageContext.request.contextPath}/notice/list.do">공지</a>
+	  	<a class="nav-item" class="${ param.thisPage eq 'booksearch' ? 'active' : '' }" href="${pageContext.request.contextPath}/booksearch/search_list.do">책 검색</a>
 	  	<c:choose>
 			<c:when test="${ empty sessionScope.id }">
-				<a class="nav-users ${ param.thisPage eq 'login' ? 'active' : '' }" href="${pageContext.request.contextPath}/users/login_form.do">로그인</a>
-				<a class="nav-users ${ param.thisPage eq 'signup' ? 'active' : '' }" href="${pageContext.request.contextPath}/users/signup_tos.do">회원가입</a>
+				<a class="nav-users nav-item ${ param.thisPage eq 'login' ? 'active' : '' }" href="${pageContext.request.contextPath}/users/login_form.do?url=${ empty param.url ? '' : param.url }">로그인</a>
+				<a class="nav-users nav-item ${ param.thisPage eq 'signup' ? 'active' : '' }" href="${pageContext.request.contextPath}/users/signup_tos.do">회원가입</a>
 			</c:when>
 			<c:otherwise>
-				<a class="nav-users" href="${pageContext.request.contextPath}/users/private/logout.do">로그아웃</a>				
-				<a class="nav-users" href="${pageContext.request.contextPath}/users/private/info.do">개인 페이지</a>
-				<img class="nav-users nav-profile" src="${pageContext.request.contextPath}${ userProfile }" alt="" />
+				<a class="nav-users nav-item" href="${pageContext.request.contextPath}/users/private/logout.do">로그아웃</a>				
+				<a class="nav-users nav-item" href="${pageContext.request.contextPath}/users/private/info.do">개인 페이지</a>
+				<a href="${pageContext.request.contextPath}/users/private/info.do">
+					<img class="nav-users nav-profile" src="${pageContext.request.contextPath}${ userProfile }" alt="" />
+				</a>
 			</c:otherwise>
 		</c:choose>
 	</div>
