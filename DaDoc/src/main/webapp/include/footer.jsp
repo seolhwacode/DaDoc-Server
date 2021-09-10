@@ -16,7 +16,7 @@
 					<h4 class="text-color-light text-6 mb-1">Ryunhwa Kang </h4>
 					<p class="font-weight-light text-color-light line-height-4 opacity-6 mb-2 px-lg-5 mx-lg-4">Team Leader</p>
 					<ul class="social-icons social-icons-clean social-icons-icon-light">
-						<a href="https://github.com/seolhwacode"><i class="icon-social-github icons"></i><span class="name">Github</span></a>
+						<a href="https://github.com/seolhwacode"><i class="icon-social-github icons"></i><span class="name"> Github</span></a>
 						
 					</ul>
 				</div>
@@ -29,9 +29,9 @@
 				</div>
 				<div class="col-md-4 text-center">
 					<h4 class="text-color-light text-6 mb-1">Jeongsol Kim</h4>
-					<p class="font-weight-light text-color-light line-height-4 opacity-6 mb-2 px-lg-5 mx-lg-4">Team member </p><br />
+					<p class="font-weight-light text-color-light line-height-4 opacity-6 mb-2 px-lg-5 mx-lg-4">Team member </p>
 					<ul class="social-icons social-icons-clean social-icons-icon-light">
-						<a href="https://github.com/jsboy3"><i class="icon-social-github icons"></i><span class="name">Github</span></a>
+						<a href="https://github.com/jsboy3"><i class="icon-social-github icons"></i><span class="name"> Github</span></a>
 					</ul>
 				</div>
 			</div>
