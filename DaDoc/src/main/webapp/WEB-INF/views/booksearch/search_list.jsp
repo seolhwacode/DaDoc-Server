@@ -18,6 +18,24 @@
 		/* 선택된 것의 글씨를 진하게 하기 */
 		font-weight: bold;
 	}
+	
+	/* 화면 가장 위로 가는 버튼 */
+	.goTopBtn{
+		position: fixed;
+	  	bottom: 10px;
+	  	right: 10px;
+	  	width: 50px;
+	  	height: 50px;
+	}
+	
+	.goTopBtn a{
+		color: #682C0E;
+	}
+	
+	.goTopBtn a:hover {
+		color: #C24914;
+	}
+}
 </style>
 </head>
 <body>
@@ -116,6 +134,15 @@
 			<!-- 페이징 컴포넌트 출력 -->
 			<paging-component :paging_data="paging_data"
 							@click_link="movePage"></paging-component>
+		</div>
+		
+		<!-- 상단으로 이동하는 버튼 추가 -->
+		<div class="goTopBtn" v-show="isScrolled" @scroll="scrollCheck">
+			<a @click="goTop" href="javascript:">
+				<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
+				  <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
+				</svg>
+			</a>
 		</div>
 	</div>
 	
@@ -377,9 +404,26 @@
 	            isDetailSearch: false,	//상세 검색 상태
 	            isSimSort: true,	//유사도순
 	            isDateSort: false,	//출판일순
-	            isCountSort: false	//판매량순
+	            isCountSort: false,	//판매량순
+	            
+	            isScrolled: false	//스크롤 했는지 검사 -> 상단 이동 버튼에 사용
 			},
 			methods: {
+				//스크롤 되었는지 이벤트 처리하기
+				scrollCheck(){
+					console.log('scroll');
+					//화면 스크롤이 30보다 크면 -> 스크롤 햇다고 처리하기
+					if(window.pageYOffset > 30){
+						this.isScrolled = true;
+					}else{
+						//작으면 스크롤 안했다고 처리하기
+						this.isScrolled = false;
+					}
+				},
+				//가장 상단으로 이동하기
+				goTop(){
+					window.scrollTo(0,0);
+				},
 				//리셋 버튼 누름 => 상세검색 form 리셋
 				resetDetailSearchForm(){
 					this.d_titl = '';	//제목
@@ -659,7 +703,7 @@
 				}
 			},
 			created(){
-				
+				window.addEventListener('scroll', this.scrollCheck);
 			}
 		});
 	</script>
