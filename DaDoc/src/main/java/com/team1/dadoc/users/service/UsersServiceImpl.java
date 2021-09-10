@@ -77,7 +77,7 @@ public class UsersServiceImpl implements UsersService {
 
 	//dto 의 id/pwd 의 값이 db 에 일치하는 값이 있는지 확인 및 로그인(session)
 	@Override
-	public void loginProcess(UsersDto dto, HttpSession session) {
+	public boolean loginProcess(UsersDto dto, HttpSession session) {
 		//1. 로그인 폼에 입력한 아이디를 이용해서 해당 정보를 select 
 		UsersDto result = dao.getData(dto.getId());
 		
@@ -99,7 +99,12 @@ public class UsersServiceImpl implements UsersService {
 			session.setAttribute("id", dto.getId());
 			//navbar 에 넣을 사용자 사진을 session 에 저장
 			session.setAttribute("userProfile", result.getProfile());
+			
+			//성공함을 return
+			return true;
 		}
+		//여기에 오면 실패인 것
+		return false;
 	}
 
 	//inputId 에 해당하는 data 를 읽어와서 해당 질문과 inputId를 mView 에 넣어준다.
