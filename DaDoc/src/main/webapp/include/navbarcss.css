@@ -45,7 +45,7 @@
 }
 
 /* Navbar links */
-#navbar a {
+#navbar .nav-item {
   	float: left;
   	display: block;
   	color: #f2f2f2;
@@ -61,22 +61,23 @@
 }
 
 #navbar .nav-profile{
-	width: 40px;
-	height: 40px;
+	width: 38px;
+	height: 38px;
 	border-radius: 50%;
-	margin-top: 7px;
+	margin-top: 8px;
     margin-bottom: 7px;
+    margin-right: 10px;
 	background-color: white;
 }
 
 /* 마우스가 올라갈 때 */
-#navbar a:hover {
+#navbar .nav-item:hover {
 	background-color: #F9E0AE;
 	color: black;
 }
 
 /* 선택되었을 때 */
-#navbar a.active {
+#navbar .nav-item.active {
 	background-color: #F9E0AE;
 	color: black;
 }
