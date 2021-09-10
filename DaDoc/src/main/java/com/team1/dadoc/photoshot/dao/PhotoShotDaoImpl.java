@@ -20,8 +20,13 @@ public class PhotoShotDaoImpl implements PhotoShotDao {
 	}
 
 	@Override
-	public List<PhotoShotDto> getPhotoShot(PhotoShotDto dto) {
-		return session.selectList("photoShot.getPhotoShot", dto);
+	public List<PhotoShotDto> getPhotoShot(String id) {
+		return session.selectList("photoShot.getPhotoShot", id);
+	}
+
+	@Override
+	public int getPeriod(PhotoShotDto photoDto) {
+		return session.selectOne("photoShot.getPeriod", photoDto);
 	}
 
 }

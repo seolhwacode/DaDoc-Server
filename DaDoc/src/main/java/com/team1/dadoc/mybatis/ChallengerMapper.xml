@@ -14,7 +14,7 @@
 	</select>
 	
 	<select id="getMyChallenge" parameterType="string" resultType="challengerDto">
-		SELECT dadoc_challenger.num, id, challengeTitle, dadoc_challenger.period, startDate, endDate
+		SELECT dadoc_challenges.num, id, challengeTitle, dadoc_challenger.period, startDate, endDate, image
 		FROM dadoc_challenger
 		INNER JOIN dadoc_challenges
 		ON dadoc_challenger.challengeTitle=dadoc_challenges.title
@@ -22,8 +22,8 @@
 	</select>
 	
 	<select id="getRegisterUser" parameterType="challengerDto" resultType="string">
-				SELECT id
-				FROM dadoc_challenger
-				WHERE id= #{id} and challengeTitle =#{challengeTitle}
+		SELECT id
+		FROM dadoc_challenger
+		WHERE id= #{id} and challengeTitle =#{challengeTitle}
 	</select>
 </mapper>
