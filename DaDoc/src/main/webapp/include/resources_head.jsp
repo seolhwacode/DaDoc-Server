@@ -18,8 +18,13 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/theme-blog.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/theme-shop.css">
 
-<!-- Demo CSS -->
+<!-- Current Page CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/rs-plugin/css/settings.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/rs-plugin/css/layers.css">
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/rs-plugin/css/navigation.css">
 
+<!-- Demo CSS -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/demos/demo-digital-agency.css">
 
 <!-- Skin CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/skins/default.css"> 
