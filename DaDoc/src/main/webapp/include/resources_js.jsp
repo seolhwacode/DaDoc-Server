@@ -22,6 +22,14 @@
 
 <!-- Theme Base, Components and Settings -->
 <script src="${pageContext.request.contextPath}/resources/js/theme.js"></script>
+
+<!-- Current Page Vendor and Views -->
+<script src="${pageContext.request.contextPath}/resources/js/views/view.contact.js"></script>
+
+<!-- Current Page Vendor and Views -->
+<script src="${pageContext.request.contextPath}/resources/vendor/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/vendor/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+
 	
 <!-- Theme Custom -->
 <script src="${pageContext.request.contextPath}/resources/js/custom.js"></script>
