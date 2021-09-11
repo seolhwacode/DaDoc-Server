@@ -7,55 +7,12 @@
 	<!-- Basic -->
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">	
-
+	<jsp:include page="/include/resources_head.jsp"></jsp:include>
+	
 	<title>MY CHALLENGE</title>	
-
-	<meta name="keywords" content="HTML5 Template" />
-	<meta name="description" content="Porto - Responsive HTML5 Template">
-	<meta name="author" content="okler.net">
-
-	<!-- Favicon -->
-	<link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon" />
-	<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
-
-	<!-- Mobile Metas -->
-	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, shrink-to-fit=no">
-
-	<!-- Web Fonts  -->
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800%7CShadows+Into+Light%7COswald" rel="stylesheet" type="text/css">
-
 	
-	<!-- Vendor CSS -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/fontawesome-free/css/all.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/animate/animate.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/simple-line-icons/css/simple-line-icons.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/owl.carousel/assets/owl.carousel.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/owl.carousel/assets/owl.theme.default.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/magnific-popup/magnific-popup.min.css">
-
-	<!-- Theme CSS -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/theme.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/theme-elements.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/theme-blog.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/theme-shop.css">
-
-	<!-- Current Page CSS -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/rs-plugin/css/settings.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/rs-plugin/css/layers.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/rs-plugin/css/navigation.css">
-	
-	<!-- Demo CSS -->
-
-
-	<!-- Skin CSS -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/skins/default.css"> 
-
-	<!-- Theme Custom CSS -->
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/custom.css">
-
-	<!-- Head Libs -->
-	<script src="${pageContext.request.contextPath}/resources/vendor/modernizr/modernizr.min.js"></script>
+	<!-- navbar css 추가 -->
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/include/navbarcss.css">
 	
 	<style>
 		/*페이지 헤더 색상 조정*/
@@ -66,6 +23,11 @@
 	</style>
 </head>
 <body>
+
+	<!-- navbar 추가 -->
+	<jsp:include page="/include/navbar.jsp">
+		<jsp:param value="challenge" name="thisPage"/>
+	</jsp:include>
 
 	<div role="main" class="main">
 		<!-- 페이지 헤더 -->
@@ -80,7 +42,7 @@
 					<div class="col-md-12 align-self-center order-1">
 	
 						<ul class="breadcrumb d-block text-center">
-							<li><a href="${pageContext.request.contextPath}/users/info.do">Challenge</a></li>
+							<li><a href="${pageContext.request.contextPath}/users/private/info.do">Info</a></li>
 							<li class="active">My Challenge</li>
 						</ul>
 					</div>
@@ -200,6 +162,12 @@
 			</div>
 		</div>
 	</div>
+<!-- footer -->
+<jsp:include page="/include/footer.jsp"></jsp:include>
+<!-- 외부에서 가져오는 js 파일 -->
+<jsp:include page="/include/resources_js.jsp"></jsp:include>
+<!-- 네비게이션 바 js -->
+<script src="${pageContext.request.contextPath}/include/navbarjs.js"></script>
 <script>
 	//모든 상세보기 버튼을 기간 체크를 해본다.
 	challengeExpired(".detailBtn");

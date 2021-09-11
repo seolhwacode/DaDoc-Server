@@ -25,6 +25,8 @@ public interface ChallengeService {
 	public void getDetail(HttpServletRequest request, int num);
 	// 챌린지 참가 신청 하기
 	public void saveChallenger(ChallengerDto dto, HttpServletRequest request);
+	// 챌린지 참가 취소하기
+	public void cancelChallenger(String title, HttpServletRequest request);
 	// 챌린지 인증샷 업로드
 	public void savePhotoShot(PhotoShotDto dto, HttpServletRequest request);
 	// 챌린지 인증샷 가져오기

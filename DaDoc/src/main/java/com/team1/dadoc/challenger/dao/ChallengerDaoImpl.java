@@ -35,4 +35,9 @@ public class ChallengerDaoImpl implements ChallengerDao{
 		return session.selectOne("challenger.getRegisterUser",dto);
 	}
 
+	@Override
+	public void deleteChallenger(ChallengerDto dto) {
+		session.delete("challenger.deleteChallenger", dto);
+	}
+
 }

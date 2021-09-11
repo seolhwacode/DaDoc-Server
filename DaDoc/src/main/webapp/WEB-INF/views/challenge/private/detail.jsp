@@ -244,7 +244,8 @@
 								  	</div>
 								</div>
 								<div class="modal-footer">
-									<form action="${pageContext.request.contextPath}/challenge/insertChallenger.do" method="post">
+									<form action="${pageContext.request.contextPath}/challenge/private/insertChallenger.do" method="post">
+										<input type="hidden" name="num" id="num" value="${dto.num }" />
 										<input type="hidden" name="id" id="id" value="${sessionScope.id }" />
 										<input type="hidden" name="challengeTitle" id="challengeTitle" value="${dto.title}" /> 
 										<input type="hidden" name="period" id="period" value="${dto.period}" />
@@ -264,6 +265,7 @@
 							<div class="col">
 								<h4 class="mb-0"> <strong>${sessionScope.id }</strong>님의 챌린지 신청이 완료되었습니다.</h4>
 								<p class="mb-0">${startTime - nowTime}일 후에 챌린지가 시작해요!</p>
+								<a href="javascript:cancelChallenge();" class="btn btn-outline btn-rounded btn-dark mb-2">신청 취소</a>
 							</div>
 						</div>
 					</div>
@@ -504,15 +506,12 @@
 	</div>
 	
 	<!-- footer -->
-<jsp:include page="/include/footer.jsp"></jsp:include>
-<!-- 외부에서 가져오는 js 파일 -->
-<jsp:include page="/include/resources_js.jsp"></jsp:include>
-<!-- 네비게이션 바 js -->
-<script src="${pageContext.request.contextPath}/include/navbarjs.js"></script>						
-
+	<jsp:include page="/include/footer.jsp"></jsp:include>
+	<!-- 외부에서 가져오는 js 파일 -->
+	<jsp:include page="/include/resources_js.jsp"></jsp:include>
 	<script src="//developers.kakao.com/sdk/js/kakao.min.js"></script>
 	<script src="${pageContext.request.contextPath}/resources/js/gura_util.js"></script>
-	<script>
+	<script defer>
 	
 	//프로필 이미지 링크를 클릭하면
 	document.querySelector("#imageLink").addEventListener("click",function(){
@@ -582,18 +581,41 @@
 	
 	
 	//detail.jsp 페이지 로딩 시점에 만들어진 1 페이지에 해당하는 댓글에 이벤트 리스너 등록하기
-	
 	addUpdateFormListener(".update-form");
 	addUpdateListener(".update-link");
 	addDeleteListener(".delete-link");
 	addReplyListener(".reply-link");
 	
+	//챌린지 신청 취소
+	function cancelChallenge(){
+		swal({
+		  	title: "챌린지를 취소하시겠습니까?",
+		  	text: "다시 한 번 생각해보세요!",
+		  	icon: "warning",
+		  	buttons: true,
+		  	dangerMode: true
+		})
+		.then(function(willCancel){
+		  	if (willCancel) {
+		    	location.href = "cancel.do?num=${dto.num}&title=${dto.title}";
+		  	}
+		});
+	}
+	
 	//챌린지 삭제
 	function deleteChallenge(){
-		let isDelete = confirm("챌린지를 삭제하시겠습니까?");
-		if(isDelete){
-			location.href="delete.do?num=${dto.num}";
-		}
+		swal({
+		  	title: "챌린지를 삭제하시겠습니까?",
+		  	text: "이 챌린지의 참가자들도 자동 취소됩니다.",
+		  	icon: "warning",
+		  	buttons: true,
+		  	dangerMode: true
+		})
+		.then(function(willCancel){
+		  	if (willCancel) {
+		    	location.href = "delete.do?num=${dto.num}";
+		  	}
+		});
 	}
 	
 	//트위터 공유 기능
@@ -707,21 +729,30 @@
 			deleteLinks[i].addEventListener("click", function(){
 				//click 이벤트가 일어난 바로 그 요소의 data-num 속성의 value 값을 읽어온다.
 				const num = this.getAttribute("data-num"); //댓글의 글 번호
-				const isDelete=confirm("댓글을 삭제하시겠습니까?");
-				if(isDelete){
-					//gura_util.js에 있는 함수를 이용해서 ajax요청
-					ajaxPromise("comment_delete.do", "post", "num="+num)
-					.then(function(response){
-						return response.json();
-					})
-					.then(function(data){
-						//만일 삭제 성공이면
-						if(data.isSuccess){
-							//댓글이 있는 곳에 삭제된 댓글입니다를 출력해준다.
-							document.querySelector("#reli"+num).innerText='삭제된 댓글입니다.';
-						}
-					});
-				}
+				//댓글 삭제 확인 confirm 메소드
+				swal({
+					  	title: "댓글을 삭제하시겠습니까?",
+					  	icon: "warning",
+					  	buttons: true,
+					  	dangerMode: true
+				})
+				.then(function(isDelete){
+					if(isDelete){
+						//gura_util.js에 있는 함수를 이용해서 ajax요청
+						ajaxPromise("comment_delete.do", "post", "num="+num)
+						.then(function(response){
+							return response.json();
+						})
+						.then(function(data){
+							//만일 삭제 성공이면
+							if(data.isSuccess){
+								//댓글이 있는 곳에 삭제된 댓글입니다를 출력해준다.
+								document.querySelector("#reli"+num).innerText='삭제된 댓글입니다.';
+							}
+						});
+					}
+				});
+			
 			});
 		}
 	}

@@ -13,4 +13,6 @@ public interface ChallengerDao {
 	public List<ChallengerDto> getMyChallenge(String id);
 	//챌린지에 참가한 유저 정보 구하기
 	public String getRegisterUser(ChallengerDto dto);
+	//챌린지 참가 취소하기
+	public void deleteChallenger(ChallengerDto dto);
 }

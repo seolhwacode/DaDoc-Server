@@ -29,6 +29,4 @@
 <!-- Theme Initialization Files -->
 <script src="${pageContext.request.contextPath}/resources/js/theme.init.js"></script>
 
-<!-- 네비게이션 바 js -->
-<script src="${pageContext.request.contextPath}/include/navbarjs.js"></script>
 

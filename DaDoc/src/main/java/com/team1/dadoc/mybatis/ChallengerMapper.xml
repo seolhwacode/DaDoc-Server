@@ -26,4 +26,9 @@
 		FROM dadoc_challenger
 		WHERE id= #{id} and challengeTitle =#{challengeTitle}
 	</select>
+	
+	<delete id="deleteChallenger" parameterType="challengerDto">
+		DELETE FROM dadoc_challenger
+		WHERE challengeTitle=#{challengeTitle} and id=#{id}
+	</delete>
 </mapper>

@@ -140,19 +140,29 @@ public class ChallengeController {
 				@RequestParam int num) {
 		service.deleteChallenge(num, request);
 		
-		mView.setViewName("redirect:/challenge/main");
+		mView.setViewName("redirect:/challenge/main.do");
 		return mView;
 	}
 	
+	//챌린지 취소하기
+	@RequestMapping("/challenge/private/cancel")
+	public String cancelChallenge(HttpServletRequest request, @RequestParam int num, @RequestParam String title) {
+		service.cancelChallenger(title, request);
+		System.out.println("챌린지 취소 맵핑");
+		return "redirect:/challenge/private/detail.do?num="+num+"&title="+title;
+	}
+	
 	// 챌린지 신청하기
-	@RequestMapping(value="/challenge/insertChallenger")
+	@RequestMapping(value="/challenge/private/insertChallenger")
 	public ModelAndView Insert(ChallengerDto dto, ModelAndView mView, HttpServletRequest request) {
 		
 		//글 작성자는 session에서 얻어낸다 (로그인 처리 기능 완료 후 만들 예정)
 		
 		//ChallengeDto 객체에 id 정보 담기 dto.setWriter(id);
 		service.saveChallenger(dto, request);
-		mView.setViewName("challenge/main"); // 마이페이지로 이동하게 하기 
+		int num = dto.getNum();
+		String title=dto.getChallengeTitle();
+		mView.setViewName("redirect:/challenge/private/detail.do?num="+num+"&title="+title); // 마이페이지로 이동하게 하기 
 		return mView;
 	}
 	
