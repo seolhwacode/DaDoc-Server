@@ -234,6 +234,16 @@ public class UsersController {
 	@RequestMapping(value = "/users/private/prove")
 	public ModelAndView prove(@RequestParam String url) {
 		ModelAndView mView = new ModelAndView();
+		
+		//비밀번호 변경(pwd_update_form) or 개인정보 변경(update_form) 으로 이동하는지 알아내기
+		if(url.contains("pwd")) {
+			//pwd 있으면 -> 비밀번호 변경 폼으로 이동하는 것
+			mView.addObject("myPage", "pwdUpdate");
+		}else {
+			//pwd 없으면 -> 개인정보 변경 폼으로 이동하는 것
+			mView.addObject("myPage", "update");
+		}
+		
 		//원래 이동하려고 했던 url을 그대로 읽어옴
 		mView.addObject("url", url);
 		mView.setViewName("users/private/prove");
