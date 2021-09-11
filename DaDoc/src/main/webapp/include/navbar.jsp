@@ -42,7 +42,7 @@
 			</c:when>
 			<c:otherwise>
 				<a class="nav-users nav-item" href="${pageContext.request.contextPath}/users/private/logout.do">로그아웃</a>				
-				<a class="nav-users nav-item" href="${pageContext.request.contextPath}/users/private/info.do">개인 페이지</a>
+				<a class="nav-users nav-item ${ param.thisPage eq 'userInfo' ? 'active' : '' }" href="${pageContext.request.contextPath}/users/private/info.do">개인 페이지</a>
 				<a href="${pageContext.request.contextPath}/users/private/info.do">
 					<img class="nav-users nav-profile" src="${pageContext.request.contextPath}${ userProfile }" alt="" />
 				</a>

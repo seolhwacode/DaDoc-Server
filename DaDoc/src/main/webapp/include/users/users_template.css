@@ -1,0 +1,6 @@
+@charset "UTF-8";
+
+/* 왼 쪽의 프로필 사진 배경 색 변경 */
+.profile-image-inner-container{
+	background-color: #fc8621;
+}
