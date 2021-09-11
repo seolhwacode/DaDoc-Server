@@ -104,7 +104,9 @@
 	<div id="usersInfo" class="container root-container">
 		<div class="content-container">
 			<div class="row">
-				<jsp:include page="/include/users/users_template.jsp"></jsp:include>
+				<jsp:include page="/include/users/users_template.jsp">
+					<jsp:param value="info" name="myPage"/>
+				</jsp:include>
 				<!-- 오른쪽 실제 content -->
 				<div class="col-md-9 right-content">
 					<!-- 메인에 출력할 개인정보 data -->
