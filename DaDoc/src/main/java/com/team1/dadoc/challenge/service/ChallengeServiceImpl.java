@@ -390,6 +390,19 @@ public class ChallengeServiceImpl implements ChallengeService {
 		request.setAttribute("myChallenge", myChallenge);
 	}
 
+	@Override
+	public void cancelChallenger(String title, HttpServletRequest request) {
+		//아이디 얻어오기
+		String id = (String)request.getSession().getAttribute("id");
+		//값을 전달해줄 dto 생성
+		ChallengerDto dto = new ChallengerDto();
+		//파라미터로 전달받은 값 dto에 저장해줌
+		dto.setChallengeTitle(title);
+		dto.setId(id);
+		//ChallengerDao를 통해 신청 취소
+		challengerDao.deleteChallenger(dto);
+	}
+
 
 
 

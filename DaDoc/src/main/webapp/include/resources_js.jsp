@@ -31,4 +31,3 @@
 
 <!-- 네비게이션 바 js -->
 <script src="${pageContext.request.contextPath}/include/navbarjs.js"></script>
-
