@@ -10,6 +10,8 @@
 <jsp:include page="/include/resources_head.jsp"></jsp:include>
 <!-- 사용자 페이지에서만 사용하는 공통 css -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/include/users/users_template.css">
+<!-- 탈퇴 모달에서 사용되는 css -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/include/users/leave_modal.css">
 <style>
 	/*페이지 헤더 색상 조정*/
 	.page-header {
@@ -68,7 +70,6 @@
 	    font-weight: 600;
 	    color: #682c0e;
 	}
-	
 </style>
 </head>
 <body>
@@ -124,43 +125,11 @@
 				</div>
 			</div>			
 		</div>
-		
-		
-		<!-- 탈퇴 모달 -->
-		<!-- Modal -->
-		<div class="modal fade" id="leaveModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
-		  	<div class="modal-dialog modal-md modal-dialog-centered">
-		    	<div class="modal-content">
-		      		<div class="modal-header">
-		        		<h5 class="modal-title">탈퇴 확인</h5>
-		        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-		      		</div>
-		      		<div class="modal-body">
-		        		<div>
-		        			<div>
-		        				<p>정말로 탈퇴하시겠습니까?</p>
-		        				<p>탈퇴를 원하시면 아래 입력란에 <strong>탈퇴하기</strong>를 입력해주세요.</p>
-		        			</div>
-		        			<div>
-		        				<input type="text" v-model="leaveCheckInput" />
-		        			</div>
-		        		</div>
-		      		</div>
-		      		<div class="modal-footer">
-		        		<button @click="clearModalInput" type="button" 
-		        				class="btn btn-secondary" data-dismiss="modal">
-		        				취소
-		        		</button>
-		        		<button @click="clickLeave" type="button" 
-		        				class="btn btn-primary" data-dismiss="modal">
-		        				탈퇴
-		        		</button>
-		      		</div>
-		    	</div>
-		  	</div>
-		</div>
 	</div>
 	
+	<!-- 탈퇴 모달 -->
+	<jsp:include page="/include/users/leave_modal.jsp"></jsp:include>
+
 	<!-- footer -->
 	<jsp:include page="/include/footer.jsp"></jsp:include>
 	
@@ -169,6 +138,10 @@
 	
 	<!-- vue -->
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	
+	<!-- 탈퇴 모달 js 파일 가져오기 -->
+	<script src="${pageContext.request.contextPath}/include/users/leave_modal.js"></script>
+	
 	<script>
 		// webcontent 위치
 		const base_url = "http://localhost:8888/dadoc";
@@ -183,32 +156,10 @@
 				profilePath: '',
 				pwd_question: '',
 				sex: '',
-				update_profile_link: '',
-				
-				//탈퇴 체크
-				leaveCheckInput: '',
+				update_profile_link: ''
 			},
 			methods: {
-				//모달의 내용 지우기
-				clearModalInput(){
-					this.leaveCheckInput = '';
-				},
-				//모달의 탈퇴 버튼 클릭
-				clickLeave(e){
-					//탈퇴하기를 제대로 입력 X
-					if(this.leaveCheckInput !== '탈퇴하기'){
-						//이벤트 막고
-						e.preventDefault();
-						//입력 틀림 알리기
-						alert("입력이 틀렸습니다.");
-						//모달 내용 지우기
-						this.clearModalInput();
-						//탈퇴 X
-						return;
-					}
-					//탈퇴 진행
-					location.href = this.base_url + "/users/private/leave.do";
-				}
+				
 			},
 			created(){
 				//dadoc_users table 에서 기본 정보 가져오기
