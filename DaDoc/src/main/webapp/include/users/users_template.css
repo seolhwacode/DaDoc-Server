@@ -4,3 +4,8 @@
 .profile-image-inner-container{
 	background-color: #fc8621;
 }
+
+/* 사진기 모양이 navbar 위로 올라옴 -> z-index 수정 */
+.profile-image-outer-container .profile-image-inner-container .profile-image-button{
+	z-index: 0;
+}
