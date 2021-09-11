@@ -21,7 +21,7 @@
 	
 	/* 전체 메인 컨텐츠 */
 	.root-container{
-		margin-bottom: 15%;
+		margin-bottom: 10%;
 		margin-top: 10%;
 	}
 	
