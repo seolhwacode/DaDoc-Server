@@ -1,0 +1,42 @@
+@charset "UTF-8";
+/* 탈퇴 모달 css */
+
+/* 모달의 설명 - 글씨 크기 키우기, 색 변경, 진하게 */
+#leaveModal .modal-body p{
+	font-wegit: 500;
+	font-size: 1rem;
+	color: black;
+}
+
+/* 모달 input 창 진하게 하기 */
+#leaveModal .modal-body input{
+	border-color: grey;
+}
+
+/* 모달의 탈퇴 취소 버튼 */
+#leaveModal .modal-footer .leave-cancel-btn{
+	background-color: #c1c1c1;
+	color: black;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+/* 모달의 탈퇴 취소 버튼 hover */
+#leaveModal .modal-footer .leave-cancel-btn:hover {
+	background-color: #949494;
+	color: black;
+}
+
+/* 모달의 탈퇴 버튼 */
+#leaveModal .modal-footer .leave-btn{
+	background-color: #C24914;
+    color: #f9e0ae;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+/* 확인 버튼 hover */
+#leaveModal .modal-footer .leave-btn:hover{
+	background-color: #8c3712;
+	color: #f9e0ae;
+}
