@@ -229,7 +229,7 @@
 				<div
 					class="col-md-12 align-self-center p-static order-2 text-center">
 	
-					<h1 class="text-dark font-weight-bold text-8 bold-family">User Information</h1>
+					<h1 class="text-dark font-weight-bold text-8 bold-family">Update Profile Image</h1>
 					<span class="sub-title text-dark">You with DADOC</span>
 				</div>
 	
@@ -237,7 +237,8 @@
 	
 					<ul class="breadcrumb d-block text-center">
 						<li><a href="${pageContext.request.contextPath}/">Home</a></li>
-						<li class="active">User Information</li>
+						<li><a href="${pageContext.request.contextPath}/users/private/info.do">User Information</a></li>
+						<li class="active">Update Profile Image</li>
 					</ul>
 				</div>
 			</div>
