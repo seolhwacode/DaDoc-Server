@@ -223,8 +223,10 @@ public class UsersController {
 	
 	//변경된 프로필 사진 db 에 반영 -> alert 로 반영함을 알리기 -> 프로필 info 페이지로 이동
 	@RequestMapping(value = "/users/private/update_profile")
-	public ModelAndView updateProfile(UsersDto dto) {
+	public ModelAndView updateProfile(UsersDto dto, HttpSession session) {
 		service.updateProfile(dto);
+		//session 에 바뀐 프로필 사진으로 변경
+		session.setAttribute("userProfile", dto.getProfile());
 		return new ModelAndView("users/private/update_profile");
 	}
 	
