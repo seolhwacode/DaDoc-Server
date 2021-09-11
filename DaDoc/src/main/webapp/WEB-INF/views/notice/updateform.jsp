@@ -11,38 +11,63 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Poor+Story&display=swap" rel="stylesheet">
 <title>/views/notice/updateform.jsp</title>
+<jsp:include page="/include/resources_head.jsp"></jsp:include>
 <style>
-
-.container{
+/*페이지 헤더 색상 조정*/
+.page-header {
 	background-color: #F9E0AE;
-	text-align: center;
-	margin-top: 10px;
-	padding-bottom:80px;
-	font-family: 'East Sea Dokdo', cursive;
-	font-size: 25px;
-	
+	}
+
+#content{
+	height: auto;
+	width: 640px;
+   }
+
+#title{
+	width: 640px;
+}
+#updateForm{
+	height: 640px;
+}
+.container{
+	display: flex;
+	justify-content: center;
+	margin: 0 0 30px;
 }
 
-#submitBtn{
-	font-size: 20px;
-}
-
-#resetBtn{
-	font-size: 20px;
-}
-
- 
 
 </style>
-<jsp:include page="/resources/template.jsp"></jsp:include>
+
 </head>
 <body>
 	<!-- navbar 추가 -->
 	<jsp:include page="/include/navbar.jsp">
 		<jsp:param value="notice" name="thisPage"/>
 	</jsp:include>
+	
+	<!-- 페이지 헤더 -->
+		<section class="page-header page-header-modern page-header-md">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 align-self-center p-static order-2 text-center">
+
+						<h1 class="text-dark font-weight-bold text-8 bold-family">Notice Update</h1>
+						<span class="sub-title text-dark">Attention! please read this notice.</span>
+					</div>
+
+					<div class="col-md-12 align-self-center order-1">
+
+						<ul class="breadcrumb d-block text-center">
+							<li><a href="${pageContext.request.contextPath}/notice/list.do">Notice</a></li>
+							<li class="active">Notice Update</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+		
 <div class="container">
-	<h1>공지 수정</h1>
+	
 	<form action="update.do" method="post" id="updateForm">
 		<input type="hidden" name="num" value="${dto.num }" />
 		<div id="writer" class="mb-3">
@@ -55,12 +80,16 @@
 		</div>
 		<div id="content" class="mb-3">
 			<label class="form-label" for="content">내용</label>
-			<textarea data-msg-required="please enter your message." rows="15" name="content" id="content" required>${dto.content }</textarea>
+			<textarea rows="15" name="content" id="content">${dto.content }</textarea>
 		</div>
 		<button class="btn btn-primary" id="submitBtn" type="submit" onclick="submitContents(this);">수정</button>
 		<button class="btn btn-primary" id="resetBtn" type="reset" onclick="javascript:resetConfirm()">취소</button>
 	</form>
 </div>
+<!-- footer -->
+	<jsp:include page="/include/footer.jsp"></jsp:include>
+<!-- 외부에서 가져오는 js 파일 -->
+	<jsp:include page="/include/resources_js.jsp"></jsp:include>
 <!-- 네비게이션 바 js -->
 	<script src="${pageContext.request.contextPath}/include/navbarjs.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
