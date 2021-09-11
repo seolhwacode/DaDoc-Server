@@ -113,6 +113,12 @@
 	    font-size: 1.2rem;
 	    margin-right: 5px;
 	}
+	
+	/* 취소 버튼 hover */
+	#cancelBtn:hover {
+		background-color: #949494;
+		color: black;
+	}
 
 	/* 확인 버튼 */
 	#submitBtn{
@@ -121,6 +127,12 @@
 	    font-weight: bold;
 	    font-size: 1.2rem;
 	    margin-left: 5px;
+	}
+	
+	/* 확인 버튼 hover */
+	#submitBtn:hover{
+		background-color: #8c3712;
+		color: #f9e0ae;
 	}
 }
 	

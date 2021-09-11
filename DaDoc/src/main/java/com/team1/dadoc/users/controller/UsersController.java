@@ -70,16 +70,18 @@ public class UsersController {
 	}
 	
 	//회원가입 정보를 insert
+	//ajax 검사로 바꾸기
 	@RequestMapping(value = "/users/signup", method = RequestMethod.POST)
-	public ModelAndView signup(ModelAndView mView ,UsersDto dto) {
+	@ResponseBody
+	public Map<String, Object> signup(UsersDto dto) {
 		//UsersDto 를 DB 에 추가 (insert) : 성공 여부를 boolean 값으로 받아온다.
 		boolean isSuccess = service.addUser(dto);
+		//Map 만들기
+		Map<String, Object> map = new HashMap<String, Object>();
 		//성공 여부 추가
-		mView.addObject("isSuccess", isSuccess);
-		//이동할 페이지 설정
-		mView.setViewName("users/signup");
+		map.put("isSuccess", isSuccess);
 		
-		return mView;
+		return map;
 	}
 	
 	//로그인 폼 페이지로 이동

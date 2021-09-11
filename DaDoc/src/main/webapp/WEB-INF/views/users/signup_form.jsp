@@ -86,6 +86,13 @@
 	    font-weight: bold;
 	}
 	
+	/* 버튼 hover */
+	.content-container button:hover{
+		background-color: #8c3712;
+		color: #f9e0ae;
+	}
+	
+	/* 구분선 */
 	hr{
 		background-color: #682c0e;
 	}
@@ -127,7 +134,7 @@
 			<h1>회원가입</h1>
 			<p>* 이 포함된 사항은 필수 입력사항입니다. 반드시 입력해주세요.</p>
 			<form action="${pageContext.request.contextPath}/users/signup.do" 
-					@submit="onSubmit" 
+					@submit.prevent="onSubmit" ref="signupForm"
 					method="post" id="signup_form">
 				<!-- parameter 로 넘어온 isAdChecked 추가 : 0(동의X), 1(동의O) -->
 				<input type="hidden" name="tos" value="${isAdChecked ? 1 : 0}" />
@@ -347,8 +354,8 @@
 			},
 			methods: {
 				//form 제출 -> 모든 유효성 검사 통과해야 제출 가능
-				onSubmit(e){
-					//모든 유효성 검사 다시 하기
+				onSubmit(){
+					//1. 모든 유효성 검사 다시 하기
 					this.idCheck();
 					this.pwdCheck();
 					this.pwd2Check();
@@ -359,20 +366,53 @@
 					this.emailCheck();
 					this.answerCheck();
 
-					//모든 유효성 검사 통과해야함
+					//2. 모든 유효성 검사 통과해야함
 					// id / pwd / pwd2 / nickname / name / sex / birth / eamil / pwd_answer
 					let isFormValid = this.isIdValid && this.isPwdValid && 
 							this.isPwd2Valid && this.isNickValid && this.isNameValid 
 							&& this.isSexValid && this.isBirthValid && 
 							(this.isEmailValid || this.isEmailNull) && this.isPwdAnswerValid;
-					//유효하지 X -> form 전송 막기
+					//3. 유효하지 X -> form 전송 막기
 					if(!isFormValid){
-						//form 전송 막기
-						e.preventDefault();
 						//사용자 알림
 						alert("입력값을 확인해주세요.");
 						return;
 					}
+					
+					//4. 유효함 -> ajax 로 회원가입
+					//* form 의 참조값 읽어옴
+					const form = this.$refs.signupForm;
+					//vue 의 객체 가져옴 -> 페이지 이동을 위해
+					const self = this;
+					//ajax 로 회원가입
+					ajaxFormPromise(form)
+					.then(function(response){
+						return response.json();
+					})
+					.then(function(data){
+						//data = { isSuccess: true/false } 회원가입 성공 여부
+						if(data.isSuccess){
+							//성공 -> confirm 으로 로그인하러 가기 / 홈으로 돌아가기 중 선택
+							let isGoLogin = confirm('회원 가입 성공! 로그인하러 가시겠습니까?');
+							if(isGoLogin){
+								//-> 로그인 창으로 이동
+								location.href = self.base_url + '/users/login_form.do';
+							}else{
+								//-> 홈페이지로 이동
+								location.href = self.base_url + '/';
+							}
+						}else{
+							//실패 -> 실패함을 alert 로 알림
+							let isStay = confirm('회원 가입 실패ㅠㅠ 다시 진행하시겠습니까?');
+							if(isStay){
+								//남아서 다시 회원가입 진행
+								return;
+							}else{
+								//-> 홈페이지로 이동
+								location.href = self.base_url + '/';
+							}
+						}
+					});
 				},
 				answerCheck(){
 					//focus 된 적 있음
