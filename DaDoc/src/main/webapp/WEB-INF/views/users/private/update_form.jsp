@@ -105,7 +105,7 @@
 <body>
 	<!-- navbar 추가 -->
 	<jsp:include page="/include/navbar.jsp">
-		<jsp:param value="userInfo" name="thisPage"/>
+		<jsp:param value="update" name="thisPage"/>
 	</jsp:include>
 	
 	<!-- 페이지 헤더 -->
