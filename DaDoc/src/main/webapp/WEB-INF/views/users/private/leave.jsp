@@ -6,39 +6,62 @@
 <head>
 <meta charset="UTF-8">
 <title>/users/private/leave.do</title>
+<!-- sweet alert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
 <body>
-	<div id="leaveContainer" class="container">
-		<div v-if="isSuccess">
-			<p>성공적으로 탈퇴했습니다.</p>
-			<p>감사합니다.</p>
-			<div>
-				<a v-bind:href="base_url">홈으로 가기</a>
-			</div>
-		</div>
-		<div v-else>
-			<p>탈퇴에 실패했습니다.</p>
-			<div>
-				<a v-bind:href="users_info_url">개인정보 페이지로 돌아가기</a>
-				<a v-bind:href="base_url">홈으로 가기</a>
-			</div>
-		</div>
-	</div>
-	
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-	<script>
-		// webcontent 위치
-		const base_url = "http://localhost:8888/dadoc";
-		let pwdUpdateContainer = new Vue({
-			el: '#leaveContainer',
-			data: {
-				base_url,
-				login_url: base_url + '/users/login_form.do',
-				users_info_url: base_url + '/users/private/info.do',
-				isSuccess: ${ isSuccess },
-				
-			}
-		});
-	</script>
+	<c:choose>
+		<c:when test="${ isSuccess }">
+			<script>
+				//alert("성공적으로 탈퇴했습니다.");
+				swal({
+					title: "탈퇴에 성공했습니다.",
+					text: "이용해주셔서 감사합니다.",
+					icon: "success",
+				  	buttons: {
+				    	goHome: {
+				    		text: "홈으로 가기",
+				    		value: true
+				    	}
+				  	}
+				})
+				.then(function(value){
+				  	location.href = "${pageContext.request.contextPath}/";
+				});
+			</script>
+		</c:when>
+		<c:otherwise>
+			<script>
+				//alert("탈퇴하지 못했습니다.");
+				swal({
+					title: "탈퇴에 실패했습니다.",
+					icon: "warning",
+				  	buttons: {
+				    	goHome: {
+				    		text: "홈으로 가기",
+				    		value: "home"
+				    	},
+				    	goUserPage: {
+				    		text: "개인정보 페이지로 가기",
+				    		value: "users"
+				    	}
+				  	}
+				})
+				.then((value) => {
+					switch (value) {
+					case "home":
+						location.href = "${pageContext.request.contextPath}";
+						break;
+					case "users":
+						location.href = "${pageContext.request.contextPath}/users/private/info.do";
+						break;
+					default:
+						location.href = "${pageContext.request.contextPath}";
+					}
+				  	
+				});
+			</script>
+		</c:otherwise>
+	</c:choose>
 </body>
 </html>

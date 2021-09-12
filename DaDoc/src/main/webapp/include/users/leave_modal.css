@@ -13,6 +13,12 @@
 	border-color: grey;
 }
 
+/* 탈퇴 모달창의 '탈퇴하기' 문구 강조 */
+#leaveModal .important{
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
 /* 모달의 탈퇴 취소 버튼 */
 #leaveModal .modal-footer .leave-cancel-btn{
 	background-color: #c1c1c1;
