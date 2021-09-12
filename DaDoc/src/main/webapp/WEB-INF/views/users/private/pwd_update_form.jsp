@@ -207,11 +207,27 @@
 			methods: {
 				//비밀번호 수정을 취소하고, 사용자 info 페이지로 돌아가기
 				goUsersInfo(){
-					let result = confirm("수정사항을 취소하고, 나가시겠습니까?");
+					/* let result = confirm("수정사항을 취소하고, 나가시겠습니까?");
 					if(result){
 						//사용자 개인정보 페이지로 가기
 						location.href = this.base_url + "/users/private/info.do";
-					}
+					} */
+					let self = this;
+					swal({
+						title: "수정사항을 취소하고, 나가시겠습니까?",
+						text: "수정사항은 저장되지 않습니다.",
+						icon: "warning",
+					  	buttons: {
+					    	ok: {
+					    		text: "확인",
+					    		value: true
+					    	}
+					  	}
+					})
+					.then(function(value){
+						//사용자 개인정보 페이지로 가기
+						location.href = self.base_url + "/users/private/info.do";
+					});
 				},
 				//form 제출
 				submitForm(e){
@@ -223,7 +239,16 @@
 						//form 전송 막기
 						e.preventDefault();
 						//사용자 알림
-						alert("입력값을 확인해주세요.");
+						//alert("입력값을 확인해주세요.");
+						swal({
+							title: "입력값을 확인해주세요.",
+							icon: "warning",
+						  	buttons: {
+						    	ok: {
+						    		text: "확인"
+						    	}
+						  	}
+						});
 						return;
 					}
 					//통과 -> 그대로 form 전송

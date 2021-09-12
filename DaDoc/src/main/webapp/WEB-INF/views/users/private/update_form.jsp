@@ -397,10 +397,31 @@
 			methods: {
 				//취소 버튼
 				cancel(){
-					let result = confirm("작성하신 내용은 저장되지 않습니다. 페이지에서 나가시겠습니까?");
+					/* let result = confirm("작성하신 내용은 저장되지 않습니다. 페이지에서 나가시겠습니까?");
 					if(result){//yes
 						location.href = base_url + "/users/private/info.do";
-					}
+					} */
+					swal({
+						title: "페이지에서 나가시겠습니까?",
+						text: "작성하신 내용은 저장되지 않습니다.",
+						icon: "warning",
+					  	buttons: {
+					  		no:{
+					  			text: '취소',
+					  			value: false
+					  		},
+					    	ok: {
+					    		text: "확인",
+					    		value: true
+					    	},
+					  	}
+					})
+					.then(function(value){
+						//확인 -> 사용자 페이지로 이동
+						if(value){
+							location.href = "${pageContext.request.contextPath}/users/private/info.do";
+						}
+					});
 				},
 				//비밀번호 수정 페이지로 이동
 				pwdUpdateForm(){
@@ -426,7 +447,17 @@
 						//form 전송 막기
 						e.preventDefault();
 						//사용자 알림
-						alert("입력값을 확인해주세요.");
+						//alert("입력값을 확인해주세요.");
+						swal({
+							title: "입력값을 확인해주세요.",
+							icon: "warning",
+						  	buttons: {
+						    	ok: {
+						    		text: "확인"
+						    	}
+						  	}
+						});
+						
 						return;
 					}
 				},

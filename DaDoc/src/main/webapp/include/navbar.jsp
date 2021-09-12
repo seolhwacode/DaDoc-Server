@@ -31,10 +31,10 @@
 <!-- navbar -->
 <div>
 	<div id="navbar">
-		<a class="nav-item" class="${ param.thisPage eq 'home' ? 'active' : '' }" href="${pageContext.request.contextPath}/">홈</a>
-		<a class="nav-item" class="${ param.thisPage eq 'challenge' ? 'active' : '' }" href="${pageContext.request.contextPath}/challenge/main.do">챌린지</a>
-	  	<a class="nav-item" class="${ param.thisPage eq 'notice' ? 'active' : '' }" href="${pageContext.request.contextPath}/notice/list.do">공지</a>
-	  	<a class="nav-item" class="${ param.thisPage eq 'booksearch' ? 'active' : '' }" href="${pageContext.request.contextPath}/booksearch/search_list.do">책 검색</a>
+		<a class="nav-item ${ param.thisPage eq 'home' ? 'active' : '' }" href="${pageContext.request.contextPath}/">홈</a>
+		<a class="nav-item ${ param.thisPage eq 'challenge' ? 'active' : '' }" href="${pageContext.request.contextPath}/challenge/main.do">챌린지</a>
+	  	<a class="nav-item ${ param.thisPage eq 'notice' ? 'active' : '' }" href="${pageContext.request.contextPath}/notice/list.do">공지</a>
+	  	<a class="nav-item ${ param.thisPage eq 'booksearch' ? 'active' : '' }" href="${pageContext.request.contextPath}/booksearch/search_list.do">책 검색</a>
 	  	<c:choose>
 			<c:when test="${ empty sessionScope.id }">
 				<a class="nav-users nav-item ${ param.thisPage eq 'login' ? 'active' : '' }" href="${pageContext.request.contextPath}/users/login_form.do?url=${ empty param.url ? '' : param.url }">로그인</a>

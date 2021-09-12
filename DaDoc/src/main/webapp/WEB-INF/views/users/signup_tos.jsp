@@ -271,7 +271,12 @@
 			//필수 체크박스의 checked 를 검사하여, 둘 다 checked 상태여야한다.
 			//-> 하나라도 checked 아닐 때 -> alert : 필수 사항을 모두 체크해야함을 알림
 			if(!(one.checked && two.checked)){
-				alert("필수 사항을 모두 체크해주세요.");
+				//alert("필수 사항을 모두 체크해주세요.");
+				swal({
+				  	title: "필수 사항을 모두 체크해주세요.",
+				  	icon: "warning",
+				  	button: "확인",
+				});
 				return;
 			}
 			//(넘어옴)필수 체크박스 모두 체크 완료

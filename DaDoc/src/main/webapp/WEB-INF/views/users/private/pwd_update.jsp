@@ -6,40 +6,75 @@
 <head>
 <meta charset="UTF-8">
 <title>/users/private/pwd_update.do</title>
+<!-- sweet alert -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
-<body>
-	<div id="pwdUpdateContainer" class="container">
-		<div v-if="isSuccess">
-			<p>성공적으로 비밀번호를 변경하였습니다.</p>
-			<p>자동으로 로그아웃 되었습니다.</p>
-			<div>
-				<a v-bind:href="login_url">로그인하러 가기</a>
-				<a v-bind:href="base_url">홈으로 가기</a>
-			</div>
-		</div>
-		<div v-else>
-			<p>비밀번호 변경에 실패했습니다.</p>
-			<div>
-				<a v-bind:href="users_info_url">개인정보 페이지로 돌아가기</a>
-				<a v-bind:href="base_url">홈으로 가기</a>
-			</div>
-		</div>
-	</div>
-	
-	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<body>	
 	<script>
-		// webcontent 위치
-		const base_url = "http://localhost:8888/dadoc";
-		let pwdUpdateContainer = new Vue({
-			el: '#pwdUpdateContainer',
-			data: {
-				base_url,
-				login_url: base_url + '/users/login_form.do',
-				users_info_url: base_url + '/users/private/info.do',
-				isSuccess: ${ isSuccess },
-				
-			}
-		});
+		if(${ isSuccess }){
+			//alert("성공적으로 탈퇴했습니다.");
+			swal({
+				title: "성공적으로 비밀번호를 변경하였습니다.",
+				text: "자동으로 로그아웃 되었습니다.",
+				icon: "success",
+			  	buttons: {
+			    	login: {
+			    		text: "로그인하러 가기",
+			    		value: "login"
+			    	},
+			    	home: {
+			    		text: "홈으로 가기",
+			    		value: "home"
+			    	}
+			  	}
+			})
+			.then(function(value){
+				switch (value) {
+				case "home":
+					//홈으로
+					location.href = "${pageContext.request.contextPath}";
+					break;
+				case "login":
+					//로그인
+					location.href = "${pageContext.request.contextPath}/users/login_form.do";
+					break;
+				default:
+					//home 으로 (기본)
+					location.href = "${pageContext.request.contextPath}";
+				}
+			});
+		}else{
+			//실패
+			swal({
+				title: "비밀번호 변경에 실패했습니다.",
+				icon: "error",
+			  	buttons: {
+			    	user: {
+			    		text: "개인정보 페이지로",
+			    		value: "user"
+			    	},
+			    	home: {
+			    		text: "홈으로 가기",
+			    		value: "home"
+			    	}
+			  	}
+			})
+			.then(function(value){
+				switch (value) {
+				case "home":
+					//홈으로
+					location.href = "${pageContext.request.contextPath}";
+					break;
+				case "user":
+					//사용자 기본 페이지로 가기
+					location.href = "${pageContext.request.contextPath}/users/private/info.do";
+					break;
+				default:
+					//home 으로 (기본)
+					location.href = "${pageContext.request.contextPath}";
+				}
+			});
+		}
 	</script>
 </body>
 </html>
