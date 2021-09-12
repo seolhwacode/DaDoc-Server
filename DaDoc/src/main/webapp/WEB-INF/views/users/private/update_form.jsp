@@ -6,188 +6,331 @@
 <head>
 <meta charset="UTF-8">
 <title>/users/private/update_form.do</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css" >
+<!-- 외부 css 및 파일들 추가  -->
+<jsp:include page="/include/resources_head.jsp"></jsp:include>
+<!-- 사용자 페이지에서만 사용하는 공통 css -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/include/users/users_template.css">
+<!-- 탈퇴 모달에서 사용되는 css -->
+<link rel="stylesheet" href="${pageContext.request.contextPath}/include/users/leave_modal.css">
+<style>
+	/*페이지 헤더 색상 조정*/
+	.page-header {
+		background-color: #F9E0AE;
+	}
+	
+	/* crumb 네비바 뒤로가기 */
+	.page-header .breadcrumb{
+		z-index: 0;
+	}
+	
+	/* 전체 메인 컨텐츠 & 아래 여백 추가 */
+	.root-container{
+		margin-bottom: 10%;
+		margin-top: 10%;
+	}
+	
+	/* 중앙정렬  */
+	.content-container{
+		max-width: 100%;
+		margin: 0 auto;
+	}
+	
+	/* 오른쪽 내부 - h1 - 아래 밑줄 */
+	.content-container .right-content > h1{
+		border-bottom: solid;
+	  	border-color: #682c0e;
+	}
+	
+	/* 오른쪽 내부 패딩 추가 */
+	.right-content{
+		padding-left: 30px;
+	}
+	
+	/* 테이블 오른쪽 margin 없애기 */
+	.content-container .right-content table{
+		width: 100%;
+		font-size: 1rem;
+	}
+	
+	/* form 의 input 크기 조절 */
+	.content-container .right-content .form-control{
+		height: 40px;
+	}
+	
+	/* form 의 table tr */
+	.content-container .right-content table tr{
+		vertical-align: baseline;
+	}
+	
+	/* form 의 td 안의 content 를 감싸고 있는 div - margin-bottom 으로 사이 간격 */
+	.content-container .right-content table td div{
+		margin-bottom: 10px;
+	}
+	
+	.content-container .right-content .btn-wrapper{
+	    display: flex;
+		justify-content: center;
+		margin-top: 20px;
+	}
+	
+	.content-container .right-content .btn-wrapper .cancel-btn{
+		width: -webkit-fill-available;
+		background-color: #c1c1c1;
+	    color: black;
+	    font-weight: bold;
+	    font-size: 1.2rem;
+	    margin-right: 5px;
+	}
+	
+	.content-container .right-content .btn-wrapper .cancel-btn:hover {
+		background-color: #949494;
+		color: black;
+	}
+	
+	.content-container .right-content .btn-wrapper .update-btn{
+		width: -webkit-fill-available;
+	    background-color: #C24914;
+	    color: #f9e0ae;
+	    font-weight: bold;
+	    font-size: 1.2rem;
+	    margin-left: 5px;
+	}
+	
+	.content-container .right-content .btn-wrapper .update-btn:hover {
+		background-color: #8c3712;
+	}
+}
+</style>
 </head>
 <body>
-	<div id="updateContainer" class="container">
-		<div>
-			<p>* 이 포함된 사항은 필수 입력사항입니다. 반드시 입력해주세요.</p>
-		<form action="${pageContext.request.contextPath}/users/private/update.do" 
-				@submit="onSubmit" 
-				method="post" id="update_form">
-			<!-- id 는 가져가야한다. -->
-			<input type="hidden" name="id" v-bind:value="id" />
-			<!-- vue 를 사용하여 model 로 관리하면 false 값은 보내지지 않는다 -> 따로 hidden 으로 관리 -->
-			<input type="hidden" name="tos" v-bind:value="inputTos ? 1 : 0" />
-			<table>
-				<!-- 프로필 사진 -->
-				<tr>
-					<th scope="row">프로필 사진</th>
-					<td>
-						<a v-bind:href="update_profile_link">
-							<img v-bind:src="profileSrc" alt="프로필 사진" />
-						</a>
-					</td>
-				</tr>
-				<!-- id -->
-				<tr>
-					<th scope="row">아이디</th>
-					<td>{{ id }}</td>
-				</tr>
-				<!-- 비밀번호 -->
-				<tr>
-					<th scope="row">*비밀번호</th>
-					<td>
-						<button @click.prevent="pwdUpdateForm">비밀번호 변경하기</button>
-					</td>
-				</tr>
-				<!-- 닉네임 -->
-				<tr>
-					<th scope="row">*닉네임(활동명)</th>
-					<td>
-						<div>
-							<small class="form-text text-muted">2 ~ 10글자 이내로 입력하세요.</small>
-							<input v-model="inputNick" v-on:input="nickCheck"
-									v-bind:class="{ 'is-valid': isNickValid, 'is-invalid': !isNickValid && isNickInputed }" 
-									type="text" name="nickname" id="nickname" class="form-control" />
-							<!-- 존재하는 닉네임일 때 -> 사용 불가능한 닉네임을 알림 -->
-							<div class="invalid-feedback" id="nickname-invalid-feedback">{{nickInvalidFeedbackMsg}}</div>
-							<%-- 가용할 때 띄우는 feedback --%>
-							<div class="valid-feedback" id="nickname-valid-feedback">{{nickValidFeedbackMsg}}</div>
+	<!-- navbar 추가 -->
+	<jsp:include page="/include/navbar.jsp">
+		<jsp:param value="userInfo" name="thisPage"/>
+	</jsp:include>
+	
+	<!-- 페이지 헤더 -->
+	<section class="page-header page-header-modern page-header-md">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 align-self-center p-static order-2 text-center">
+					<h1 class="text-dark font-weight-bold text-8 bold-family">Update Profile</h1>
+					<span class="sub-title text-dark">You with DADOC</span>
+				</div>
+				<div class="col-md-12 align-self-center order-1">
+					<ul class="breadcrumb d-block text-center">
+						<li><a href="${pageContext.request.contextPath}/">Home</a></li>
+						<li><a href="${pageContext.request.contextPath}/users/private/info.do">User Information</a></li>
+						<li class="active">Update Profile</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<!-- main content -->
+	<div id="updateContainer" class="container root-container">
+		<div class="content-container">
+			<div class="row">
+				<jsp:include page="/include/users/users_template.jsp">
+					<jsp:param value="update" name="myPage"/>
+				</jsp:include>
+				<!-- 오른쪽 실제 content -->
+				<div class="col-md-9 right-content">
+					<h1>개인정보 수정</h1>
+					<span>* 이 포함된 사항은 필수 입력사항입니다. 반드시 입력해주세요.</span>
+					<form action="${pageContext.request.contextPath}/users/private/update.do" 
+							@submit="onSubmit" 
+							method="post" id="update_form">
+						<!-- id 는 가져가야한다. -->
+						<input type="hidden" name="id" v-bind:value="id" />
+						<!-- vue 를 사용하여 model 로 관리하면 false 값은 보내지지 않는다 -> 따로 hidden 으로 관리 -->
+						<input type="hidden" name="tos" v-bind:value="inputTos ? 1 : 0" />
+						<table>
+							<!-- id -->
+							<tr>
+								<th scope="row">아이디</th>
+								<td>
+									<div>
+										{{ id }}
+									</div>
+								</td>
+							</tr>
+							<!-- 비밀번호 -->
+							<tr>
+								<th scope="row">*비밀번호</th>
+								<td>
+									<div>
+										<button @click.prevent="pwdUpdateForm" class="btn">비밀번호 변경하기</button>
+									</div>
+								</td>
+							</tr>
+							<!-- 닉네임 -->
+							<tr>
+								<th scope="row">*닉네임(활동명)</th>
+								<td>
+									<div>
+										<small class="form-text text-muted">2 ~ 10글자 이내로 입력하세요.</small>
+										<input v-model="inputNick" v-on:input="nickCheck"
+												v-bind:class="{ 'is-valid': isNickValid, 'is-invalid': !isNickValid && isNickInputed }" 
+												type="text" name="nickname" id="nickname" class="form-control" />
+										<!-- 존재하는 닉네임일 때 -> 사용 불가능한 닉네임을 알림 -->
+										<div class="invalid-feedback" id="nickname-invalid-feedback">{{nickInvalidFeedbackMsg}}</div>
+										<%-- 가용할 때 띄우는 feedback --%>
+										<div class="valid-feedback" id="nickname-valid-feedback">{{nickValidFeedbackMsg}}</div>
+									</div>
+								</td>
+							</tr>
+							<!-- 이름 -->
+							<tr>
+								<th scope="row">*이름</th>
+								<td>
+									<div>
+										<input v-model="inputName" v-on:input="nameCheck"
+												v-bind:class="{ 'is-valid': isNameValid, 'is-invalid': !isNameValid && isNameInputed }" 
+												type="text" name="name" id="name" class="form-control" />
+										<!-- 빈칸일 때 -> 필수 정보임을 알림 -->
+										<div class="invalid-feedback" id="name-invalid-feedback">필수 정보입니다.</div>
+									</div>
+								</td>
+							</tr>
+							<!-- 성별 -->
+							<tr>
+								<th scope="row">*성별</th>
+								<td>
+									<div>
+										<%-- selected 안붙이고 select 에 value 로 붙여서 사용 안됨 -> javascript 로는 바꾸면 가능! --%>
+										<select v-model:value="inputSex" v-on:change="sexCheck" 
+												v-bind:class="{ 'is-valid': isSexValid, 'is-invalid': !isSexValid && isSexInputed }"
+												name="sex" id="sex" class="form-control">
+											<option value="not-selected" selected>성별</option>
+											<option value='0'>남성</option>
+											<option value='1'>여성</option>
+											<option value='2'>그 외</option>
+										</select>
+										<!-- not-selected 일 때 -> 필수 정보임을 알림 -->
+										<div class="invalid-feedback" id="sex-invalid-feedback">필수 정보입니다.</div>
+									</div>
+								</td>
+							</tr>
+							<!-- 생년월일 -->
+							<tr>
+								<th scope="row">*생년월일</th>
+								<td>
+									<div>
+										<input v-model:value="inputBirth" v-on:input="birthCheck" 
+												v-bind:class="{ 'is-valid': isBirthValid, 'is-invalid': !isBirthValid && isBirthInputed }"
+												type="date" name="birth" id="birth" class="form-control" />
+										<!-- 빈칸일 때 -> 필수 정보임을 알림 -->
+										<div class="invalid-feedback" id="birth-invalid-feedback">필수 정보입니다.</div>
+									</div>
+								</td>
+							</tr>
+							
+							
+							<!-- 필수 X -->
+							
+							
+							<!-- 휴대전화번호 -->
+							<tr>
+								<th scope="row">휴대전화번호</th>
+								<td>
+									<div>
+										<small class="form-text text-muted"> : '-'를 제외하고 숫자만 입력해주세요.</small>
+										<input v-model="inputTel" maxlength="11"
+												type="text" name="tel" id="tel" 
+												class="form-control" placeholder="01012341234" />
+									</div>
+								</td>
+							</tr>
+							<!-- 이메일 -->
+							<tr>
+								<th scope="row">이메일</th>
+								<td>
+									<div>
+										<input v-model="inputEmail" v-on:input="emailCheck" 
+												v-bind:class="{ 'is-valid': isEmailValid && !isEmailNull, 'is-invalid': !isEmailValid && isEmailInputed && !isEmailNull }"
+												type="email" name="email" id="email" class="form-control" />
+										<%-- email 형식 확인 : 가용한 이메일 형식인지 확인한다. --%>
+										<div class="invalid-feedback" id="email-invalid-feedback">사용할 수 없는 이메일입니다.</div>
+										<div class="valid-feedback" id="email-valid-feedback">ok</div>
+									</div>
+								</td>
+							</tr>
+							
+							
+							
+							<!-- 비밀번호 분실시에 사용할 질문 -->
+							<tr>
+								<th scope="row">*질문 선택</th>
+								<td>
+									<div>
+										<span>비밀번호 분실 시에 작성할 질문을 선택해주세요.</span>
+										<select v-model:value="inputPwdQuestion" name="pwd_question" id="pwd_question" class="form-control">
+											<option v-for="(item, index) in pwd_question_list" 
+													v-bind:key="index" 
+													v-bind:value="item.num">{{item.question}}</option>
+										</select>
+									</div>
+								</td>
+							</tr>
+							<!-- 비밀번호 분실시 질문에 대한 답변 -->
+							<tr>
+								<th scope="row">*답변</th>
+								<td>
+									<div>
+										<span>질문에 대한 답변을 작성해주세요. 단답형을 권장드립니다.</span>
+										<!-- blur = focus out : 일 때 검사함 -->
+										<input v-model="inputPwdAnswer" v-on:blur="answerCheck" 
+												v-bind:class="{ 'is-valid' : isPwdAnswerValid, 'is-invalid': !isPwdAnswerValid && isFocused }"
+												type="text" name="pwd_answer" id="pwd_answer" class="form-control" />
+										<%-- 가용하지 않을 때 feedback--%>
+										<div class="invalid-feedback" id="pwd-answer-invalid-feedback">필수 정보입니다.</div>
+									</div>
+								</td>
+							</tr>
+							<!-- 광고 동의 -->
+							<tr>
+								<th>광고 수신 동의(선택)</th>
+								<td>
+									<div>
+										<label for="tos">
+											<input v-model="inputTos" 
+													type="checkbox" id="tos" />
+											광고 수신 동의
+										</label>
+									</div>
+								</td>
+							</tr>
+						</table>
+						
+						<div class="btn-wrapper">
+							<button @click.prevent="cancel" class="btn cancel-btn">취소</button>
+							<button type="submit" class="btn update-btn">수정</button>	
 						</div>
-					</td>
-				</tr>
-				<!-- 이름 -->
-				<tr>
-					<th scope="row">*이름</th>
-					<td>
-						<div>
-							<input v-model="inputName" v-on:input="nameCheck"
-									v-bind:class="{ 'is-valid': isNameValid, 'is-invalid': !isNameValid && isNameInputed }" 
-									type="text" name="name" id="name" class="form-control" />
-							<!-- 빈칸일 때 -> 필수 정보임을 알림 -->
-							<div class="invalid-feedback" id="name-invalid-feedback">필수 정보입니다.</div>
-						</div>
-					</td>
-				</tr>
-				<!-- 성별 -->
-				<tr>
-					<th scope="row">*성별</th>
-					<td>
-						<div>
-							<%-- selected 안붙이고 select 에 value 로 붙여서 사용 안됨 -> javascript 로는 바꾸면 가능! --%>
-							<select v-model:value="inputSex" v-on:change="sexCheck" 
-									v-bind:class="{ 'is-valid': isSexValid, 'is-invalid': !isSexValid && isSexInputed }"
-									name="sex" id="sex" class="form-select">
-								<option value="not-selected" selected>성별</option>
-								<option value='0'>남성</option>
-								<option value='1'>여성</option>
-								<option value='2'>그 외</option>
-							</select>
-							<!-- not-selected 일 때 -> 필수 정보임을 알림 -->
-							<div class="invalid-feedback" id="sex-invalid-feedback">필수 정보입니다.</div>
-						</div>
-					</td>
-				</tr>
-				<!-- 생년월일 -->
-				<tr>
-					<th scope="row">*생년월일</th>
-					<td>
-						<div>
-							<input v-model:value="inputBirth" v-on:input="birthCheck" 
-									v-bind:class="{ 'is-valid': isBirthValid, 'is-invalid': !isBirthValid && isBirthInputed }"
-									type="date" name="birth" id="birth" class="form-control" />
-							<!-- 빈칸일 때 -> 필수 정보임을 알림 -->
-							<div class="invalid-feedback" id="birth-invalid-feedback">필수 정보입니다.</div>
-						</div>
-					</td>
-				</tr>
-				
-				
-				<!-- 필수 X -->
-				
-				
-				<!-- 휴대전화번호 -->
-				<tr>
-					<th scope="row">휴대전화번호</th>
-					<td>
-						<div>
-							<small class="form-text text-muted"> : '-'를 제외하고 숫자만 입력해주세요.</small>
-							<input v-model="inputTel" maxlength="11"
-									type="text" name="tel" id="tel" 
-									class="form-control" placeholder="01012341234" />
-						</div>
-					</td>
-				</tr>
-				<!-- 이메일 -->
-				<tr>
-					<th scope="row">이메일</th>
-					<td>
-						<div>
-							<input v-model="inputEmail" v-on:input="emailCheck" 
-									v-bind:class="{ 'is-valid': isEmailValid && !isEmailNull, 'is-invalid': !isEmailValid && isEmailInputed && !isEmailNull }"
-									type="email" name="email" id="email" class="form-control" />
-							<%-- email 형식 확인 : 가용한 이메일 형식인지 확인한다. --%>
-							<div class="invalid-feedback" id="email-invalid-feedback">사용할 수 없는 이메일입니다.</div>
-							<div class="valid-feedback" id="email-valid-feedback">ok</div>
-						</div>
-					</td>
-				</tr>
-				
-				
-				
-				<!-- 비밀번호 분실시에 사용할 질문 -->
-				<tr>
-					<th scope="row">질문 선택</th>
-					<td>
-						<div>
-							<p>비밀번호 분실 시에 작성할 질문을 선택해주세요.</p>
-							<select v-model:value="inputPwdQuestion" name="pwd_question" id="pwd_question" class="form-select">
-								<option v-for="(item, index) in pwd_question_list" 
-										v-bind:key="index" 
-										v-bind:value="item.num">{{item.question}}</option>
-							</select>
-						</div>
-					</td>
-				</tr>
-				<!-- 비밀번호 분실시 질문에 대한 답변 -->
-				<tr>
-					<th scope="row">답변</th>
-					<td>
-						<div>
-							<p>질문에 대한 답변을 작성해주세요. 단답형을 권장드립니다.</p>
-							<!-- blur = focus out : 일 때 검사함 -->
-							<input v-model="inputPwdAnswer" v-on:blur="answerCheck" 
-									v-bind:class="{ 'is-valid' : isPwdAnswerValid, 'is-invalid': !isPwdAnswerValid && isFocused }"
-									type="text" name="pwd_answer" id="pwd_answer" class="form-control" />
-							<%-- 가용하지 않을 때 feedback--%>
-							<div class="invalid-feedback" id="pwd-answer-invalid-feedback">필수 정보입니다.</div>
-						</div>
-					</td>
-				</tr>
-				<!-- 광고 동의 -->
-				<tr>
-					<th>광고 수신 동의(선택)</th>
-					<td>
-						<div>
-							<label for="tos">
-								<input v-model="inputTos" 
-										type="checkbox" id="tos" />
-								광고 수신 동의
-							</label>
-						</div>
-					</td>
-				</tr>
-			</table>
-			
-			<button @click.prevent="cancel" class="btn btn-secondary">취소</button>
-			<button type="submit" class="btn btn-primary">수정</button>			
-		</form>
+					</form>	
+				</div>
+			</div>
+		
 		</div>
 	</div>
 	
+	<!-- 탈퇴 모달 -->
+	<jsp:include page="/include/users/leave_modal.jsp"></jsp:include>
+	
+	<!-- footer -->
+	<jsp:include page="/include/footer.jsp"></jsp:include>
+	
+	<!-- 외부에서 가져오는 js 파일 -->
+	<jsp:include page="/include/resources_js.jsp"></jsp:include>
+	
+	<!-- vue -->
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	
+	<!-- 탈퇴 모달 js 파일 가져오기 -->
+	<script src="${pageContext.request.contextPath}/include/users/leave_modal.js"></script>
+
 	<script src="${pageContext.request.contextPath}/resources/js/gura_util.js"></script>
+
 	<script>
 		// webcontent 위치
 		const base_url = "http://localhost:8888/dadoc";
