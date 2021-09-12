@@ -94,6 +94,10 @@
 	
 }
 
+/* crumb 네비바 들어가기 */
+    .page-header .breadcrumb{
+        z-index: 0;
+    }
 </style>
 </head>
 <body>
