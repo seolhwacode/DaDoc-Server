@@ -14,7 +14,7 @@
         		<div>
         			<div>
         				<p>정말로 탈퇴하시겠습니까?</p>
-        				<p>탈퇴를 원하시면 아래 입력란에 <span>탈퇴하기</span>를 입력해주세요.</p>
+        				<p>탈퇴를 원하시면 아래 입력란에 <span class="important">탈퇴하기</span>를 입력해주세요.</p>
         			</div>
         			<div>
         				<input type="text" class="form-control form-control-lg" 

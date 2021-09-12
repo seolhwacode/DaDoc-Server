@@ -99,13 +99,21 @@
 	.content-container .right-content .btn-wrapper .update-btn:hover {
 		background-color: #8c3712;
 	}
+	
+	/* 비밀번호 변경 버튼 */
+	.btn-pwd{
+	    background-color: #c1c1c1;
+	    color: #000000;
+	    font-size: 0.9rem;
+	    font-weight: bold;
+	}
 }
 </style>
 </head>
 <body>
 	<!-- navbar 추가 -->
 	<jsp:include page="/include/navbar.jsp">
-		<jsp:param value="update" name="thisPage"/>
+		<jsp:param value="userInfo" name="thisPage"/>
 	</jsp:include>
 	
 	<!-- 페이지 헤더 -->
@@ -160,7 +168,7 @@
 								<th scope="row">*비밀번호</th>
 								<td>
 									<div>
-										<button @click.prevent="pwdUpdateForm" class="btn">비밀번호 변경하기</button>
+										<button @click.prevent="pwdUpdateForm" class="btn btn-pwd">비밀번호 변경하기</button>
 									</div>
 								</td>
 							</tr>

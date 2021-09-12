@@ -7,8 +7,6 @@
 <meta charset="UTF-8">
 <title>home.do</title>
 <jsp:include page="/include/resources_head.jsp"></jsp:include>
-<!-- navbar css 추가 -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/include/navbarcss.css">
 </head>
 <body>
 	<!-- navbar 추가 -->
@@ -87,18 +85,19 @@
 									data-fontsize="['13','13','13','25']"
 									data-lineheight="['20','20','20','25']">SEARCH</a>
 
-								<a class="tp-caption btn btn-primary font-weight-bold"
-									href="${pageContext.request.contextPath}/users/signup_form.do"
-									data-frames='[{"delay":3000,"speed":2000,"frame":"0","from":"y:50%;opacity:0;","to":"y:0;o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;fb:0;","ease":"Power3.easeInOut"}]'
-									data-x="left" data-hoffset="['185','185','220','340']"
-									data-y="center" data-voffset="['140','140','140','245']"
-									data-paddingtop="['16','16','16','31']"
-									data-paddingbottom="['16','16','16','31']"
-									data-paddingleft="['40','40','40','50']"
-									data-paddingright="['40','40','40','50']"
-									data-fontsize="['13','13','13','25']"
-									data-lineheight="['20','20','20','25']">GET STARTED NOW <i class="fas fa-arrow-right ml-1"></i></a>
-
+								<c:if test="${ empty id }">
+									<a class="tp-caption btn btn-primary font-weight-bold"
+										href="${pageContext.request.contextPath}/users/signup_tos.do"
+										data-frames='[{"delay":3000,"speed":2000,"frame":"0","from":"y:50%;opacity:0;","to":"y:0;o:1;","ease":"Power3.easeInOut"},{"delay":"wait","speed":300,"frame":"999","to":"opacity:0;fb:0;","ease":"Power3.easeInOut"}]'
+										data-x="left" data-hoffset="['185','185','220','340']"
+										data-y="center" data-voffset="['140','140','140','245']"
+										data-paddingtop="['16','16','16','31']"
+										data-paddingbottom="['16','16','16','31']"
+										data-paddingleft="['40','40','40','50']"
+										data-paddingright="['40','40','40','50']"
+										data-fontsize="['13','13','13','25']"
+										data-lineheight="['20','20','20','25']">GET STARTED NOW <i class="fas fa-arrow-right ml-1"></i></a>
+								</c:if>
 							</li>
 							<li class="slide-overlay slide-overlay-level-7" data-transition="fade">
 								<img src="${pageContext.request.contextPath}/resources/images/dadoc_main2.jpg"  
@@ -202,7 +201,7 @@
 				
 		<!-- 캐로세일 실험 -->
 		<div class="carosel-container">
-			<div class="owl-carousel owl-theme show-nav-hover">
+			<div class="owl-carousel owl-theme show-nav-hover" id="book-carosel">
 				<div>
 					<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
 				</div>
@@ -336,12 +335,10 @@
 	<jsp:include page="/include/footer.jsp"></jsp:include>
 	<!-- 외부에서 가져오는 js 파일 -->
 	<jsp:include page="/include/resources_js.jsp"></jsp:include>
-	<!-- 네비게이션 바 js -->
-	<script src="${pageContext.request.contextPath}/include/navbarjs.js"></script>
 	<script>
 		//data-plugin-options="{'items': 4, 'autoplay': true, 'autoplayTimeout': 3000}"
 		$(document).ready(function(){
-		  	$(".owl-carousel").owlCarousel({
+		  	$("#book-carosel").owlCarousel({
 		  		items: 4,
 		  		margin: 10,
 		  		loop: true,

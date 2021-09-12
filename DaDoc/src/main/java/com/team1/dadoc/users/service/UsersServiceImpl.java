@@ -313,6 +313,7 @@ public class UsersServiceImpl implements UsersService {
 		}
 		//변경 후에 session id 삭제 -> 자동 로그아웃
 		session.removeAttribute("id");
+		session.removeAttribute("userProfile");
 		
 		//변경 성공 -> true
 		return true;
@@ -334,6 +335,7 @@ public class UsersServiceImpl implements UsersService {
 		dao.deleteUser(id);
 		//로그아웃
 		session.removeAttribute("id");
+		session.removeAttribute("userProfile");
 		
 		//id 에 해당하는 회원이 존재하는지 확인
 		if(!dao.isIdExist(id)) {
