@@ -226,7 +226,16 @@
 							//성공
 							location.href = self.base_url + '/users/login_result.do?url=' + data.url;
 						}else{
-							alert('로그인 실패');
+							//alert('로그인 실패');
+							swal({
+								title: "로그인 실패ㅠㅠ",
+								icon: "warning",
+							  	buttons: {
+							    	ok: {
+							    		text: "확인"
+							    	}
+							  	}
+							});
 						}
 					});
 				}

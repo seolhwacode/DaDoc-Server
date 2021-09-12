@@ -5,18 +5,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<!-- navbar css 추가 -->
-<link rel="stylesheet" href="${pageContext.request.contextPath}/include/navbarcss.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Poor+Story&display=swap" rel="stylesheet">
 <title>/views/notice/list.jsp</title>
 <jsp:include page="/include/resources_head.jsp"></jsp:include>
 <style>
+
 /*페이지 헤더 색상 조정*/
 .page-header {
 	background-color: #F9E0AE;
 }
+
+/* crumb 네비바 들어가기 */
+	.page-header .breadcrumb{
+		z-index: 0;
+	}
 	
 thead{
 	background: #D0AF84;
@@ -52,6 +53,22 @@ thead{
 	justify-content: center;
 	margin: 0 0 30px;
 }	
+
+.btn-add{
+	background-color: #C24914;
+	color: #F9E0AE;
+}
+
+.btn-add:hover{
+	background-color: #8c3712;
+	color: #F9E0AE;
+}
+
+.container-head{
+	display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
 </style>
 
 </head>
@@ -84,9 +101,15 @@ thead{
 <div class="container">
 	<!-- admin만 글쓰기 버튼 활성화 -->
 	<c:if test="${sessionScope.id eq 'admin' }">
-		<a href="${pageContext.request.contextPath}/notice/insertform.do"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-megaphone-fill" viewBox="0 0 16 16">
-  <path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0v-11zm-1 .724c-2.067.95-4.539 1.481-7 1.656v6.237a25.222 25.222 0 0 1 1.088.085c2.053.204 4.038.668 5.912 1.56V3.224zm-8 7.841V4.934c-.68.027-1.399.043-2.008.053A2.02 2.02 0 0 0 0 7v2c0 1.106.896 1.996 1.994 2.009a68.14 68.14 0 0 1 .496.008 64 64 0 0 1 1.51.048zm1.39 1.081c.285.021.569.047.85.078l.253 1.69a1 1 0 0 1-.983 1.187h-.548a1 1 0 0 1-.916-.599l-1.314-2.48a65.81 65.81 0 0 1 1.692.064c.327.017.65.037.966.06z"/>
-</svg></a>
+		<div class="container-head">
+			<a href="${pageContext.request.contextPath}/notice/insertform.do"
+					class="btn btn-add">
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-megaphone-fill" viewBox="0 0 16 16">
+	  				<path d="M13 2.5a1.5 1.5 0 0 1 3 0v11a1.5 1.5 0 0 1-3 0v-11zm-1 .724c-2.067.95-4.539 1.481-7 1.656v6.237a25.222 25.222 0 0 1 1.088.085c2.053.204 4.038.668 5.912 1.56V3.224zm-8 7.841V4.934c-.68.027-1.399.043-2.008.053A2.02 2.02 0 0 0 0 7v2c0 1.106.896 1.996 1.994 2.009a68.14 68.14 0 0 1 .496.008 64 64 0 0 1 1.51.048zm1.39 1.081c.285.021.569.047.85.078l.253 1.69a1 1 0 0 1-.983 1.187h-.548a1 1 0 0 1-.916-.599l-1.314-2.48a65.81 65.81 0 0 1 1.692.064c.327.017.65.037.966.06z"/>
+				</svg>
+				공지 추가
+			</a>
+		</div>
 	</c:if>
 	
 	<table class="table table-hover">
@@ -170,7 +193,5 @@ thead{
 	<jsp:include page="/include/footer.jsp"></jsp:include>
 <!-- 외부에서 가져오는 js 파일 -->
 	<jsp:include page="/include/resources_js.jsp"></jsp:include>
-<!-- 네비게이션 바 js -->
-	<script src="${pageContext.request.contextPath}/include/navbarjs.js"></script>
 </body>
 </html>

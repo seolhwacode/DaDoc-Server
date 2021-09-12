@@ -375,7 +375,12 @@
 					//3. 유효하지 X -> form 전송 막기
 					if(!isFormValid){
 						//사용자 알림
-						alert("입력값을 확인해주세요.");
+						//alert("입력값을 확인해주세요.");
+						swal({
+						  	title: "입력을 확인해주세요.",
+						  	icon: "warning",
+						  	button: "확인",
+						});
 						return;
 					}
 					
@@ -393,24 +398,77 @@
 						//data = { isSuccess: true/false } 회원가입 성공 여부
 						if(data.isSuccess){
 							//성공 -> confirm 으로 로그인하러 가기 / 홈으로 돌아가기 중 선택
-							let isGoLogin = confirm('회원 가입 성공! 로그인하러 가시겠습니까?');
+							/* let isGoLogin = confirm('회원 가입 성공! 로그인하러 가시겠습니까?');
 							if(isGoLogin){
 								//-> 로그인 창으로 이동
 								location.href = self.base_url + '/users/login_form.do';
 							}else{
 								//-> 홈페이지로 이동
 								location.href = self.base_url + '/';
-							}
+							} */
+							swal({
+								title: "회원 가입 성공!",
+								text: "로그인하러 가시겠습니까?",
+								icon: "success",
+							  	buttons: {
+							    	login: {
+							    		text: "로그인 하러 가기",
+							    		value: "login"
+							    	},
+							    	home: {
+							    		text: "홈으로 가기",
+							    		value: "home"
+							    	}
+							  	}
+							})
+							.then(function(value){
+								switch (value) {
+								case "home":
+									//-> 홈페이지로 이동
+									location.href = "${pageContext.request.contextPath}";
+									break;
+								case "login":
+									//로그인하러 가기
+									location.href = self.base_url + '/users/login_form.do';
+									break;
+								default:
+									//-> 홈페이지로 이동
+									location.href = "${pageContext.request.contextPath}";
+									break;
+								}
+							});
 						}else{
 							//실패 -> 실패함을 alert 로 알림
-							let isStay = confirm('회원 가입 실패ㅠㅠ 다시 진행하시겠습니까?');
-							if(isStay){
-								//남아서 다시 회원가입 진행
-								return;
-							}else{
-								//-> 홈페이지로 이동
-								location.href = self.base_url + '/';
-							}
+							//let isStay = confirm('회원 가입 실패ㅠㅠ 다시 진행하시겠습니까?');
+							swal({
+								title: "회원 가입 실패ㅠㅠ",
+								text: "다시 진행하시겠습니까?",
+								icon: "error",
+							  	buttons: {
+							    	redo: {
+							    		text: "다시 하기",
+							    		value: "redo"
+							    	},
+							    	home: {
+							    		text: "홈으로 가기",
+							    		value: "home"
+							    	}
+							  	}
+							})
+							.then(function(value){
+								switch (value) {
+								case "home":
+									//-> 홈페이지로 이동
+									location.href = "${pageContext.request.contextPath}";
+									break;
+								case "redo":
+									//남아서 다시 회원가입 진행
+									break;
+								default:
+									//남아서 다시 회원가입 진행
+									break;
+								}
+							});
 						}
 					});
 				},
