@@ -199,42 +199,6 @@
 					</div>
 				</div>
 				
-		<!-- 캐로세일 실험 -->
-		<div class="carosel-container">
-			<div class="owl-carousel owl-theme show-nav-hover" id="book-carosel">
-				<div>
-					<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
-				</div>
-				<div>
-					<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
-				</div>
-				<div>
-					<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
-				</div>
-				<div>
-					<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
-				</div>
-				<div>
-					<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
-				</div>
-				<div>
-					<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
-				</div>
-				<div>
-					<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
-				</div>
-				<div>
-					<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
-				</div>
-				<div>
-					<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
-				</div>
-				<div>
-					<img alt="" class="img-fluid rounded" src="${pageContext.request.contextPath}/resources/images/1.jpg">
-				</div>
-			</div>
-		</div>
-		
 		<!-- 테스트를 위한 더미 데이터 -->
 		<div>
 			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto quam repudiandae laborum officiis autem molestias enim rem ea odio eum quaerat ipsum possimus dolore assumenda mollitia consequuntur impedit iusto reiciendis!</p>
