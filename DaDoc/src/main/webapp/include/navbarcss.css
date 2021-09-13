@@ -38,6 +38,11 @@
 	font-size: 80px;
 }
 
+/* 헤드의 rotate 글씨 */
+.word-rotator-words b {
+	color: #682C0E;
+}
+
 
 /* Style the navbar */
 #navbar {

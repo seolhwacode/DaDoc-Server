@@ -98,6 +98,11 @@
     .page-header .breadcrumb{
         z-index: 0;
     }
+    
+/* paginatino 버튼 navbar 뒤로 가기*/
+.pagination{
+	z-index: 0;
+}
 </style>
 </head>
 <body>

@@ -19,6 +19,11 @@
 		z-index: 0;
 	}
 	
+/* paginatino 버튼 navbar 뒤로 가기*/
+.pagination{
+	z-index: 0;
+}
+	
 thead{
 	background: #D0AF84;
 	color : #682C0E;
