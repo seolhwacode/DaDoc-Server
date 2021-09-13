@@ -6,9 +6,23 @@
 <head>
 <meta charset="UTF-8">
 <title>/booksearch/search_list.do</title>
-<!-- bootstrap -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+<jsp:include page="/include/resources_head.jsp"></jsp:include>
 <style>
+	/*페이지 헤더 색상 조정*/
+	.page-header {
+		background-color: #F9E0AE !important;
+	}
+	
+	/* 페이지 헤더 - home 색깔 변경 */
+	.breadcrumb a{
+		color: #0088CC;
+	}
+	
+	/* crumb 네비바 들어가기 */
+	.page-header .breadcrumb{
+		z-index: 0;
+	}
+	
 	a{
 		/* link 의 밑줄 없애기 */
 		text-decoration: none;
@@ -19,134 +33,351 @@
 		font-weight: bold;
 	}
 	
-	/* 화면 가장 위로 가는 버튼 */
-	.goTopBtn{
+ 	/* 화면 가장 위로 가는 버튼 */
+/* 	.goTopBtn{
 		position: fixed;
 	  	bottom: 10px;
 	  	right: 10px;
 	  	width: 50px;
 	  	height: 50px;
-	}
+	} */
 	
-	.goTopBtn a{
+/* 	.goTopBtn a{
 		color: #682C0E;
+	} */
+	
+/* 	.goTopBtn a:hover {
+		color: #C24914;
+	} */
+	
+	/* 전체를 가운데 정렬 */
+	.align-content-center{
+		/* 위, 아래 margin 추가 */
+		margin: 10% auto;
+		max-width: 900px;
 	}
 	
-	.goTopBtn a:hover {
-		color: #C24914;
+	/* 제목 아래 밑줄 */
+	.title{
+		border-bottom: solid;
+	    border-color: #682C0E;
 	}
+	
+	/* 검색 - input border 색 변경 */
+	.search-form-container input{
+		border-color: #682C0E;
+	}
+	
+	/* 검색 - input border 색 변경 */
+	.search-form-container input:focus{
+		border-color: #682C0E;
+		border-width: 3px;
+	}
+	
+	/* 버튼 정렬 */
+	.search-btn-container{
+		display: flex;
+		justify-content: flex-start;
+		margin-top: 20px;
+	}
+	
+	/* 검색 조건 리셋 버튼 */
+	/* 버튼 사이 간격 띄우기 */
+	.search-btn-container .reset-btn{
+		margin-right: 10px;
+		background-color: #c1c1c1;
+	    color: black;
+	    font-weight: bold;
+	    font-size: 1.0rem;
+	}
+	
+	/* 검색 조건 리셋 버튼  hover */
+	.search-btn-container .reset-btn:hover {
+		background-color: #949494;
+		color: black;
+	}
+
+	/* 검색 버튼 */
+	.search-btn-container .search-btn{
+	    background-color: #C24914;
+	    color: #f9e0ae;
+	    font-weight: bold;
+	    font-size: 1.0rem;
+	}
+	
+	/* 검색 버튼 hover */
+	.search-btn-container .search-btn:hover {
+		background-color: #8c3712;
+	}
+
+	/* 기본 검색 - 아래 마진 추가 */
+	.basic-search-container{
+		margin-bottom: 80px;
+	}
+	
+	/* 상세 검색 - 아래 마진 추가 */
+	.detail-search-container{
+		margin-bottom: 100px;
+	}
+	
+	/* 상세 검색 - label 과 input 정렬 */
+	.d-form-input-item {
+		display: flex;
+		width: 100%;
+	    align-items: center;
+        padding: 5px;
+	}
+	
+	/* 상세 검색 - label 의 글씨 */
+	.d-form-input-item label{
+		font-size: 1rem;
+		font-weight: bold;
+		color: black;
+		/* 너비 유지 */
+        width: 130px;
+	}
+	
+	/* 상세 검색 - 검색 조건 양쪽에 배치 */
+	.divide-row{
+		display: flex;
+	    justify-content: space-between;
+	}
+	
+	/* 검색 리스트 출력 - head 정렬 */
+	.search-list-head{
+		display: flex;
+	    justify-content: space-between;
+	    align-items: baseline;
+	    border-bottom: solid;
+	    border-color: #682c0e;
+	    margin-bottom: 32px;
+	}
+	
+	/* 검색 리스트 출력 - head 의 h1 의 margin-bottm 삭제 */
+	.search-list-head h1{
+		margin-bottom: 0;
+	}
+	
+	/* 검색 리스트 출력 - 아래 마진 추가*/
+	.search-list-container {
+		margin-bottom: 100px;
+	}
+	
+	/* 검색 리스트 출력 - item 하나의 배치 */
+	.list-item-container{
+        display: flex;
+	    flex-direction: row;
+	    justify-content: flex-start;
+	    align-items: center;
+	    /* margin-bottom: 30px; */
+	    border-bottom: solid 1px #C24914;
+	    padding: 30px 0;
+	    height: 200px;
+	}
+	
+	/* 검색 리스트 출력 - item 의 사진 크기 고정 */
+	.list-item-container .img-container{
+		height: -webkit-fill-available;
+    	width: 20%;
+    	cursor: pointer;
+	}
+	
+	/* 검색 리스트 출력 - 이미지는 바깥의 컨텐츠에 맞춘다. */
+	.list-item-container .img-container img{
+		width: -webkit-fill-available;
+    	height: -webkit-fill-available;
+		object-fit: scale-down;
+	}
+	
+	/* 검색 리스트 출력 - 출력 데이터 담고 있는 div */
+	.list-item-container .data-container{
+		width: 70%;
+		cursor: pointer;
+	}
+	
+	/* 검색 리스트 출력 - 좋아요 하트 위치 조절  */
+	.list-item-container .heart-container{
+		width: 10%;
+		text-align: center;
+	}
+	
+	/* 검색 리스트 출력 - 좋아요 하트 색 & 크기 변경 */
+	.list-item-container .heart-container svg{
+		width: 20px;
+	    height: 20px;
+	    color: red;
+	}
+	
+	
 }
 </style>
 </head>
 <body>
+	<!-- navbar 추가 -->
+	<jsp:include page="/include/navbar.jsp">
+		<jsp:param value="booksearch" name="thisPage"/>
+	</jsp:include>
+	
+	<!-- 페이지 헤더 -->
+	<section class="page-header page-header-modern page-header-md">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12 align-self-center p-static order-2 text-center">
+					<h1 class="text-dark font-weight-bold text-8 bold-family">Book Search</h1>
+					<span class="sub-title text-dark">Book Search with DADOC</span>
+				</div>
+				<div class="col-md-12 align-self-center order-1">
+					<ul class="breadcrumb d-block text-center">
+						<li><a href="${pageContext.request.contextPath}/">Home</a></li>
+						<li class="active">Book Search</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<!-- main content -->
 	<div class="container" id="search_list_container">
-		<!-- 일반 검색 form -->
-		<div>
-			<form @submit.prevent="submitBasicSearch" ref="basicSearchForm"
-					method="get"
-					action="${pageContext.request.contextPath}/booksearch/ajax_basic_search.do">
-				<!-- 들고 올 총 개수 / 시작 row 번호  / 정렬 방법 -->
-				<input type="hidden" name="display" v-bind:value="display" />
-				<input type="hidden" name="start" value="1" ref="inputStart"/>
-				<input type="hidden" name="sort" value="sim" ref="b_inputSort" />
-				<div>
-					<label for="query">기본 검색</label>
-					<input v-model="query" type="text" name="query" id="query" />
+		<div class="align-content-center">
+			<!-- 검색하는 form 들의 영역 -->
+			<div class="search-form-container">
+				<!-- 기본 검색 -->
+				<div class="basic-search-container">
+					<h1 class="title">기본 검색</h1>
+					<!-- 일반 검색 form -->
+					<div class="basic-search-form-wrapper">
+						<form @submit.prevent="submitBasicSearch" ref="basicSearchForm"
+								method="get"
+								action="${pageContext.request.contextPath}/booksearch/ajax_basic_search.do">
+							<!-- 들고 올 총 개수 / 시작 row 번호  / 정렬 방법 -->
+							<input type="hidden" name="display" v-bind:value="display" />
+							<input type="hidden" name="start" value="1" ref="inputStart"/>
+							<input type="hidden" name="sort" value="sim" ref="b_inputSort" />
+							<div>
+								<input v-model="query" type="text" name="query" id="query" class="form-control form-control-lg" />
+							</div>
+							<div class="search-btn-container">
+								<button type="reset" class="btn reset-btn">검색 조건 리셋</button>
+								<button type="submit" class="btn search-btn">검색</button>
+							</div>
+						</form>
+					</div>	
 				</div>
-				<div>
-					<button type="reset">검색 조건 리셋</button>
-					<button type="submit">검색</button>
+				<!-- 상세 검색 -->
+				<div class="detail-search-container">
+					<h1 class="title">상세 검색</h1>
+					<div>
+						<p>상세 검색은 책 제목(d_titl), 저자명(d_auth), 목차(d_cont), ISBN(d_isbn), 출판사(d_publ) 5개 항목 중에서 1개 이상 값을 입력해야 함.</p>
+					</div>
+					<!-- 상세 검색 form -->
+					<div class="detail-search-form-wrapper">
+						<form @submit.prevent="submitDetailSearch" ref="detailSearchForm" 
+								@reset="resetDetailSearchForm"
+								action="${pageContext.request.contextPath}/booksearch/ajax_detail_search.do" method="get">
+							<!-- 들고 올 총 개수 / 시작 row 번호 / 정렬 방법 -->
+							<input type="hidden" name="display" v-bind:value="display" />
+							<input type="hidden" name="start" value="1" ref="d_inputStart" />
+							<input type="hidden" name="sort" value="sim" ref="d_inputSort" />
+							<div class="divide-row">
+								<div class="d-form-input-item">
+									<label for="d_titl">책 제목</label>
+									<input v-model="d_titl" type="text" name="d_titl" id="d_titl" class="form-control form-control-lg" />
+								</div>
+								<div class="d-form-input-item">
+									<label for="d_auth">저자명</label>
+									<input v-model="d_auth" type="text" name="d_auth" id="d_auth" class="form-control form-control-lg" />
+								</div>
+							</div>
+							<div class="divide-row">
+								<div class="d-form-input-item">
+									<label for="d_cont">목차</label>
+									<input v-model="d_cont" type="text" name="d_cont" id="d_cont" class="form-control form-control-lg" />
+								</div>
+								<div class="d-form-input-item">
+									<label for="d_isbn">ISBN</label>
+									<input v-model="d_isbn" type="text" name="d_isbn" id="d_isbn" class="form-control form-control-lg" />
+								</div>
+							</div>
+							<div class="divide-row">
+								<div class="d-form-input-item">
+									<label for="d_publ">출판사</label>
+									<input v-model="d_publ" type="text" name="d_publ" id="d_publ" class="form-control form-control-lg" />
+								</div>
+								<div class="d-form-input-item">
+									<label for="d_catg">카테고리</label>
+									<input v-model="d_catg" type="text" name="d_catg" id="d_catg" class="form-control form-control-lg" />
+								</div>
+							</div>
+							<div class="divide-row">
+								<div class="d-form-input-item">
+									<label for="d_dafr">출간 시작일</label>
+									<input v-model="d_dafr" type="text" name="d_dafr" id="d_dafr" placeholder="ex) 20000203" class="form-control form-control-lg" />
+								</div>
+								<div class="d-form-input-item">
+									<label for="d_dato">출간 종료일</label>
+									<input v-model="d_dato" type="text" name="d_dato" id="d_dato" placeholder="ex) 20000203" class="form-control form-control-lg" />
+								</div>
+							</div>
+							<div class="search-btn-container">
+								<button type="reset" class="btn reset-btn">검색 조건 리셋</button>
+								<button type="submit" class="btn search-btn">검색</button>
+							</div>
+						</form>
+					</div>	
 				</div>
-			</form>
-		</div>
-		<!-- 상세 검색 form -->
-		<div>
-			<div>
-				<p>상세 검색은 책 제목(d_titl), 저자명(d_auth), 목차(d_cont), ISBN(d_isbn), 출판사(d_publ) 5개 항목 중에서 1개 이상 값을 입력해야 함.</p>
 			</div>
-			<form @submit.prevent="submitDetailSearch" ref="detailSearchForm" 
-					@reset="resetDetailSearchForm"
-					action="${pageContext.request.contextPath}/booksearch/ajax_detail_search.do" method="get">
-				<!-- 들고 올 총 개수 / 시작 row 번호 / 정렬 방법 -->
-				<input type="hidden" name="display" v-bind:value="display" />
-				<input type="hidden" name="start" value="1" ref="d_inputStart" />
-				<input type="hidden" name="sort" value="sim" ref="d_inputSort" />
-				<div>
-					<label for="d_titl">책 제목</label>
-					<input v-model="d_titl" type="text" name="d_titl" id="d_titl" />
+			
+			<!-- 리스트 출력 영역 -->
+			<div class="search-list-container">
+				<div class="search-list-head">
+					<h1>검색 리스트 출력</h1>
+					<div>
+						<!-- sim(유사도순), date(출간일순), count(판매량순) -->
+						<!-- css 로 선택된 상태 & hover된 상태에서 색이 다르게 되게 한다. -->
+						<a @click="changeSort('sim')" v-bind:class="{'sort-selected': isSimSort}" href="javascript:">유사도순</a>
+						<a @click="changeSort('date')" v-bind:class="{'sort-selected': isDateSort}" href="javascript:">출간일순</a>
+						<a @click="changeSort('count')" v-bind:class="{'sort-selected': isCountSort}" href="javascript:">판매량순</a>
+					</div>
 				</div>
-				<div>
-					<label for="d_auth">저자명</label>
-					<input v-model="d_auth" type="text" name="d_auth" id="d_auth" />
+				<div class="search-list-body">
+					<!-- 검색 리스트 출력 -->
+					<div v-for="(item, index) in searchList" v-bind:key="item.isbn" >
+						<!-- 컴포넌트로 리스트를 출력 -->
+						<list-component v-bind:list-item="item"
+									v-bind:base_url="base_url"></list-component>
+					</div>
 				</div>
-				<div>
-					<label for="d_cont">목차</label>
-					<input v-model="d_cont" type="text" name="d_cont" id="d_cont" />
-				</div>
-				<div>
-					<label for="d_isbn">ISBN</label>
-					<input v-model="d_isbn" type="text" name="d_isbn" id="d_isbn" />
-				</div>
-				<div>
-					<label for="d_publ">출판사</label>
-					<input v-model="d_publ" type="text" name="d_publ" id="d_publ" />
-				</div>
-				<div>
-					<label for="d_dafr">출간 시작일</label>
-					<input v-model="d_dafr" type="text" name="d_dafr" id="d_dafr" placeholder="ex) 20000203" />
-				</div>
-				<div>
-					<label for="d_dato">출간 종료일</label>
-					<input v-model="d_dato" type="text" name="d_dato" id="d_dato" placeholder="ex) 20000203" />
-				</div>
-				<div>
-					<label for="d_catg">카테고리</label>
-					<input v-model="d_catg" type="text" name="d_catg" id="d_catg" />
-				</div>
-				<div>
-					<button type="reset">검색 조건 리셋</button>
-					<button type="submit">검색</button>
-				</div>
-			</form>
-		</div>
-		
-		<!-- sim(유사도순), date(출간일순), count(판매량순) -->
-		<!-- css 로 선택된 상태 & hover된 상태에서 색이 다르게 되게 한다. -->
-		<a @click="changeSort('sim')" v-bind:class="{'sort-selected': isSimSort}" href="javascript:">유사도순</a>
-		<a @click="changeSort('date')" v-bind:class="{'sort-selected': isDateSort}" href="javascript:">출간일순</a>
-		<a @click="changeSort('count')" v-bind:class="{'sort-selected': isCountSort}" href="javascript:">판매량순</a>
-		
-		<br />		
-		
-		<h1>검색 리스트 출력</h1>
-		<!-- 검색 리스트 출력 -->
-		<div>
-			<div v-for="(item, index) in searchList" v-bind:key="item.isbn" >
-				<!-- 컴포넌트로 리스트를 출력 -->
-				<list-component v-bind:list-item="item"
-							v-bind:base_url="base_url"></list-component>
+			</div>
+	
+			<!-- 페이징 처리 -->
+			<div class="paging-container">
+				<!-- 페이징 컴포넌트 출력 -->
+				<paging-component :paging_data="paging_data"
+								@click_link="movePage"></paging-component>
 			</div>
 		</div>
-		
-		
-		<!-- 페이징 처리 -->
-		<div>
-			<!-- 페이징 컴포넌트 출력 -->
-			<paging-component :paging_data="paging_data"
-							@click_link="movePage"></paging-component>
-		</div>
+
 		
 		<!-- 상단으로 이동하는 버튼 추가 -->
-		<div class="goTopBtn" v-show="isScrolled" @scroll="scrollCheck">
+<!-- 		<div class="goTopBtn" v-show="isScrolled" @scroll="scrollCheck">
 			<a @click="goTop" href="javascript:">
 				<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" fill="currentColor" class="bi bi-arrow-up-circle-fill" viewBox="0 0 16 16">
 				  <path d="M16 8A8 8 0 1 0 0 8a8 8 0 0 0 16 0zm-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707V11.5z"/>
 				</svg>
 			</a>
-		</div>
+		</div> -->
 	</div>
 	
+	
+	<!-- footer -->
+	<jsp:include page="/include/footer.jsp"></jsp:include>
+	
+	<!-- 외부에서 가져오는 js 파일 -->
+	<jsp:include page="/include/resources_js.jsp"></jsp:include>
+	
+	<!-- vue -->
 	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
 	<script>
 		Vue.component("paging-component", {
 			template : `
@@ -208,33 +439,28 @@
 		//책 하나의 출력 리스트
 		Vue.component("list-component", {
 			template: `
-				<div>
-					<div>
+				<div class="list-item-container">
+					<div class="img-container" @click="goDetailPage">
 						<img v-bind:src="listItem.image" alt="책 사진" />
 					</div>
-					<div>
-						제목 : <span v-html="listItem.title"></span>
+					<div class="data-container" @click="goDetailPage">
+						<div>
+							제목 : <span v-html="listItem.title"></span>
+						</div>
+						<div>
+							저자 : <span v-html="listItem.author"></span>
+						</div>
+						<div>
+							정가 : <span v-html="listItem.price"></span>
+						</div>
+						<div>
+							ISBN : <span v-html="listItem.isbn"></span>
+						</div>
+						<div>
+							출간일 : <span v-html="listItem.pubdate"></span>
+						</div>
 					</div>
-					<div>
-						링크 : <span v-html="listItem.link"></span>
-					</div>
-					<div>
-						저자 : <span v-html="listItem.author"></span>
-					</div>
-					<div>
-						정가 : <span v-html="listItem.price"></span>
-					</div>
-					<div>
-						ISBN : <span v-html="listItem.isbn"></span>
-					</div>
-					<div>
-						요약 : <span v-html="listItem.description"></span>
-					</div>
-					<div>
-						출간일 : <span v-html="listItem.pubdate"></span>
-					</div>
-					<div>
-						좋아요 : 
+					<div class="heart-container">
 						<a @click="goodToggle" href="javascript:">
 							<span v-html="printHeart"></span>
 						</a>
@@ -266,6 +492,11 @@
 				};
 			},
 			methods: {
+				//책의 정보가 담긴 네이버의 페이지로 이동
+				goDetailPage(){
+					var win = window.open(this.listItem.link, '_blank');
+			        win.focus();
+				},
 				//db 에서 좋아요를 추가
 				addGood(){
 					//vue 객체
@@ -305,21 +536,49 @@
 					//로그인 상태인지 검사
 					if(${ empty id }){
 						//-> id 가 비었다 -> 로그인 상태 X -> comfirm 으로 로그인 할 것인지 물어보기
-						let isOk = confirm('로그인이 필요한 기능입니다. 로그인 하시겠습니까?');
+						/* let isOk = confirm('로그인이 필요한 기능입니다. 로그인 하시겠습니까?');
 						//-> 로그인 하러감
 						if(isOk){
 							location.href = this.base_url + '/users/login_form.do?url=' + this.base_url + '/booksearch/search_list.do';
 						}
 						//-> 로그인 x -> 아무 일도 안일어남
-						return;
-					}
-					
-					if(!this.isGood){
-						//좋아요 false -> db 에 좋아요 추가
-						this.addGood();
+						return; */
+						
+						let self = this;
+						
+						swal({
+							title: "로그인이 필요한 기능입니다.",
+							text: "로그인 하시겠습니까?",
+							icon: "info",
+						  	buttons: {
+						  		no:{
+						  			text: '취소',
+						  			value: false
+						  		},
+						    	ok: {
+						    		text: "확인",
+						    		value: true
+						    	},
+						  	}
+						})
+						.then(function(value){
+							//확인 -> 로그인 하러감
+							if(value){
+								location.href = self.base_url + '/users/login_form.do?url=' + self.base_url + '/booksearch/search_list.do';
+							}else{
+								//X -> 아무 일 없음
+								return;
+							}
+						});
 					}else{
-						//좋아요 true -> 취소 -> db 에서 좋아요 삭제
-						this.cancelGood();
+						//로그인 한 상태
+						if(!this.isGood){
+							//좋아요 false -> db 에 좋아요 추가
+							this.addGood();
+						}else{
+							//좋아요 true -> 취소 -> db 에서 좋아요 삭제
+							this.cancelGood();
+						}
 					}
 				},
 				//해당 책을 사용자가 좋아요를 눌렀는지 ajax 로 true / false 로 가져옴
@@ -487,7 +746,12 @@
 					//모든 칸이 빈칸이면 검색 X
 	            	if(this.d_titl.trim() === '' && this.d_auth.trim() === '' && this.d_cont.trim() === ''
 	            			&& this.d_isbn.trim() === '' && this.d_publ.trim() === ''){
-	            		alert('검색어를 입력해주세요.');
+	            		//alert('검색어를 입력해주세요.');
+	            		swal({
+						  	title: "검색어를 입력해주세요.",
+						  	icon: "warning",
+						  	button: "확인"
+						});
 	            		
 	            		//이전에 검색되어 나온 것을 전부 reset
 	    				this.resetResults();
@@ -500,7 +764,12 @@
 					let number_reg =  /^[0-9]*$/;
 					if(!number_reg.test(this.d_dafr) || !number_reg.test(this.d_dato)){
 						//숫자 X 다른 문자
-						alert('잘못 입력하셨습니다.');
+						//alert('잘못 입력하셨습니다.');
+						swal({
+						  	title: "검색어를 입력해주세요.",
+						  	icon: "warning",
+						  	button: "확인"
+						});
 						
 						//이전에 검색되어 나온 것을 전부 reset
 	    				this.resetResults();
@@ -555,7 +824,12 @@
 						//오류 쿼리가 넘어올 때
 						if(data.result != null){
 							//잘못된 검색
-							alert('잘못된 검색입니다.');
+							//alert('잘못된 검색입니다.');
+							swal({
+							  	title: "잘못된 검색입니다.",
+							  	icon: "warning",
+							  	button: "확인"
+							});
 							
 							self.resetResults();
 							return;
@@ -608,7 +882,12 @@
 	            submitBasicSearch(){
 	            	//입력란의 input이 trim 해서 처음과 끝 빈칸 삭제하고 -> 빈칸이면 검색 X
 	            	if(this.query.trim() === ''){
-	            		alert('검색어를 입력해주세요.');
+	            		//alert('검색어를 입력해주세요.');
+	            		swal({
+						  	title: "검색어를 입력해주세요.",
+						  	icon: "warning",
+						  	button: "확인"
+						});
 	            		
 	            		//이전에 검색되어 나온 것을 전부 reset
 	    				this.resetResults();
@@ -694,16 +973,16 @@
 					//임시 출력
  					//console.log('searchList');
 					//console.log(this.searchList);
-					console.log('list type : ' + typeof(this.searchList));
+					/* console.log('list type : ' + typeof(this.searchList));
 					console.log('total : ' + this.total);
 					console.log('totalPageCount : ' + this.paging_data.totalPageCount);
 					console.log('pageNum : ' + this.paging_data.pageNum);
 					console.log('startPageNum : ' + this.paging_data.startPageNum);
-					console.log('endPageNum : ' + this.paging_data.endPageNum);
+					console.log('endPageNum : ' + this.paging_data.endPageNum); */
 				}
 			},
 			created(){
-				window.addEventListener('scroll', this.scrollCheck);
+				/* window.addEventListener('scroll', this.scrollCheck); */
 			}
 		});
 	</script>
