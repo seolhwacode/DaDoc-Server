@@ -23,6 +23,11 @@
 		z-index: 0;
 	}
 	
+	/* paginatino 버튼 navbar 뒤로 가기*/
+	.pagination{
+		z-index: 0;
+	}
+	
 	a{
 		/* link 의 밑줄 없애기 */
 		text-decoration: none;
@@ -247,7 +252,7 @@
 					<!-- 일반 검색 form -->
 					<div class="basic-search-form-wrapper">
 						<form @submit.prevent="submitBasicSearch" ref="basicSearchForm"
-								method="get"
+								@reset="resetBasicSearchForm" method="get"
 								action="${pageContext.request.contextPath}/booksearch/ajax_basic_search.do">
 							<!-- 들고 올 총 개수 / 시작 row 번호  / 정렬 방법 -->
 							<input type="hidden" name="display" v-bind:value="display" />
@@ -682,6 +687,10 @@
 				//가장 상단으로 이동하기
 				goTop(){
 					window.scrollTo(0,0);
+				},
+				//리셋 버튼 누름 -> 기본 검색 form 리셋
+				resetBasicSearchForm(){
+					this.query = '';	//쿼리문 빈칸으로 만들기
 				},
 				//리셋 버튼 누름 => 상세검색 form 리셋
 				resetDetailSearchForm(){
