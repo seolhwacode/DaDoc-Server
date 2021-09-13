@@ -198,21 +198,6 @@
 						</div>
 					</div>
 				</div>
-				
-		<!-- 테스트를 위한 더미 데이터 -->
-		<div>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto quam repudiandae laborum officiis autem molestias enim rem ea odio eum quaerat ipsum possimus dolore assumenda mollitia consequuntur impedit iusto reiciendis!</p>
-			<br />
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse placeat quaerat voluptate ut natus molestiae dolor suscipit ipsam doloremque nostrum nam ipsum laudantium iure odit amet a cum porro similique?</p>
-			<br />
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam culpa error debitis veritatis reprehenderit voluptatum vitae optio laboriosam incidunt iste id cupiditate omnis cum placeat. Sit at nostrum libero?</p>
-			<br />
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam culpa error debitis veritatis reprehenderit voluptatum vitae optio laboriosam incidunt iste id cupiditate omnis cum placeat. Sit at nostrum libero?</p>
-			<br />
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam culpa error debitis veritatis reprehenderit voluptatum vitae optio laboriosam incidunt iste id cupiditate omnis cum placeat. Sit at nostrum libero?</p>
-			<br />
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad aliquam culpa error debitis veritatis reprehenderit voluptatum vitae optio laboriosam incidunt iste id cupiditate omnis cum placeat. Sit at nostrum libero?</p>
-		</div>
 		
 		<section class="section section-height-3 bg-color-grey-scale-1 border-top-0 m-0">
 			<div class="container">
@@ -295,23 +280,10 @@
 				</div>
 			</div>
 		</section>
+	</div>
 	<!-- footer -->
 	<jsp:include page="/include/footer.jsp"></jsp:include>
 	<!-- 외부에서 가져오는 js 파일 -->
 	<jsp:include page="/include/resources_js.jsp"></jsp:include>
-	<script>
-		//data-plugin-options="{'items': 4, 'autoplay': true, 'autoplayTimeout': 3000}"
-		$(document).ready(function(){
-		  	$("#book-carosel").owlCarousel({
-		  		items: 4,
-		  		margin: 10,
-		  		loop: true,
-		  		nav: true,
-		  		dots: true,
-		  		autoplay: true,
-		  		autoplayTimeout: 3000
-		  	});
-		});
-	</script>
 </body>
 </html>
