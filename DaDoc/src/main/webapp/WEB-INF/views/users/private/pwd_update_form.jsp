@@ -218,6 +218,10 @@
 						text: "수정사항은 저장되지 않습니다.",
 						icon: "warning",
 					  	buttons: {
+					  		no:{
+					  			text: "취소",
+					  			value: false
+					  		},
 					    	ok: {
 					    		text: "확인",
 					    		value: true
@@ -226,7 +230,11 @@
 					})
 					.then(function(value){
 						//사용자 개인정보 페이지로 가기
-						location.href = self.base_url + "/users/private/info.do";
+						if(value){
+							//확인 -> 페이지 이동함
+							location.href = self.base_url + "/users/private/info.do";
+						}
+						//아니면 이동 X
 					});
 				},
 				//form 제출
