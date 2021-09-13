@@ -11,7 +11,11 @@
 	justify-content: space-between;
 	align-items: center;
 	flex-direction: column;
+	
+	background-image: url(../../resources/images/nav_back.png);
+	font-family: 'Gugi', cursive; !important
 }
+
 .nav-header .left{
 	position: relative;
 	left: -200px;
@@ -27,6 +31,7 @@
 	top: 20px;
 	right: -180px;
 }
+
 
 /* '다' 글씨 */
 .nav-header .da{

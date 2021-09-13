@@ -15,7 +15,7 @@
 		</h2>
 	</div>
 	<div class="cen">
-		<b class="da">'DA'</b>
+		<b class="da">DA</b>
 	</div>
 	<div class="right">
 		<h2 class="word-rotator clip">
