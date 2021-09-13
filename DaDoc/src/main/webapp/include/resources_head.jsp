@@ -15,6 +15,9 @@
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/owl.carousel/assets/owl.theme.default.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/vendor/magnific-popup/magnific-popup.min.css">
 
+<!-- Favicon -->
+<link rel="shortcut icon" href="${pageContext.request.contextPath}/resources/images/DADOC.png" type="image/x-icon" />
+
 <!-- Theme CSS -->
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/theme.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css_porto/theme-elements.css">
